@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0d">
+  <meta name="description" content="ZeroSkilla Dev Studio — gry i aplikacje na Android i Windows. Odkrywaj projekty, sprawdzaj wersje i pobieraj oficjalne wydania.">
+  <title>ZeroSkilla Dev Studio — gry, aplikacje, pobieranie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;--bg:#0a0a0d;--panel:#121217;--line:#292932;--muted:#92919e;--text:#f4f3f7;--accent:#ff624d;--accent2:#efaa71;--max:1240px;--radius:20px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",system-ui,-apple-system,sans-serif;font-size:15px;-webkit-font-smoothing:antialiased}
+    body::before{content:"";pointer-events:none;position:absolute;inset:0 0 auto;height:760px;z-index:-1;background:radial-gradient(ellipse 55% 52% at 81% 17%,rgba(156,44,45,.14),transparent 80%),radial-gradient(ellipse 50% 45% at 24% 0%,rgba(119,66,53,.075),transparent 80%)}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    button:disabled{cursor:not-allowed}
+    :focus-visible{outline:2px solid #ffb397;outline-offset:4px}
+    .container{width:min(var(--max),calc(100% - 64px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(10,10,13,.82);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(20px)}
+    .topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:84px}
+    .brand{display:inline-flex;align-items:center;gap:13px;flex-shrink:0}
+    .brandmark{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,131,103,.46);border-radius:12px;background:linear-gradient(150deg,#3c171b,#18141b 70%);color:#ff795d;font-family:"Space Grotesk",sans-serif;font-size:25px;font-weight:700;letter-spacing:-4px;padding-right:4px;box-shadow:0 0 30px rgba(246,81,55,.08)}
+    .brandname{display:flex;flex-direction:column;font-family:"Space Grotesk",sans-serif;letter-spacing:-.035em;font-weight:700;font-size:18px;line-height:1.05}
+    .brandname small{color:var(--accent);font-size:9px;letter-spacing:.28em;font-weight:700;margin-top:5px}
+    .navlinks{display:flex;align-items:center;gap:38px;color:#b7b5c0;font-size:13px;font-weight:600}
+    .navlinks a:hover,.footer a:hover{color:#fff}
+    .navcta{display:inline-flex;align-items:center;gap:11px;border:1px solid #48404a;border-radius:11px;padding:12px 17px;background:#19171d;font-weight:700;font-size:12px;white-space:nowrap;transition:.2s}
+    .navcta:hover{border-color:#ff8e78;background:#241a1d}
+    .arrow{display:inline-block;font-size:18px;line-height:0;transform:translateY(-1px)}
+    .hero{display:grid;grid-template-columns:1.04fr .96fr;min-height:625px;align-items:center;gap:52px;padding:70px 0 76px}
+    .kicker{display:inline-flex;align-items:center;gap:9px;color:#d5b8b4;font-size:11px;font-weight:700;letter-spacing:.19em;text-transform:uppercase}
+    .kicker i{height:7px;width:7px;display:inline-block;border-radius:50%;background:#ff7059;box-shadow:0 0 0 5px rgba(255,98,77,.11);margin-right:5px}
+    h1,h2,h3,p{margin-top:0}
+    h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif}
+    h1{font-size:clamp(44px,5.1vw,76px);line-height:1.025;letter-spacing:-.065em;margin:23px 0 25px;font-weight:700}
+    h1 em{font-style:normal;background:linear-gradient(105deg,#ff795e,#f8b284);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:17px;color:#aaa8b5;line-height:1.8;max-width:540px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:13px;margin:29px 0 45px}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:12px;padding:15px 20px;font-weight:700;font-size:13px;border:1px solid transparent;transition:transform .2s,background .2s,border-color .2s;white-space:nowrap}
+    .button:hover:not(:disabled){transform:translateY(-2px)}
+    .button-primary{color:#140c0d;background:linear-gradient(105deg,#ff745a,#f5a376);box-shadow:0 12px 32px rgba(243,87,62,.15)}
+    .button-primary:hover{background:linear-gradient(105deg,#ff8d76,#ffc090)}
+    .button-secondary{background:#18171c;color:#fff;border-color:#39373e}
+    .button-secondary:hover{border-color:#706068}
+    .hero-meta{display:flex;gap:38px;flex-wrap:wrap}
+    .hero-meta strong{font-family:"Space Grotesk";font-size:23px;display:block;letter-spacing:-.04em}
+    .hero-meta span{font-size:11px;color:#7f7d8a;display:block;margin-top:4px}
+    .showcase{position:relative;min-height:440px;display:flex;align-items:center;justify-content:center}
+    .showcase::before{position:absolute;content:"";width:100%;height:100%;border:1px solid rgba(255,255,255,.06);border-radius:50%;transform:rotate(-15deg) scale(.94,.65);box-shadow:0 0 0 80px rgba(255,255,255,.007),0 0 0 160px rgba(255,255,255,.004);pointer-events:none}
+    .showcase::after{position:absolute;content:"";width:60%;height:70%;background:#be3b2d;opacity:.09;filter:blur(75px);border-radius:50%;pointer-events:none}
+    .preview-window{position:relative;z-index:1;width:95%;max-width:530px;background:linear-gradient(150deg,#202026,#111116 67%);border:1px solid #41404b;border-radius:19px;box-shadow:0 40px 120px #0009,0 0 90px rgba(211,66,51,.07);transform:rotate(-4deg);overflow:hidden}
+    .preview-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;background:rgba(255,255,255,.025);border-bottom:1px solid rgba(255,255,255,.07);font-size:10px;color:#9794a3;letter-spacing:.06em}
+    .window-dots{display:flex;gap:5px}.window-dots span{width:7px;height:7px;background:#55515a;border-radius:50%}.window-dots span:first-child{background:#b8584b}
+    .preview-body{padding:27px}
+    .preview-top{display:flex;justify-content:space-between;gap:14px;align-items:center;font-size:11px;color:#b2aeb8;margin-bottom:24px}
+    .preview-top b{font-family:"Space Grotesk";font-size:13px;letter-spacing:.02em;color:white}
+    .preview-version{padding:5px 8px;border-radius:6px;background:#30242a;color:#f3a28e;font-size:9px;letter-spacing:.09em}
+    .hero-app{min-height:150px;border-radius:14px;background:linear-gradient(130deg,rgba(163,38,32,.38),rgba(36,22,26,.93) 70%),radial-gradient(circle at 75% 30%,#ab5b3b,transparent 35%);border:1px solid rgba(255,132,99,.22);position:relative;padding:25px;overflow:hidden;display:flex;justify-content:space-between;align-items:end}
+    .hero-app::before{content:"";position:absolute;width:180px;height:180px;right:15px;top:-42px;border:25px solid rgba(250,112,77,.18);border-radius:50%;box-shadow:inset 0 0 20px rgba(255,117,76,.15);transform:skewX(-20deg)}
+    .hero-app h3{position:relative;font-size:24px;letter-spacing:-.045em;margin:8px 0 4px;text-transform:uppercase}
+    .hero-app p{position:relative;color:#dfb2ac;font-size:11px;margin:0}
+    .hero-app .emblem{font-size:51px;color:#fdad82;filter:drop-shadow(0 0 24px #ff694a);line-height:1}
+    .preview-list{display:grid;gap:10px;margin-top:12px}
+    .mini-row{display:flex;align-items:center;gap:12px;padding:12px;background:#19191f;border:1px solid #302e38;border-radius:10px;font-size:11px}
+    .mini-icon{display:grid;place-items:center;background:#26262e;border-radius:9px;width:31px;height:31px;font-size:16px;font-weight:bold}
+    .mini-row strong{display:block;color:#e7e6ed;font-size:11px}.mini-row small{display:block;color:#85818f;margin-top:3px;font-size:9px}
+    .mini-tag{margin-left:auto;color:#958a9b;font-size:9px;white-space:nowrap}
+    .floating-badge{position:absolute;z-index:2;right:-13px;bottom:24px;display:flex;align-items:center;gap:11px;background:#201b20;border:1px solid #52404a;border-radius:12px;padding:13px 16px;box-shadow:0 18px 45px #0009;transform:rotate(5deg)}
+    .floating-badge b{font-size:12px}.floating-badge small{display:block;color:#9c929e;font-size:10px;margin-top:3px}
+    .badge-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#423027;color:#ffa66e;font-size:20px}
+    .strip{border-block:1px solid #27252b;background:#100f13;overflow:hidden}
+    .strip-inner{display:flex;justify-content:space-between;gap:24px;align-items:center;max-width:var(--max);margin:auto;padding:22px 0;color:#99959f;font-family:"Space Grotesk";font-weight:700;font-size:10px;letter-spacing:.22em}
+    .strip-inner b{color:#f4846c;font-size:13px}
+    section{scroll-margin-top:105px}
+    .catalog{padding:99px 0 112px}
+    .section-top{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:36px}
+    .eyebrow{color:#f18d79;text-transform:uppercase;letter-spacing:.19em;font-weight:700;font-size:11px;margin:0 0 13px}
+    h2{font-size:clamp(33px,3.3vw,48px);letter-spacing:-.055em;line-height:1.1;margin:0 0 14px}
+    .section-description{color:#aaa7b2;line-height:1.7;max-width:600px;margin:0}
+    .count-badge{border:1px solid #37333c;background:#17161b;padding:11px 14px;border-radius:9px;font-size:12px;color:#bbb5bd;white-space:nowrap}
+    .controls{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;margin:27px 0}
+    .filters{display:flex;gap:7px;flex-wrap:wrap}
+    .filter{background:transparent;border:1px solid #33313a;color:#aaa7b4;padding:10px 16px;border-radius:10px;font-size:12px;font-weight:700}
+    .filter:hover{border-color:#66505a;color:white}
+    .filter.active{background:#362026;border-color:#85463e;color:#ffa58c}
+    .search-wrap{display:flex;gap:9px;min-width:min(100%,335px)}
+    .search-wrap input,.search-wrap select{background:#15151b;color:#e8e6ee;border:1px solid #33323b;padding:12px 13px;border-radius:10px;font-size:12px;min-width:0}
+    .search-wrap input{width:195px;flex:1}
+    .search-wrap select{width:125px}
+    .search-wrap input::placeholder{color:#807d8a}
+    .card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .rift-releases{padding:94px 0 10px}
+    .rift-top{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:26px}
+    .rift-top .section-description{max-width:700px}
+    .engine-tabs{display:inline-flex;flex-wrap:wrap;padding:5px;border:1px solid #48404a;background:#19171d;border-radius:13px;gap:5px;margin:12px 0 19px}
+    .engine-tab{color:#aaa3b0;border:0;border-radius:9px;background:transparent;padding:12px 18px;font-size:12px;font-weight:700}
+    .engine-tab.active{background:#63322e;color:#ffd0bf;box-shadow:inset 0 0 0 1px #986155}
+    .release-stack{display:grid;gap:12px}
+    .version-card{display:grid;grid-template-columns:minmax(190px,.8fr) minmax(260px,1.2fr);align-items:center;gap:24px;background:linear-gradient(110deg,#1d1a21,#131319);border:1px solid #37313b;padding:24px 27px;border-radius:15px}
+    .version-badge{display:inline-block;font-size:9px;letter-spacing:.15em;color:#efab91;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+    .version-title{font-family:"Space Grotesk";font-size:23px;font-weight:700;letter-spacing:-.04em;margin:0 0 5px}
+    .version-desc{font-size:12px;color:#aaa2b0;line-height:1.6;margin:0}
+    .version-files{display:flex;flex-wrap:wrap;gap:9px;justify-content:end}
+    .file-link{display:flex;gap:12px;align-items:center;border:1px solid #5d4448;background:#2c2229;padding:12px 15px;border-radius:10px;min-width:150px;transition:.2s}
+    .file-link:hover{background:#4b2b2e;border-color:#ee896f;transform:translateY(-2px)}
+    .file-symbol{display:grid;place-items:center;width:33px;height:33px;border-radius:8px;background:#63382f;color:#ffad89;font-family:"Space Grotesk";font-size:10px;font-weight:700}
+    .file-link strong{display:block;font-size:12px;color:#f4eae9}.file-link small{font-size:10px;color:#ad9ca5;display:block;margin-top:3px}
+    .restriction{color:#d3b4ad;background:#302024;border:1px solid #634047;padding:15px 18px;border-radius:10px;font-size:12px;line-height:1.7;margin:15px 0 0}
+    .restriction strong{color:#ffe1d4}
+    .project-card{background:linear-gradient(165deg,#1a191f,#121217 62%);border:1px solid #302e36;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-height:405px;transition:border-color .2s,transform .2s,box-shadow .2s}
+    .project-card:hover{border-color:#58505b;transform:translateY(-4px);box-shadow:0 24px 40px #0005}
+    .card-art{height:154px;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 48%,var(--art-glow),transparent 40%),linear-gradient(125deg,var(--art-from),#17151e 90%);border-bottom:1px solid #ffffff12}
+    .card-art::before{content:"";position:absolute;width:178px;height:178px;right:9%;top:-52px;border:1px solid #ffffff18;border-radius:38px;transform:rotate(27deg);box-shadow:0 0 0 23px #ffffff06,0 0 0 48px #ffffff04}
+    .card-art::after{content:"";position:absolute;inset:0;opacity:.35;background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(90deg,transparent,#000)}
+    .card-art-icon{position:absolute;z-index:1;inset:0;display:grid;place-items:center;color:var(--icon-color);font-family:"Space Grotesk";font-weight:700;font-size:68px;filter:drop-shadow(0 8px 29px var(--art-glow))}
+    .card-platform{position:absolute;z-index:2;top:15px;right:15px;background:#09090bc9;border:1px solid #ffffff20;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:700;color:#dcd5d8;letter-spacing:.02em}
+    .card-content{display:flex;flex-direction:column;flex:1;padding:24px}
+    .card-type{color:#ee977e;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.17em;margin-bottom:10px}
+    .card-content h3{font-size:24px;line-height:1.18;letter-spacing:-.04em;margin:0 0 10px}
+    .card-desc{color:#a39fab;font-size:12px;line-height:1.7;margin:0 0 19px;min-height:63px}
+    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:21px}
+    .card-tags span{padding:5px 8px;font-size:9px;border:1px solid #34313b;border-radius:5px;color:#a49fae}
+    .release-row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:auto;padding:14px 0;border-top:1px solid #302e36;color:#8f8b9a;font-size:10px}
+    .release-row strong{display:block;color:#d4cdd8;font-size:12px;margin-top:5px}
+    .release-dot{width:7px;height:7px;background:#88808d;display:inline-block;border-radius:50%;margin-right:6px}
+    .release-dot.ready{background:#7cd1a0;box-shadow:0 0 10px #7cd1a06b}
+    .card-actions{display:grid;grid-template-columns:1fr auto;gap:8px}
+    .download-btn,.detail-btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:13px 12px;font-size:11px;font-weight:700}
+    .download-btn{border:1px solid transparent;background:linear-gradient(110deg,#fa755e,#e59a76);color:#1b1112}
+    .download-btn:disabled{background:#26232b;color:#827d8b;border:1px solid #343039}
+    .download-btn:not(:disabled):hover{filter:brightness(1.13)}
+    .detail-btn{background:#211e26;color:#d7ced6;border:1px solid #38333d}
+    .detail-btn:hover{border-color:#9c7977}
+    .empty{display:none;border:1px dashed #49424d;border-radius:15px;padding:50px 20px;color:#a8a1b0;text-align:center}
+    .explain{padding:0 0 112px}
+    .explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+    .explain-pane{border:1px solid #343039;border-radius:22px;padding:38px;background:radial-gradient(circle at 95% 10%,rgba(209,71,53,.10),transparent 52%),#17151b}
+    .explain-pane.soft{background:linear-gradient(140deg,#181820,#111116)}
+    .eyebrow-icon{display:grid;place-items:center;width:44px;height:44px;border:1px solid #653f40;border-radius:12px;background:#322127;color:#ff9479;font-size:20px;margin-bottom:23px}
+    .explain-pane h2{font-size:31px}
+    .explain-pane p{color:#aaa4b0;line-height:1.7;font-size:13px}
+    .steps{list-style:none;padding:0;margin:27px 0 0}
+    .steps li{display:flex;align-items:start;gap:15px;margin:20px 0;color:#c0bbc6;font-size:12px;line-height:1.6}
+    .steps b{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:8px;background:#32242b;border:1px solid #64454a;color:#f5a28a;font-size:11px}
+    .info-note{border-left:2px solid #e78170;padding:14px 19px;background:#231a21;border-radius:0 9px 9px 0;color:#c5b5bb;font-size:12px;line-height:1.7;margin-top:23px}
+    .about{position:relative;border-top:1px solid #252329;background:linear-gradient(180deg,#101014,#0b0b0f);padding:90px 0}
+    .about-inner{display:flex;justify-content:space-between;gap:65px;align-items:center}
+    .about h2{font-size:39px;max-width:510px}
+    .about p:not(.eyebrow){color:#aba6b0;max-width:590px;line-height:1.85}
+    .about-graphic{flex:0 0 220px;height:220px;border:1px solid #3b333e;border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:0 0 0 35px #ffffff03,inset 0 0 60px #ff6d3610}
+    .about-graphic::before,.about-graphic::after{content:"";position:absolute;border:1px dashed #755053;border-radius:50%;inset:23px;transform:rotate(34deg)}
+    .about-graphic::after{inset:47px;border-style:solid;border-color:#71413b;transform:rotate(-14deg)}
+    .about-graphic span{font-family:"Space Grotesk";font-size:76px;color:#f38567;font-weight:700;letter-spacing:-.1em;padding-right:14px;z-index:1}
+    .footer{border-top:1px solid #29262d;padding:32px 0;color:#85808c;font-size:11px}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .footer-links{display:flex;gap:25px;flex-wrap:wrap}
+    dialog{width:min(620px,calc(100% - 32px));max-height:calc(100vh - 50px);overflow:auto;border:1px solid #544751;border-radius:20px;padding:0;background:#19171e;color:#eeeaf1;box-shadow:0 32px 160px #000d}
+    dialog::backdrop{background:rgba(0,0,0,.77);backdrop-filter:blur(6px)}
+    .modal-head{padding:26px 28px 22px;background:radial-gradient(circle at 100% 0%,#64312b52,transparent 48%);border-bottom:1px solid #38323b;display:flex;gap:20px;justify-content:space-between;align-items:start}
+    .modal-head h3{font-size:29px;letter-spacing:-.04em;margin:5px 0 8px}
+    .modal-head p{color:#a8a2ae;font-size:12px;line-height:1.5;margin:0}
+    .modal-close{border:1px solid #4a3f4b;background:#29242d;color:#f1eaf1;border-radius:9px;padding:7px 11px;font-size:20px;line-height:1}
+    .modal-body{padding:25px 28px 30px}
+    .detail-line{display:flex;align-items:start;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #302c35;font-size:12px}
+    .detail-line span{color:#97929e}.detail-line strong{color:#e7e1e7;text-align:right;overflow-wrap:anywhere}
+    .modal-section{margin-top:22px}
+    .modal-section h4{font:700 14px "Space Grotesk",sans-serif;margin:0 0 12px}
+    .modal-section p,.modal-section li{color:#a8a2ae;font-size:12px;line-height:1.75}
+    .modal-section ul{padding-left:20px;margin:0}
+    .modal-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+    .modal-buttons .button{flex:1}
+    @media(max-width:1050px){.hero{gap:28px}.preview-window{width:100%}.floating-badge{right:-4px}.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{gap:20px}}
+    @media(max-width:760px){.container{width:min(100% - 36px,var(--max))}.topnav{height:72px}.navlinks{display:none}.navcta{padding:10px 12px;font-size:11px}.brandmark{width:37px;height:37px}.brandname{font-size:15px}.hero{grid-template-columns:1fr;padding:64px 0 77px;gap:34px}.hero-copy{max-width:600px}.showcase{min-height:350px}.preview-window{max-width:520px}.floating-badge{right:5px;bottom:0}.strip-inner{justify-content:center;flex-wrap:wrap;gap:18px;padding:20px}.strip-inner span:nth-of-type(n+4){display:none}.section-top{align-items:start;flex-direction:column}.catalog{padding:73px 0 80px}.controls{align-items:stretch;flex-direction:column}.search-wrap{width:100%}.search-wrap input{width:100%}.rift-releases{padding-top:70px}.rift-top{align-items:start;flex-direction:column}.version-card{grid-template-columns:1fr;gap:15px}.version-files{justify-content:start}.explain{padding-bottom:80px}.explain-grid{grid-template-columns:1fr}.about{padding:70px 0}.about-graphic{display:none}.footer-inner{flex-direction:column;align-items:start}}
+    @media(max-width:540px){h1{font-size:46px}.hero{padding-top:50px}.hero-meta{gap:25px}.showcase{min-height:290px}.preview-body{padding:17px}.preview-window{transform:rotate(-2deg)}.hero-app{min-height:125px;padding:18px}.hero-app h3{font-size:20px}.floating-badge{transform:rotate(3deg);right:-6px;bottom:-6px;padding:10px}.card-grid{grid-template-columns:1fr}.card-art{height:140px}.project-card{min-height:auto}.card-desc{min-height:0}.explain-pane{padding:27px}.about h2{font-size:32px}.footer-links{gap:18px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="topnav container" aria-label="Nawigacja główna">
+      <a class="brand" href="#start" aria-label="ZeroSkilla Dev Studio — początek">
+        <span class="brandmark">Z/</span>
+        <span class="brandname">ZEROSKILLA<small>DEV STUDIO</small></span>
+      </a>
+      <div class="navlinks"><a href="#projekty">Projekty</a><a href="#infernal-rift-downloads">Infernal Rift</a><a href="#pobieranie">Pobieranie</a><a href="#o-nas">O studiu</a></div>
+      <a class="navcta" href="#projekty">Zobacz aplikacje <span class="arrow" aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="start">
+    <div class="container">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-copy">
+          <span class="kicker"><i></i> ZERO SKILLA. WIELE POMYSŁÓW.</span>
+          <h1 id="hero-heading">Gry. Aplikacje.<br><em>Jedno miejsce.</em></h1>
+          <p class="lead">Poznaj projekty ZeroSkilla Dev Studio. Odkrywaj nowe funkcje, sprawdzaj aktualne wydania i pobieraj nasze gry oraz aplikacje na Androida i Windows.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projekty">Przeglądaj projekty <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#pobieranie">Jak pobierać? <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-meta">
+            <div><strong>06</strong><span>Projektów w katalogu</span></div>
+            <div><strong>02</strong><span>Platformy</span></div>
+            <div><strong>∞</strong><span>Pomysłów na rozwój</span></div>
+          </div>
+        </div>
+        <div class="showcase" aria-hidden="true">
+          <div class="preview-window">
+            <div class="preview-head"><div class="window-dots"><span></span><span></span><span></span></div><span>ZEROSKILLA / PROJECT LIBRARY</span><span>✦</span></div>
+            <div class="preview-body">
+              <div class="preview-top"><b>Wyróżnione projekty</b><span class="preview-version">GAME & SOFTWARE</span></div>
+              <div class="hero-app"><div><span style="font-size:9px;letter-spacing:.18em;color:#f1a092;font-weight:700">ACTION RPG</span><h3>Infernal Rift</h3><p>Wejdź do szczeliny</p></div><span class="emblem">✧</span></div>
+              <div class="preview-list">
+                <div class="mini-row"><span class="mini-icon" style="color:#bbabff">▤</span><div><strong>Mój Notatnik</strong><small>Notatki i organizacja</small></div><span class="mini-tag">ANDROID</span></div>
+                <div class="mini-row"><span class="mini-icon" style="color:#97d7f9">◎</span><div><strong>PhotoMind</strong><small>Inteligentna galeria</small></div><span class="mini-tag">ANDROID</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-badge"><span class="badge-icon">⌘</span><div><b>Gry + aplikacje</b><small>Wszystko w jednym katalogu</small></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="strip"><div class="container strip-inner"><span>ANDROID</span><b>✦</b><span>WINDOWS</span><b>✦</b><span>GAMES</span><b>✦</b><span>APPS</span><b>✦</b><span>NOWE WYDANIA</span></div></div>
+
+    <section id="infernal-rift-downloads" class="rift-releases container" aria-labelledby="rift-heading">
+      <div class="rift-top">
+        <div><p class="eyebrow">INFERNAL RIFT / ARCHIWUM WYDAŃ</p><h2 id="rift-heading">Dwa silniki. Pięć wersji<span style="color:#ff745e">.</span></h2><p class="section-description">Wybierz wydanie gry: trzy ostatnie wersje z autorskiego silnika albo dwa najnowsze wydania Unity. APK dla Androida i przenośne paczki ZIP dla Windows — bez instalatora.</p></div>
+        <span class="count-badge">3 natywne · 2 Unity</span>
+      </div>
+      <div class="engine-tabs" role="group" aria-label="Silnik gry">
+        <button class="engine-tab active" data-engine="Własny silnik" aria-pressed="true">Własny silnik (3)</button>
+        <button class="engine-tab" data-engine="Unity" aria-pressed="false">Unity (2)</button>
+      </div>
+      <div class="release-stack" id="rift-versions" aria-live="polite"><p class="section-description">Wczytywanie wydań...</p></div>
+      <p class="restriction"><strong>Publiczne wydania:</strong> przyciski prowadzą wyłącznie do prawdziwych plików APK i ZIP opublikowanych w GitHub Releases. Jeżeli paczka jest dopiero przenoszona, przycisk pozostaje nieaktywny. Pobieranie opublikowanych plików nie wymaga konta.</p>
+    </section>
+
+    <section id="projekty" class="catalog container" aria-labelledby="catalog-heading">
+      <div class="section-top">
+        <div><p class="eyebrow">NASZE PROJEKTY</p><h2 id="catalog-heading">Wybierz coś dla siebie<span style="color:#ff745e">.</span></h2><p class="section-description">Od mrocznych światów RPG po narzędzia na co dzień. Jeden katalog, w którym znajdziesz informacje o wszystkich naszych projektach.</p></div>
+        <span class="count-badge" id="count">6 projektów</span>
+      </div>
+      <div class="controls">
+        <div class="filters" aria-label="Kategorie projektów">
+          <button class="filter active" type="button" data-filter="wszystkie" aria-pressed="true">Wszystkie</button>
+          <button class="filter" type="button" data-filter="gry" aria-pressed="false">Gry</button>
+          <button class="filter" type="button" data-filter="aplikacje" aria-pressed="false">Aplikacje i narzędzia</button>
+        </div>
+        <div class="search-wrap"><input id="search" type="search" placeholder="Szukaj projektu..." aria-label="Szukaj projektu"><select id="platform" aria-label="Wybierz platformę"><option value="wszystkie">Wszystkie systemy</option><option value="Android">Android</option><option value="Windows">Windows</option></select></div>
+      </div>
+      <div class="card-grid" id="projects" aria-live="polite"></div>
+      <div class="empty" id="empty">Nie znaleziono projektu. Spróbuj innej nazwy lub filtra.</div>
+    </section>
+
+    <section id="pobieranie" class="explain container" aria-labelledby="download-heading">
+      <div class="section-top"><div><p class="eyebrow">CENTRUM POBIERANIA</p><h2 id="download-heading">Twoje wersje w jednym miejscu<span style="color:#ff745e">.</span></h2><p class="section-description">Android: pliki APK. Windows: przenośne paczki ZIP, jeśli program nie ma instalatora. Gdy dostępne są różne wydania, każde ma osobne przyciski pobierania.</p></div></div>
+      <div class="explain-grid">
+        <div class="explain-pane">
+          <div class="eyebrow-icon">↓</div>
+          <h2>Jak pobrać?</h2>
+          <p>Wszystkie dodane wydania w jednym miejscu, bez konieczności przeszukiwania folderów.</p>
+          <ol class="steps">
+            <li><b>1</b><span>Wybierz grę lub aplikację z katalogu.</span></li>
+            <li><b>2</b><span>Wybierz wersję, platformę i format pliku (APK lub ZIP).</span></li>
+            <li><b>3</b><span>Pobierz plik. APK zainstaluj na Androidzie; ZIP dla Windows rozpakuj, a następnie uruchom aplikację z wypakowanego katalogu.</span></li>
+          </ol>
+        </div>
+        <div class="explain-pane soft">
+          <div class="eyebrow-icon" style="background:#252a39;border-color:#404d72;color:#a3b8ff">✓</div>
+          <h2>Wydania pod kontrolą</h2>
+          <p>Linki do APK i ZIP są przypisane do konkretnych wersji. Brakujące pliki są wyraźnie oznaczone — nie udajemy, że nieistniejąca paczka jest dostępna.</p>
+          <div class="info-note"><strong>Automatyczne aktualizacje:</strong> strona sprawdza opublikowane wydania GitHub Releases podczas każdego wdrożenia. Po dodaniu nowego APK lub ZIP pojawi się odpowiadający mu przycisk pobierania.</div>
+          <p style="margin-top:20px;margin-bottom:0">Pliki znajdują się w magazynie wydań tego projektu na GitHub, a nie na prywatnym Dysku Google.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="o-nas" class="about" aria-labelledby="about-heading">
+      <div class="container about-inner">
+        <div>
+          <p class="eyebrow">ZEROSKILLA DEV STUDIO</p>
+          <h2 id="about-heading">Pomysły, które zamieniają się w projekty.</h2>
+          <p>ZeroSkilla Dev Studio to miejsce skupiające autorskie gry, aplikacje i narzędzia. Tworzymy rzeczy dla graczy i osób, które lubią technologię — od Infernal Rift po rozwiązania przydatne na co dzień.</p>
+          <a class="button button-secondary" href="#projekty">Poznaj katalog <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="about-graphic" aria-hidden="true"><span>Z/</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-inner container"><span>© <span id="year"></span> ZeroSkilla Dev Studio. Wszystkie prawa zastrzeżone.</span><div class="footer-links"><a href="#projekty">Projekty</a><a href="#pobieranie">Pobieranie</a><a href="#start">Do góry ↑</a><a href="https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings#danger-zone" target="_blank" rel="noopener noreferrer" title="Zmień widoczność repozytorium po zalogowaniu na GitHub">⚙ Administracja ↗</a></div></div></footer>
+
+  <dialog id="project-dialog" aria-labelledby="modal-title">
+    <div class="modal-head"><div><span class="eyebrow" id="modal-category"></span><h3 id="modal-title"></h3><p id="modal-description"></p></div><button type="button" class="modal-close" id="close-modal" aria-label="Zamknij">×</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </dialog>
+  <noscript><div class="container" style="padding:16px;color:#ffb99d">Włącz JavaScript, aby zobaczyć katalog projektów.</div></noscript>
+  <script>
+    "use strict";
+    const catalog = [
+      {id:"infernal-rift",title:"Infernal Rift",type:"gry",typeLabel:"Gra / Action RPG",platform:"Android / Windows",platforms:["Android","Windows"],description:"Mroczne RPG akcji — trzy wersje na własnym silniku i dwie wersje Unity do pobrania.",tags:["Action RPG","Fantasy","3D"],icon:"✧",color:"#ff9475",from:"#501e24",glow:"#a42d2c8c",details:"Gra action RPG osadzona w świecie mrocznych szczelin. Wersje na własnym silniku to wydania natywne Android, a Unity oferuje APK na Androida i paczki ZIP dla Windows."},
+      {id:"moj-notatnik",title:"Mój Notatnik",type:"aplikacje",typeLabel:"Aplikacja / Produktywność",platform:"Android / Windows",platforms:["Android","Windows"],description:"Notatnik na telefon i komputer: kategorie, przypomnienia, załączniki i synchronizacja z kontem Google.",tags:["Notatki","Android","Windows"],icon:"▤",color:"#b8a7ff",from:"#2e2855",glow:"#5648c087",details:"Aplikacja do zapisywania i organizowania notatek na Androidzie i Windows. Obejmuje notatki, załączniki, przypomnienia i synchronizację. Wydanie APK v2.9.7 na Androida będzie dostępne publicznie po przeniesieniu do GitHub Releases; paczka ZIP dla Windows czeka na odnalezienie i weryfikację."},
+      {id:"photomind",title:"PhotoMind",type:"aplikacje",typeLabel:"Aplikacja / Zdjęcia",platform:"Android",description:"Projekt inteligentnej organizacji i wyszukiwania zdjęć z naciskiem na działanie offline.",tags:["Galeria","AI","Offline"],icon:"◎",color:"#8fdef0",from:"#19384c",glow:"#286f9f87",details:"Projekt inteligentnej galerii zdjęć wykorzystujący analizę obrazów na urządzeniu do ułatwiania ich przeglądania i wyszukiwania."},
+      {id:"volvio-scanner",title:"VolVio Scanner",type:"aplikacje",typeLabel:"Aplikacja / Motoryzacja",platform:"Android",description:"Diagnostyka samochodu przez OBD-II i odczyt wybranych parametrów na żywo.",tags:["OBD-II","ELM327","Diagnostyka"],icon:"⌁",color:"#97d4aa",from:"#193d38",glow:"#287d667e",details:"Aplikacja do odczytu parametrów diagnostycznych pojazdu z wykorzystaniem interfejsu ELM327."},
+      {id:"encloser-cad",title:"Encloser CAD",type:"aplikacje",typeLabel:"Narzędzie / Projektowanie CAD",platform:"Windows",description:"Parametryczne projektowanie obudów z otworami, mocowaniami, wentylacją i eksportem modeli.",tags:["CAD","3D","Projektowanie"],icon:"⬡",color:"#e6c890",from:"#4b3a24",glow:"#b18b4f80",details:"Projekt aplikacji do parametrycznego konstruowania obudów oraz komponentów montażowych, w tym mocowań baterii i otworów technologicznych."},
+      {id:"padbridge",title:"PadBridge",type:"aplikacje",typeLabel:"Narzędzie / Kontrolery",platform:"Windows",description:"Obsługa, mapowanie i emulacja kontrolerów Xbox, PlayStation i Nintendo na PC.",tags:["Gamepad","Remap","Windows"],icon:"⊕",color:"#a6c6ff",from:"#233250",glow:"#4367ab83",details:"Projekt narzędzia komputerowego do obsługi padów różnych producentów, zmiany mapowania przycisków oraz emulacji kontrolerów."}
+    ];
+    const state = {filter:"wszystkie",platform:"wszystkie",query:"",engine:"Własny silnik",releases:{}};
+    const $ = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const safeUrl = (value) => {try {const u = new URL(value);return u.protocol === "https:" ? u.href : null} catch {return null}};
+    const releaseFor = (id) => state.releases[id] || {};
+    const versionsFor=(id)=>Array.isArray(releaseFor(id).versions)?releaseFor(id).versions:[];
+    const filesFor=(v)=>Array.isArray(v.files)?v.files.filter((f)=>safeUrl(f.url)):[];
+    const totalFiles=(id)=>versionsFor(id).reduce((sum,v)=>sum+filesFor(v).length,0);
+    const sizeOf=(n)=>Number.isFinite(Number(n))&&Number(n)>0?(Number(n)/1048576).toFixed(1).replace(".",",")+" MiB":"";
+    function labelCount(n){return n===1?"1 projekt":(n>=2&&n<=4?n+" projekty":n+" projektów")}
+    function filtered(){
+      return catalog.filter((p)=>{
+        if(state.filter!=="wszystkie"&&p.type!==state.filter)return false;
+        if(state.platform!=="wszystkie"&&!(p.platforms||[p.platform]).includes(state.platform))return false;
+        if(state.query&&!([p.title,p.description,p.typeLabel,p.platform].concat(p.tags).join(" ").toLocaleLowerCase("pl").includes(state.query)))return false;
+        return true;
+      });
+    }
+    function cardHtml(p){
+      const versions=versionsFor(p.id),ready=totalFiles(p.id)>0;
+      const version=ready?(p.id==="infernal-rift"?versions.length+" wersji":escapeHtml(versions[0].version)):"Do potwierdzenia";
+      const action=ready?(p.id==="infernal-rift"?
+        '<a class="download-btn" href="#infernal-rift-downloads">↓ Wybierz wersję</a>':
+        '<button class="download-btn" type="button" data-detail="'+p.id+'">↓ Zobacz paczki</button>'):
+        '<button class="download-btn" type="button" disabled title="Brak potwierdzonego linku do instalatora">↓ W przygotowaniu</button>';
+      return [
+        '<article class="project-card" style="--art-from:',p.from,';--art-glow:',p.glow,';--icon-color:',p.color,'">',
+          '<div class="card-art"><span class="card-platform">',escapeHtml(p.platform),'</span><span class="card-art-icon" aria-hidden="true">',p.icon,'</span></div>',
+          '<div class="card-content"><div class="card-type">',escapeHtml(p.typeLabel),'</div><h3>',escapeHtml(p.title),'</h3>',
+          '<p class="card-desc">',escapeHtml(p.description),'</p><div class="card-tags">',p.tags.map((t)=>'<span>'+escapeHtml(t)+'</span>').join(""),'</div>',
+          '<div class="release-row"><div>WYDANIA<strong>',version,'</strong></div><span><i class="release-dot ',ready?'ready':'','"></i>',ready?'Pobierz z GitHub':'Oczekuje na paczkę','</span></div>',
+          '<div class="card-actions">',
+          action,
+          '<button class="detail-btn" type="button" data-detail="',p.id,'">Szczegóły ↗</button></div></div>',
+        '</article>'
+      ].join("");
+    }
+    function fileLink(f){
+      const url=safeUrl(f.url);if(!url)return "";
+      const type=escapeHtml(f.type||"PLIK"),platform=escapeHtml(f.platform||""),size=sizeOf(f.sizeBytes);
+      return '<a class="file-link" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer" title="'+escapeHtml(f.name||"Pobierz plik")+'"><span class="file-symbol">'+type+'</span><span><strong>Pobierz '+type+' ↓</strong><small>'+platform+(size?' · '+size:'')+'</small></span></a>';
+    }
+    function renderRift(){
+      const versions=versionsFor("infernal-rift").filter((v)=>v.engine===state.engine);
+      $("rift-versions").innerHTML=versions.length?versions.map((v,index)=>{
+        const files=filesFor(v);
+        return '<article class="version-card"><div><span class="version-badge">'+escapeHtml(v.engine)+(index===0?' · Najnowsza w tej grupie':'')+'</span><h3 class="version-title">'+escapeHtml(v.version)+'</h3><p class="version-desc">'+escapeHtml(v.description||"")+' · '+escapeHtml(v.date||"")+'</p></div><div class="version-files">'+(files.length?files.map(fileLink).join(""):'<span class="section-description">Brak plików do pobrania</span>')+'</div></article>';
+      }).join(""):'<p class="section-description">Wydania są obecnie niedostępne — sprawdź ponownie później.</p>';
+    }
+    function render(){
+      const matches=filtered();
+      $("projects").innerHTML=matches.map(cardHtml).join("");
+      $("count").textContent=labelCount(matches.length);
+      $("empty").style.display=matches.length?"none":"block";
+      document.querySelectorAll("[data-detail]").forEach((b)=>b.addEventListener("click",()=>showDetail(b.dataset.detail)));
+    }
+    function showDetail(id){
+      const p=catalog.find((x)=>x.id===id);if(!p)return;
+      const versions=versionsFor(id),ready=totalFiles(id)>0;
+      $("modal-category").textContent=p.typeLabel+" • "+p.platform;
+      $("modal-title").textContent=p.title;
+      $("modal-description").textContent=p.details;
+      let body='';
+      const rows=[["Platforma",p.platform],["Liczba wydań",ready?String(versions.length):"Brak potwierdzonych wydań"],["Dostępne pliki",ready?String(totalFiles(id)):"Nie dodano"]];
+      rows.forEach(([label,value])=>body+='<div class="detail-line"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(value)+'</strong></div>');
+      body+='<div class="modal-section"><h4>O projekcie</h4><p>'+escapeHtml(p.details)+'</p></div>';
+      if(id==="infernal-rift"){
+        body+='<div class="modal-section"><h4>Pięć wydań</h4><p>Trzy wersje na własnym silniku oraz dwie Unity, w tym APK i dostępne ZIP-y Windows. Wybierz je w osobnej sekcji Infernal Rift.</p></div>';
+      }else if(ready){
+        versions.forEach((v)=>{
+          body+='<div class="modal-section"><h4>'+escapeHtml(v.version)+'</h4><p>'+escapeHtml(v.description||"")+'</p><div class="version-files" style="justify-content:start">'+filesFor(v).map(fileLink).join("")+'</div></div>';
+        });
+      }else{
+        body+='<div class="modal-section"><h4>Informacje o wydaniu</h4><p>Linki APK i przenośnych paczek Windows ZIP pojawią się po znalezieniu zweryfikowanych plików dla tego projektu.</p></div>';
+      }
+      body+='<div class="modal-buttons">'+(id==="infernal-rift"?'<a class="button button-primary" href="#infernal-rift-downloads" id="rift-modal-link">Zobacz wersje →</a>':!ready?'<button class="button button-primary" disabled style="opacity:.5">Brak instalatora</button>':'')+'<button type="button" class="button button-secondary" id="dismiss-modal">Zamknij</button></div>';
+      $("modal-body").innerHTML=body;
+      $("dismiss-modal").addEventListener("click",()=>$("project-dialog").close());
+      if(id==="infernal-rift")$("rift-modal-link").addEventListener("click",()=>$("project-dialog").close());
+      $("project-dialog").showModal();
+    }
+    document.querySelectorAll("[data-filter]").forEach((b)=>b.addEventListener("click",()=>{
+      state.filter=b.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach((item)=>{const on=item===b;item.classList.toggle("active",on);item.setAttribute("aria-pressed",String(on))});
+      render();
+    }));
+    $("platform").addEventListener("change",(e)=>{state.platform=e.target.value;render()});
+    $("search").addEventListener("input",(e)=>{state.query=e.target.value.trim().toLocaleLowerCase("pl");render()});
+    document.querySelectorAll("[data-engine]").forEach((b)=>b.addEventListener("click",()=>{
+      state.engine=b.dataset.engine;
+      document.querySelectorAll("[data-engine]").forEach((item)=>{const on=item===b;item.classList.toggle("active",on);item.setAttribute("aria-pressed",String(on))});
+      renderRift();
+    }));
+    $("close-modal").addEventListener("click",()=>$("project-dialog").close());
+    $("project-dialog").addEventListener("click",(e)=>{if(e.target===$("project-dialog"))$("project-dialog").close()});
+    $("year").textContent=new Date().getFullYear();
+    render();
+    renderRift();
+    fetch("./releases.json",{cache:"no-store"}).then((response)=>{if(!response.ok)throw new Error("Manifest niedostępny");return response.json()}).then((data)=>{
+      if(data&&data.schemaVersion===2&&data.releases&&typeof data.releases==="object"){state.releases=data.releases;render();renderRift()}
+    }).catch(()=>{ /* Katalog pozostaje dostępny bez manifestu; pobieranie pozostaje nieaktywne. */ });
+  </script>
+</body>
+</html>
