@@ -20,7 +20,7 @@ jobs:
   refresh_on_release:
     # Wydania wyzwalane są z taga, a środowisko github-pages jest chronione
     # regułą gałęzi main. Zlecamy więc nowe wdrożenie na main.
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' && vars.PUBLICATION_ENABLED != 'false'
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -37,7 +37,7 @@ jobs:
             });
 
   build:
-    if: github.event_name != 'release'
+    if: github.event_name != 'release' && vars.PUBLICATION_ENABLED != 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout website source
@@ -48,11 +48,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Test release selection
+        run: node --test scripts/build-releases.test.mjs
       - name: Build verified release catalog
         run: node scripts/build-releases.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          RELEASE_REPOSITORY: k4mik4zz3-droid/zeroskilla-dev-studio
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload website
@@ -61,7 +63,7 @@ jobs:
           path: dist
 
   deploy:
-    if: github.event_name != 'release'
+    if: github.event_name != 'release' && vars.PUBLICATION_ENABLED != 'false'
     needs: build
     runs-on: ubuntu-latest
     permissions:
