@@ -2,8 +2,8 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {dirname,join,resolve} from 'node:path';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-export const projects=['infernal-rift','moj-notatnik','photomind','volvio-scanner','encloser-cad','padbridge'];
-const channels=[['infernal-rift','native','android'],['infernal-rift','unity','android'],['infernal-rift','unity','windows'],['moj-notatnik',null,'android'],['moj-notatnik',null,'windows'],['photomind',null,'android'],['volvio-scanner',null,'android'],['encloser-cad',null,'windows'],['padbridge',null,'windows']];
+export const projects=['infernal-rift','moj-notatnik','volvio-scanner','encloser-cad','padbridge'];
+const channels=[['infernal-rift','native','android'],['infernal-rift','unity','android'],['infernal-rift','unity','windows'],['moj-notatnik',null,'android'],['moj-notatnik',null,'windows'],['volvio-scanner',null,'android'],['encloser-cad',null,'windows'],['padbridge',null,'windows']];
 export function parseTag(tag){
  for(const [project,engine,platform] of channels){
   const prefix=`${project}-${engine?engine+'-':''}${platform}-v`;
@@ -20,7 +20,7 @@ export function versionOrder(a,b){
 function expectedNames({project,engine,version:v},platform){
  if(project==='infernal-rift')return engine==='native'?(platform==='android'?[`Infernal-Rift-${v}.apk`]:[]):platform==='android'?[`Infernal-Rift-Unity-${v}.apk`]:[`Infernal-Rift-Unity-${v}-Windows-PC.zip`];
  if(project==='moj-notatnik')return platform==='android'?[`Moj-Notatnik-${v}.apk`]:[`Moj-Notatnik-${v}-Windows-x64.zip`,`Moj-Notatnik-Windows-${v.slice(1)}-x64.zip`];
- const prefix={'photomind':'PhotoMind','volvio-scanner':'VolVio-Scanner','encloser-cad':'Encloser-CAD','padbridge':'PadBridge'}[project];
+ const prefix={'volvio-scanner':'VolVio-Scanner','encloser-cad':'Encloser-CAD','padbridge':'PadBridge'}[project];
  return platform==='android'?[`${prefix}-${v}.apk`]:[`${prefix}-${v}-Windows-x64.zip`];
 }
 export function assetFiles(release,parsed,repo){

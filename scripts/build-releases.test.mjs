@@ -18,12 +18,14 @@ test('Reject drafts, previews, source ZIPs, debug, Forge, missing hashes and for
  const foreign=release('padbridge-windows-v8.0.0',['PadBridge-v8.0.0-Windows-x64.zip']);foreign.assets[0].browser_download_url='https://example.com/file.zip';
  const r=buildCatalog([
   release('infernal-forge-windows-v99.0.0',['Infernal-Forge.zip']),
+  release('photomind-android-v99.0.0',['PhotoMind-v99.0.0.apk']),
   release('padbridge-windows-v6.0.0',['PadBridge-v6.0.0-Windows-x64.zip'],{draft:true}),
   release('padbridge-windows-v5.0.0',['PadBridge-v5.0.0-Windows-x64.zip'],{prerelease:true}),
   release('padbridge-windows-v4.0.0',['PadBridge-v4.0.0-zrodla.zip','PadBridge-v4.0.0-debug.zip']),bad,foreign,
   release('padbridge-windows-v0.1.12',['PadBridge-v0.1.12-Windows-x64.zip'])
  ],{},repo);
  assert.equal(Object.values(r.releases).flatMap(p=>p.versions).length,1);
+ assert.equal(Object.hasOwn(r.releases,'photomind'),false);
  assert.equal(r.releases.padbridge.versions[0].version,'v0.1.12');
  assert.equal(r.releases.padbridge.versions[0].files[0].sha256,'a'.repeat(64));
 });
