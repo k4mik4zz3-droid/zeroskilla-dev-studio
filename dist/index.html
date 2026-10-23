@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./studio.css">
+  <link rel="stylesheet" href="./studio.css?v=1697bf1c43df">
 </head>
 <body>
   <header class="topbar">
@@ -72,7 +72,7 @@
     </section>
 
     <section id="pobieranie" class="explain container" aria-labelledby="download-heading">
-      <div class="section-top"><div><p class="eyebrow">CENTRUM POBIERANIA</p><h2 id="download-heading">Twoje wersje w jednym miejscu<span style="color:#ff745e">.</span></h2><p class="section-description">Android: pliki APK. Windows: przenośne paczki ZIP, jeśli program nie ma instalatora. Dla każdego silnika i systemu pokazujemy wyłącznie najnowszą dostępną wersję.</p></div></div>
+      <div class="section-top"><div><p class="eyebrow">CENTRUM POBIERANIA</p><h2 id="download-heading">Twoje wersje w jednym miejscu<span style="color:#ff745e">.</span></h2><p class="section-description">Android: pliki APK. Windows: przenośne paczki ZIP, jeśli program nie ma instalatora. Przy każdym projekcie znajdziesz najnowsze dostępne pliki oraz instrukcję uruchomienia.</p></div></div>
       <div class="explain-grid">
         <div class="explain-pane">
           <div class="eyebrow-icon">↓</div>
@@ -80,7 +80,7 @@
           <p>Aktualne wydania w jednym miejscu, bez konieczności przeszukiwania folderów.</p>
           <ol class="steps">
             <li><b>1</b><span>Wybierz grę lub aplikację z katalogu.</span></li>
-            <li><b>2</b><span>Wybierz platformę i format pliku (APK lub ZIP).</span></li>
+            <li><b>2</b><span>Na stronie projektu pobierz paczkę dla swojego systemu.</span></li>
             <li><b>3</b><span>Pobierz plik. APK zainstaluj na Androidzie; ZIP dla Windows rozpakuj, a następnie uruchom aplikację z wypakowanego katalogu.</span></li>
           </ol>
         </div>
@@ -227,8 +227,8 @@
     const latestDate=(id)=>versionsFor(id).reduce((date,v)=>filesFor(v).length&&String(v.date||"")>date?String(v.date):date,"");
     function cardHtml(p){
       const versions=versionsFor(p.id),ready=totalFiles(p.id)>0,url='./'+p.id+'.html';
-      const version=ready?(p.id==="infernal-rift"?versions.length+" kanały":escapeHtml(versions[0].version)):"W przygotowaniu";
-      const action='<a class="download-btn'+(ready?'':' pending')+'" href="'+url+(ready?'#pobierz':'')+'">'+(ready?'↓ '+(p.id==="infernal-rift"?'Wybierz wersję':'Pobierz'):'Poznaj projekt ↗')+'</a>';
+      const version=ready?(p.id==="infernal-rift"?(versions.length===1?"1 wydanie":versions.length+" wydania"):escapeHtml(versions[0].version)):"W przygotowaniu";
+      const action='<a class="download-btn'+(ready?'':' pending')+'" href="'+url+(ready?'#pobierz':'')+'">'+(ready?'↓ '+(p.id==="infernal-rift"?'Wybierz wydanie':'Pobierz'):'Poznaj projekt ↗')+'</a>';
       return [
         '<article class="project-card" style="--art-from:',p.from,';--art-glow:',p.glow,';--icon-color:',p.color,'">',
           '<div class="card-art"><span class="card-platform">',escapeHtml(p.platform),'</span><span class="card-art-icon" aria-hidden="true">',p.icon,'</span></div>',
