@@ -178,6 +178,7 @@
     @media(max-width:760px){.container{width:min(100% - 36px,var(--max))}.topnav{height:72px}.navlinks{display:none}.navcta{padding:10px 12px;font-size:11px}.brandmark{width:37px;height:37px}.brandname{font-size:15px}.hero{grid-template-columns:1fr;padding:64px 0 77px;gap:34px}.hero-copy{max-width:600px}.showcase{min-height:350px}.preview-window{max-width:520px}.floating-badge{right:5px;bottom:0}.strip-inner{justify-content:center;flex-wrap:wrap;gap:18px;padding:20px}.strip-inner span:nth-of-type(n+4){display:none}.section-top{align-items:start;flex-direction:column}.catalog{padding:73px 0 80px}.controls{align-items:stretch;flex-direction:column}.search-wrap{width:100%}.search-wrap input{width:100%}.rift-releases{padding-top:70px}.rift-top{align-items:start;flex-direction:column}.version-card{grid-template-columns:1fr;gap:15px}.version-files{justify-content:start}.explain{padding-bottom:80px}.explain-grid{grid-template-columns:1fr}.about{padding:70px 0}.about-graphic{display:none}.footer-inner{flex-direction:column;align-items:start}}
     @media(max-width:540px){h1{font-size:46px}.hero{padding-top:50px}.hero-meta{gap:25px}.showcase{min-height:290px}.preview-body{padding:17px}.preview-window{transform:rotate(-2deg)}.hero-app{min-height:125px;padding:18px}.hero-app h3{font-size:20px}.floating-badge{transform:rotate(3deg);right:-6px;bottom:-6px;padding:10px}.card-grid{grid-template-columns:1fr}.card-art{height:140px}.project-card{min-height:auto}.card-desc{min-height:0}.explain-pane{padding:27px}.about h2{font-size:32px}.footer-links{gap:18px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+  .download-file{min-width:0;max-width:100%}.checksum{max-width:260px;margin-top:8px;font-size:10px;color:#bdb3c5}.checksum summary{cursor:pointer}.checksum code{display:block;overflow-wrap:anywhere;padding:8px 0;line-height:1.6}.search-wrap{min-width:0}.search-wrap select{min-width:0}@media(max-width:480px){.search-wrap{flex-wrap:wrap}.search-wrap select{width:100%}.brandname{font-size:13px}.navcta{font-size:10px}.version-card{padding:20px}.version-title{font-size:21px}}
   </style>
 </head>
 <body>
@@ -230,12 +231,12 @@
 
     <section id="infernal-rift-downloads" class="rift-releases container" aria-labelledby="rift-heading">
       <div class="rift-top">
-        <div><p class="eyebrow">INFERNAL RIFT / ARCHIWUM WYDAŃ</p><h2 id="rift-heading">Dwa silniki. Pięć wersji<span style="color:#ff745e">.</span></h2><p class="section-description">Wybierz wydanie gry: trzy ostatnie wersje z autorskiego silnika albo dwa najnowsze wydania Unity. APK dla Androida i przenośne paczki ZIP dla Windows — bez instalatora.</p></div>
-        <span class="count-badge">3 natywne · 2 Unity</span>
+        <div><p class="eyebrow">INFERNAL RIFT / NAJNOWSZE WYDANIA</p><h2 id="rift-heading">Dwa silniki. Najnowsze wersje<span style="color:#ff745e">.</span></h2><p class="section-description">Pobierz najnowsze dostępne wydanie osobno dla każdego silnika i systemu. APK dla Androida i przenośne paczki ZIP dla Windows — bez instalatora.</p></div>
+        <span class="count-badge">Android · Windows</span>
       </div>
       <div class="engine-tabs" role="group" aria-label="Silnik gry">
-        <button class="engine-tab active" data-engine="Własny silnik" aria-pressed="true">Własny silnik (3)</button>
-        <button class="engine-tab" data-engine="Unity" aria-pressed="false">Unity (2)</button>
+        <button class="engine-tab active" data-engine="Własny silnik" aria-pressed="true">Własny silnik</button>
+        <button class="engine-tab" data-engine="Unity" aria-pressed="false">Unity</button>
       </div>
       <div class="release-stack" id="rift-versions" aria-live="polite"><p class="section-description">Wczytywanie wydań...</p></div>
       <p class="restriction"><strong>Publiczne wydania:</strong> przyciski prowadzą wyłącznie do prawdziwych plików APK i ZIP opublikowanych w GitHub Releases. Jeżeli paczka jest dopiero przenoszona, przycisk pozostaje nieaktywny. Pobieranie opublikowanych plików nie wymaga konta.</p>
@@ -259,15 +260,15 @@
     </section>
 
     <section id="pobieranie" class="explain container" aria-labelledby="download-heading">
-      <div class="section-top"><div><p class="eyebrow">CENTRUM POBIERANIA</p><h2 id="download-heading">Twoje wersje w jednym miejscu<span style="color:#ff745e">.</span></h2><p class="section-description">Android: pliki APK. Windows: przenośne paczki ZIP, jeśli program nie ma instalatora. Gdy dostępne są różne wydania, każde ma osobne przyciski pobierania.</p></div></div>
+      <div class="section-top"><div><p class="eyebrow">CENTRUM POBIERANIA</p><h2 id="download-heading">Twoje wersje w jednym miejscu<span style="color:#ff745e">.</span></h2><p class="section-description">Android: pliki APK. Windows: przenośne paczki ZIP, jeśli program nie ma instalatora. Dla każdego silnika i systemu pokazujemy wyłącznie najnowszą dostępną wersję.</p></div></div>
       <div class="explain-grid">
         <div class="explain-pane">
           <div class="eyebrow-icon">↓</div>
           <h2>Jak pobrać?</h2>
-          <p>Wszystkie dodane wydania w jednym miejscu, bez konieczności przeszukiwania folderów.</p>
+          <p>Aktualne wydania w jednym miejscu, bez konieczności przeszukiwania folderów.</p>
           <ol class="steps">
             <li><b>1</b><span>Wybierz grę lub aplikację z katalogu.</span></li>
-            <li><b>2</b><span>Wybierz wersję, platformę i format pliku (APK lub ZIP).</span></li>
+            <li><b>2</b><span>Wybierz platformę i format pliku (APK lub ZIP).</span></li>
             <li><b>3</b><span>Pobierz plik. APK zainstaluj na Androidzie; ZIP dla Windows rozpakuj, a następnie uruchom aplikację z wypakowanego katalogu.</span></li>
           </ol>
         </div>
@@ -275,7 +276,7 @@
           <div class="eyebrow-icon" style="background:#252a39;border-color:#404d72;color:#a3b8ff">✓</div>
           <h2>Wydania pod kontrolą</h2>
           <p>Linki do APK i ZIP są przypisane do konkretnych wersji. Brakujące pliki są wyraźnie oznaczone — nie udajemy, że nieistniejąca paczka jest dostępna.</p>
-          <div class="info-note"><strong>Automatyczne aktualizacje:</strong> strona sprawdza opublikowane wydania GitHub Releases podczas każdego wdrożenia. Po dodaniu nowego APK lub ZIP pojawi się odpowiadający mu przycisk pobierania.</div>
+          <div class="info-note"><strong>Automatyczne aktualizacje:</strong> strona sprawdza opublikowane wydania GitHub Releases podczas każdego wdrożenia. Po publikacji prawidłowo nazwanej paczki i automatycznym odświeżeniu katalogu pojawi się nowa wersja. Katalog odświeża się co godzinę.</div>
           <p style="margin-top:20px;margin-bottom:0">Pliki znajdują się w magazynie wydań tego projektu na GitHub, a nie na prywatnym Dysku Google.</p>
         </div>
       </div>
@@ -294,7 +295,7 @@
     </section>
   </main>
 
-  <footer class="footer"><div class="footer-inner container"><span>© <span id="year"></span> ZeroSkilla Dev Studio. Wszystkie prawa zastrzeżone.</span><div class="footer-links"><a href="#projekty">Projekty</a><a href="#pobieranie">Pobieranie</a><a href="#start">Do góry ↑</a><a href="https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings#danger-zone" target="_blank" rel="noopener noreferrer" title="Zmień widoczność repozytorium po zalogowaniu na GitHub">⚙ Administracja ↗</a></div></div></footer>
+  <footer class="footer"><div class="footer-inner container"><span>© <span id="year"></span> ZeroSkilla Dev Studio. Wszystkie prawa zastrzeżone.</span><div class="footer-links"><a href="#projekty">Projekty</a><a href="#pobieranie">Pobieranie</a><a href="#start">Do góry ↑</a><a href="https://github.com/ZeroSkillaDevStudio/zeroskilladevstudio.github.io/settings/pages" target="_blank" rel="noopener noreferrer" title="Zarządzaj publikacją strony po zalogowaniu na GitHub">⚙ Administracja ↗</a></div></div></footer>
 
   <dialog id="project-dialog" aria-labelledby="modal-title">
     <div class="modal-head"><div><span class="eyebrow" id="modal-category"></span><h3 id="modal-title"></h3><p id="modal-description"></p></div><button type="button" class="modal-close" id="close-modal" aria-label="Zamknij">×</button></div>
@@ -304,20 +305,20 @@
   <script>
     "use strict";
     const catalog = [
-      {id:"infernal-rift",title:"Infernal Rift",type:"gry",typeLabel:"Gra / Action RPG",platform:"Android / Windows",platforms:["Android","Windows"],description:"Mroczne RPG akcji — trzy wersje na własnym silniku i dwie wersje Unity do pobrania.",tags:["Action RPG","Fantasy","3D"],icon:"✧",color:"#ff9475",from:"#501e24",glow:"#a42d2c8c",details:"Gra action RPG osadzona w świecie mrocznych szczelin. Wersje na własnym silniku to wydania natywne Android, a Unity oferuje APK na Androida i paczki ZIP dla Windows."},
-      {id:"moj-notatnik",title:"Mój Notatnik",type:"aplikacje",typeLabel:"Aplikacja / Produktywność",platform:"Android / Windows",platforms:["Android","Windows"],description:"Notatnik na telefon i komputer: kategorie, przypomnienia, załączniki i synchronizacja z kontem Google.",tags:["Notatki","Android","Windows"],icon:"▤",color:"#b8a7ff",from:"#2e2855",glow:"#5648c087",details:"Aplikacja do zapisywania i organizowania notatek na Androidzie i Windows. Obejmuje notatki, załączniki, przypomnienia i synchronizację. Wydanie APK v2.9.7 na Androida jest dostępne w GitHub Releases; paczka ZIP dla Windows czeka na odnalezienie i weryfikację."},
+      {id:"infernal-rift",title:"Infernal Rift",type:"gry",typeLabel:"Gra / Action RPG",platform:"Android / Windows",platforms:["Android","Windows"],description:"Mroczne RPG akcji. Najnowsze wydania na własnym silniku oraz Unity, osobno dla Androida i Windows.",tags:["Action RPG","Fantasy","3D"],icon:"✧",color:"#ff9475",from:"#501e24",glow:"#a42d2c8c",details:"Gra action RPG osadzona w świecie mrocznych szczelin. Wersje na własnym silniku to wydania natywne Android, a Unity oferuje APK na Androida i paczki ZIP dla Windows."},
+      {id:"moj-notatnik",title:"Mój Notatnik",type:"aplikacje",typeLabel:"Aplikacja / Produktywność",platform:"Android / Windows",platforms:["Android","Windows"],description:"Notatnik na telefon i komputer: kategorie, przypomnienia, załączniki i synchronizacja z kontem Google.",tags:["Notatki","Android","Windows"],icon:"▤",color:"#b8a7ff",from:"#2e2855",glow:"#5648c087",details:"Aplikacja do zapisywania i organizowania notatek na Androidzie i Windows. Obejmuje notatki, załączniki, przypomnienia i synchronizację. Dostępne paczki znajdziesz poniżej, osobno dla Androida i Windows. Wczesna wersja Windows wymaga własnej konfiguracji Google Desktop do synchronizacji; pełnej zgodności funkcji z Androidem jeszcze nie potwierdzono."},
       {id:"photomind",title:"PhotoMind",type:"aplikacje",typeLabel:"Aplikacja / Zdjęcia",platform:"Android",description:"Projekt inteligentnej organizacji i wyszukiwania zdjęć z naciskiem na działanie offline.",tags:["Galeria","AI","Offline"],icon:"◎",color:"#8fdef0",from:"#19384c",glow:"#286f9f87",details:"Projekt inteligentnej galerii zdjęć wykorzystujący analizę obrazów na urządzeniu do ułatwiania ich przeglądania i wyszukiwania."},
       {id:"volvio-scanner",title:"VolVio Scanner",type:"aplikacje",typeLabel:"Aplikacja / Motoryzacja",platform:"Android",description:"Diagnostyka samochodu przez OBD-II i odczyt wybranych parametrów na żywo.",tags:["OBD-II","ELM327","Diagnostyka"],icon:"⌁",color:"#97d4aa",from:"#193d38",glow:"#287d667e",details:"Aplikacja do odczytu parametrów diagnostycznych pojazdu z wykorzystaniem interfejsu ELM327."},
-      {id:"encloser-cad",title:"Encloser CAD",type:"aplikacje",typeLabel:"Narzędzie / Projektowanie CAD",platform:"Windows",description:"Parametryczne projektowanie obudów z otworami, mocowaniami, wentylacją i eksportem modeli.",tags:["CAD","3D","Projektowanie"],icon:"⬡",color:"#e6c890",from:"#4b3a24",glow:"#b18b4f80",details:"Projekt aplikacji do parametrycznego konstruowania obudów oraz komponentów montażowych, w tym mocowań baterii i otworów technologicznych."},
+      {id:"encloser-cad",title:"Encloser CAD",type:"aplikacje",typeLabel:"Narzędzie / Projektowanie CAD",platform:"Windows",description:"Parametryczne projektowanie obudów z otworami, mocowaniami, wentylacją i eksportem modeli.",tags:["CAD","3D","Projektowanie"],icon:"⬡",color:"#e6c890",from:"#4b3a24",glow:"#b18b4f80",details:"Aplikacja do parametrycznego konstruowania obudów i komponentów montażowych. Wersja 0.12.0 korzysta z Direct3D; wcześniejsze zgłoszenie zawieszania Windows nie ma jeszcze pełnej akceptacji użytkownika. Zapisuj projekt przed pracą."},
       {id:"padbridge",title:"PadBridge",type:"aplikacje",typeLabel:"Narzędzie / Kontrolery",platform:"Windows",description:"Obsługa, mapowanie i emulacja kontrolerów Xbox, PlayStation i Nintendo na PC.",tags:["Gamepad","Remap","Windows"],icon:"⊕",color:"#a6c6ff",from:"#233250",glow:"#4367ab83",details:"Projekt narzędzia komputerowego do obsługi padów różnych producentów, zmiany mapowania przycisków oraz emulacji kontrolerów."}
     ];
     const state = {filter:"wszystkie",platform:"wszystkie",query:"",engine:"Własny silnik",releases:{}};
     const $ = (id) => document.getElementById(id);
     const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-    const safeUrl = (value) => {try {const u = new URL(value);return u.protocol === "https:" ? u.href : null} catch {return null}};
+    const safeUrl = (value) => {try {const u = new URL(value);return u.protocol === 'https:' && u.hostname === 'github.com' && !u.username && !u.password && u.pathname.startsWith('/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/') ? u.href : null} catch {return null}};
     const releaseFor = (id) => state.releases[id] || {};
     const versionsFor=(id)=>Array.isArray(releaseFor(id).versions)?releaseFor(id).versions:[];
-    const filesFor=(v)=>Array.isArray(v.files)?v.files.filter((f)=>safeUrl(f.url)):[];
+    const filesFor=(v)=>Array.isArray(v.files)?v.files.filter((f)=>safeUrl(f.url)&&/^[a-f0-9]{64}$/.test(f.sha256||"")):[];
     const totalFiles=(id)=>versionsFor(id).reduce((sum,v)=>sum+filesFor(v).length,0);
     const sizeOf=(n)=>Number.isFinite(Number(n))&&Number(n)>0?(Number(n)/1048576).toFixed(1).replace(".",",")+" MiB":"";
     function labelCount(n){return n===1?"1 projekt":(n>=2&&n<=4?n+" projekty":n+" projektów")}
@@ -331,7 +332,7 @@
     }
     function cardHtml(p){
       const versions=versionsFor(p.id),ready=totalFiles(p.id)>0;
-      const version=ready?(p.id==="infernal-rift"?versions.length+" wersji":escapeHtml(versions[0].version)):"Do potwierdzenia";
+      const version=ready?(p.id==="infernal-rift"?versions.length+" kanały":escapeHtml(versions[0].version)):"Do potwierdzenia";
       const action=ready?(p.id==="infernal-rift"?
         '<a class="download-btn" href="#infernal-rift-downloads">↓ Wybierz wersję</a>':
         '<button class="download-btn" type="button" data-detail="'+p.id+'">↓ Zobacz paczki</button>'):
@@ -351,13 +352,13 @@
     function fileLink(f){
       const url=safeUrl(f.url);if(!url)return "";
       const type=escapeHtml(f.type||"PLIK"),platform=escapeHtml(f.platform||""),size=sizeOf(f.sizeBytes);
-      return '<a class="file-link" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer" title="'+escapeHtml(f.name||"Pobierz plik")+'"><span class="file-symbol">'+type+'</span><span><strong>Pobierz '+type+' ↓</strong><small>'+platform+(size?' · '+size:'')+'</small></span></a>';
+      return '<a class="file-link" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer" title="'+escapeHtml(f.name||"Pobierz plik")+' · SHA256: '+escapeHtml(f.sha256||'')+'"><span class="file-symbol">'+type+'</span><span><strong>Pobierz '+type+' ↓</strong><small>'+platform+(size?' · '+size:'')+'</small></span></a><details class="checksum"><summary>SHA256</summary><code>'+escapeHtml(f.sha256||'')+'</code></details>';
     }
     function renderRift(){
       const versions=versionsFor("infernal-rift").filter((v)=>v.engine===state.engine);
       $("rift-versions").innerHTML=versions.length?versions.map((v,index)=>{
         const files=filesFor(v);
-        return '<article class="version-card"><div><span class="version-badge">'+escapeHtml(v.engine)+(index===0?' · Najnowsza w tej grupie':'')+'</span><h3 class="version-title">'+escapeHtml(v.version)+'</h3><p class="version-desc">'+escapeHtml(v.description||"")+' · '+escapeHtml(v.date||"")+'</p></div><div class="version-files">'+(files.length?files.map(fileLink).join(""):'<span class="section-description">Brak plików do pobrania</span>')+'</div></article>';
+        return '<article class="version-card"><div><span class="version-badge">'+escapeHtml(v.engine)+' · '+escapeHtml(files[0]?.platform||'')+' · Najnowsza'+'</span><h3 class="version-title">'+escapeHtml(v.version)+'</h3><p class="version-desc">'+escapeHtml(v.description||"")+' · '+escapeHtml(v.date||"")+'</p></div><div class="version-files">'+(files.length?files.map((f)=>'<div class="download-file">'+fileLink(f)+'</div>').join(""):'<span class="section-description">Brak plików do pobrania</span>')+'</div></article>';
       }).join(""):'<p class="section-description">Wydania są obecnie niedostępne — sprawdź ponownie później.</p>';
     }
     function render(){
@@ -378,13 +379,13 @@
       rows.forEach(([label,value])=>body+='<div class="detail-line"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(value)+'</strong></div>');
       body+='<div class="modal-section"><h4>O projekcie</h4><p>'+escapeHtml(p.details)+'</p></div>';
       if(id==="infernal-rift"){
-        body+='<div class="modal-section"><h4>Pięć wydań</h4><p>Trzy wersje na własnym silniku oraz dwie Unity, w tym APK i dostępne ZIP-y Windows. Wybierz je w osobnej sekcji Infernal Rift.</p></div>';
+        body+='<div class="modal-section"><h4>Najnowsze wydania</h4><p>Aktualne wydanie na własnym silniku oraz Unity, osobno dla Androida i Windows. Wybierz platformę w sekcji Infernal Rift.</p></div>';
       }else if(ready){
         versions.forEach((v)=>{
-          body+='<div class="modal-section"><h4>'+escapeHtml(v.version)+'</h4><p>'+escapeHtml(v.description||"")+'</p><div class="version-files" style="justify-content:start">'+filesFor(v).map(fileLink).join("")+'</div></div>';
+          body+='<div class="modal-section"><h4>'+escapeHtml(v.version)+'</h4><p>'+escapeHtml(v.description||"")+'</p><div class="version-files" style="justify-content:start">'+filesFor(v).map((f)=>'<div class="download-file">'+fileLink(f)+'</div>').join("")+'</div></div>';
         });
       }else{
-        body+='<div class="modal-section"><h4>Informacje o wydaniu</h4><p>Linki APK i przenośnych paczek Windows ZIP pojawią się po znalezieniu zweryfikowanych plików dla tego projektu.</p></div>';
+        body+='<div class="modal-section"><h4>Informacje o wydaniu</h4><p>'+escapeHtml(releaseFor(id).unavailableReason||'Brak zweryfikowanej paczki do publicznego pobrania.')+'</p></div>';
       }
       body+='<div class="modal-buttons">'+(id==="infernal-rift"?'<a class="button button-primary" href="#infernal-rift-downloads" id="rift-modal-link">Zobacz wersje →</a>':!ready?'<button class="button button-primary" disabled style="opacity:.5">Brak instalatora</button>':'')+'<button type="button" class="button button-secondary" id="dismiss-modal">Zamknij</button></div>';
       $("modal-body").innerHTML=body;

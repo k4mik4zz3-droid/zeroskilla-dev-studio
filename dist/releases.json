@@ -1,48 +1,69 @@
 {
   "schemaVersion": 2,
-  "lastChecked": "2026-10-23",
+  "lastChecked": "2026-10-23T21:05:05.639Z",
+  "sourceRepository": "k4mik4zz3-droid/zeroskilla-dev-studio",
   "releases": {
     "infernal-rift": {
       "versions": [
         {
-          "engine": "Własny silnik",
+          "version": "v2.15.2",
+          "engine": "Unity",
+          "channel": "unity-windows",
+          "date": "2026-10-23",
+          "description": "Infernal Rift Unity v2.15.2 — Windows",
+          "tag": "infernal-rift-unity-windows-v2.15.2",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-windows-v2.15.2",
+          "files": [
+            {
+              "type": "ZIP",
+              "platform": "Windows",
+              "name": "Infernal-Rift-Unity-v2.15.2-Windows-PC.zip",
+              "sizeBytes": 57289270,
+              "sha256": "8a583194699a2eb1dee94928d1515857ab3bda9235bcccd0d26da50119e5c6c9",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-windows-v2.15.2/Infernal-Rift-Unity-v2.15.2-Windows-PC.zip",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "version": "v2.15.2",
+          "engine": "Unity",
+          "channel": "unity-android",
+          "date": "2026-10-23",
+          "description": "Infernal Rift Unity v2.15.2 — Android",
+          "tag": "infernal-rift-unity-android-v2.15.2",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-android-v2.15.2",
+          "files": [
+            {
+              "type": "APK",
+              "platform": "Android",
+              "name": "Infernal-Rift-Unity-v2.15.2.apk",
+              "sizeBytes": 49560454,
+              "sha256": "5e174869638417529200b27edee478f2ced9e892ecb7ef3591593d90e0a08b7f",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-android-v2.15.2/Infernal-Rift-Unity-v2.15.2.apk",
+              "access": "public"
+            }
+          ]
+        },
+        {
           "version": "v0.346.0",
-          "date": "2026-10-21",
+          "engine": "Własny silnik",
+          "channel": "native-android",
+          "date": "2026-10-23",
           "description": "Natywna wydajność i kadr kamery",
-          "files": [],
-          "tag": "infernal-rift-native-v0.346.0"
-        },
-        {
-          "engine": "Własny silnik",
-          "version": "v0.345.0",
-          "date": "2026-10-21",
-          "description": "Perspektywa i głębia świata",
-          "files": [],
-          "tag": "infernal-rift-native-v0.345.0"
-        },
-        {
-          "engine": "Własny silnik",
-          "version": "v0.344.0",
-          "date": "2026-10-21",
-          "description": "Spokojniejsza kamera walki",
-          "files": [],
-          "tag": "infernal-rift-native-v0.344.0"
-        },
-        {
-          "engine": "Unity",
-          "version": "v2.14.1",
-          "date": "2026-10-23",
-          "description": "Poprawka obrotu i pocisków",
-          "files": [],
-          "tag": "infernal-rift-unity-v2.14.1"
-        },
-        {
-          "engine": "Unity",
-          "version": "v2.14.0",
-          "date": "2026-10-23",
-          "description": "Efekty, celowanie i płynność",
-          "files": [],
-          "tag": "infernal-rift-unity-v2.14.0"
+          "tag": "infernal-rift-native-v0.346.0",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-native-v0.346.0",
+          "files": [
+            {
+              "type": "APK",
+              "platform": "Android",
+              "name": "Infernal-Rift-v0.346.0.apk",
+              "sizeBytes": 28939965,
+              "sha256": "3abf6068e49fecc7aaf41579cb063c23c87a2b20d016972dcb8c14d827ff6b9c",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-native-v0.346.0/Infernal-Rift-v0.346.0.apk",
+              "access": "public"
+            }
+          ]
         }
       ]
     },
@@ -50,24 +71,97 @@
       "versions": [
         {
           "version": "v2.9.7",
-          "date": "2026-09-08",
+          "channel": "android",
+          "date": "2026-10-23",
           "description": "Mój Notatnik na Androida",
-          "files": [],
-          "tag": "moj-notatnik-android-v2.9.7"
+          "tag": "moj-notatnik-android-v2.9.7",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/moj-notatnik-android-v2.9.7",
+          "files": [
+            {
+              "type": "APK",
+              "platform": "Android",
+              "name": "Moj-Notatnik-v2.9.7.apk",
+              "sizeBytes": 17798292,
+              "sha256": "62a0cabbbcaa710aa0c47e8174933313eb08aa54b0dcd98a026c37202e1d9321",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/moj-notatnik-android-v2.9.7/Moj-Notatnik-v2.9.7.apk",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "version": "v0.1.0",
+          "channel": "windows",
+          "date": "2026-10-23",
+          "description": "Mój Notatnik v0.1.0 — Windows",
+          "tag": "moj-notatnik-windows-v0.1.0",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/moj-notatnik-windows-v0.1.0",
+          "files": [
+            {
+              "type": "ZIP",
+              "platform": "Windows",
+              "name": "Moj-Notatnik-v0.1.0-Windows-x64.zip",
+              "sizeBytes": 550175519,
+              "sha256": "eb17984301d6d5a31aea9f875b98596be71a3480a863978472fc6762bd07ba34",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/moj-notatnik-windows-v0.1.0/Moj-Notatnik-v0.1.0-Windows-x64.zip",
+              "access": "public"
+            }
+          ]
         }
       ]
     },
     "photomind": {
-      "versions": []
+      "versions": [],
+      "unavailableReason": "Brak gotowego APK: nie odnaleziono paczki w sprawdzonych lokalnych folderach; folder PhotoMind na Dysku Google jest pusty."
     },
     "volvio-scanner": {
-      "versions": []
+      "versions": [],
+      "unavailableReason": "Znalezione APK (najnowsze v3.06, kod 306) to buildy debug. Do publikacji potrzebne jest podpisane wydanie produkcyjne bez android:debuggable."
     },
     "encloser-cad": {
-      "versions": []
+      "versions": [
+        {
+          "version": "v0.12.0",
+          "channel": "windows",
+          "date": "2026-10-23",
+          "description": "Encloser CAD v0.12.0 — Windows",
+          "tag": "encloser-cad-windows-v0.12.0",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/encloser-cad-windows-v0.12.0",
+          "files": [
+            {
+              "type": "ZIP",
+              "platform": "Windows",
+              "name": "Encloser-CAD-v0.12.0-Windows-x64.zip",
+              "sizeBytes": 314408992,
+              "sha256": "8cfbe279634fd2284d3c44d9c61db5f6aadeb143e287660cb9af25a0803594bc",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/encloser-cad-windows-v0.12.0/Encloser-CAD-v0.12.0-Windows-x64.zip",
+              "access": "public"
+            }
+          ]
+        }
+      ]
     },
     "padbridge": {
-      "versions": []
+      "versions": [
+        {
+          "version": "v0.1.12",
+          "channel": "windows",
+          "date": "2026-10-23",
+          "description": "PadBridge v0.1.12 — Windows",
+          "tag": "padbridge-windows-v0.1.12",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/padbridge-windows-v0.1.12",
+          "files": [
+            {
+              "type": "ZIP",
+              "platform": "Windows",
+              "name": "PadBridge-v0.1.12-Windows-x64.zip",
+              "sizeBytes": 91912470,
+              "sha256": "52bf2cbfd4272c460ceae8b1be6019f4dea8480509424b3c0ebbab9177fe01c8",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/padbridge-windows-v0.1.12/PadBridge-v0.1.12-Windows-x64.zip",
+              "access": "public"
+            }
+          ]
+        }
+      ]
     }
   }
 }
