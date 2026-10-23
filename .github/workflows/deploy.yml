@@ -6,6 +6,8 @@ on:
   release:
     types: [published, edited, deleted]
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
   contents: read
