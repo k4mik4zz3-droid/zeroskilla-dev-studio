@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "lastChecked": "2026-10-23T21:05:05.639Z",
+  "lastChecked": "2026-10-23T22:37:51.143Z",
   "sourceRepository": "k4mik4zz3-droid/zeroskilla-dev-studio",
   "releases": {
     "infernal-rift": {
@@ -108,10 +108,6 @@
           ]
         }
       ]
-    },
-    "photomind": {
-      "versions": [],
-      "unavailableReason": "Brak gotowego APK: nie odnaleziono paczki w sprawdzonych lokalnych folderach; folder PhotoMind na Dysku Google jest pusty."
     },
     "volvio-scanner": {
       "versions": [],

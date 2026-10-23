@@ -12,143 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{color-scheme:dark;--bg:#0a0a0d;--panel:#121217;--line:#292932;--muted:#92919e;--text:#f4f3f7;--accent:#ff624d;--accent2:#efaa71;--max:1240px;--radius:20px}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",system-ui,-apple-system,sans-serif;font-size:15px;-webkit-font-smoothing:antialiased}
-    body::before{content:"";pointer-events:none;position:absolute;inset:0 0 auto;height:760px;z-index:-1;background:radial-gradient(ellipse 55% 52% at 81% 17%,rgba(156,44,45,.14),transparent 80%),radial-gradient(ellipse 50% 45% at 24% 0%,rgba(119,66,53,.075),transparent 80%)}
-    a{color:inherit;text-decoration:none}
-    button,input,select{font:inherit}
-    button{cursor:pointer}
-    button:disabled{cursor:not-allowed}
-    :focus-visible{outline:2px solid #ffb397;outline-offset:4px}
-    .container{width:min(var(--max),calc(100% - 64px));margin-inline:auto}
-    .topbar{position:sticky;top:0;z-index:30;background:rgba(10,10,13,.82);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(20px)}
-    .topnav{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
-    .brand{display:inline-flex;align-items:center;gap:13px;flex-shrink:0}
-    .brandmark{display:block;width:40px;height:40px;border-radius:11px;flex-shrink:0}
-    .brandname{display:flex;flex-direction:column;font-family:"Space Grotesk",sans-serif;letter-spacing:-.035em;font-weight:700;font-size:18px;line-height:1.05}
-    .brandname small{color:var(--accent);font-size:9px;letter-spacing:.28em;font-weight:700;margin-top:5px}
-    .navlinks{display:flex;align-items:center;gap:6px;margin-left:auto;color:#b7b5c0;font-size:13px;font-weight:600}.navlinks a{padding:10px 16px;border-radius:9px;transition:background .2s,color .2s}.navlinks a:hover{background:#211b21;color:#fff}.nav-actions{display:flex;align-items:center;gap:10px}.menu-toggle{display:none}
-    .navlinks a:hover,.footer a:hover{color:#fff}
-    .navcta{display:inline-flex;align-items:center;gap:14px;border:1px solid #9b5b48;border-radius:11px;padding:11px 18px;background:#3a2425;color:#ffc0a6;font-weight:700;font-size:12px;white-space:nowrap;transition:.2s}.navcta span{font-size:18px;line-height:1}
-    .navcta:hover{border-color:#ff8e78;background:#241a1d}
-    .arrow{display:inline-block;font-size:18px;line-height:0;transform:translateY(-1px)}
-    .hero{padding:70px 0 65px}.hero-copy{max-width:760px}
-    .kicker{display:inline-flex;align-items:center;gap:9px;color:#d5b8b4;font-size:11px;font-weight:700;letter-spacing:.19em;text-transform:uppercase}
-    .kicker i{height:7px;width:7px;display:inline-block;border-radius:50%;background:#ff7059;box-shadow:0 0 0 5px rgba(255,98,77,.11);margin-right:5px}
-    h1,h2,h3,p{margin-top:0}
-    h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif}
-    h1{font-size:clamp(44px,5.1vw,76px);line-height:1.025;letter-spacing:-.065em;margin:23px 0 25px;font-weight:700}
-    h1 em{font-style:normal;background:linear-gradient(105deg,#ff795e,#f8b284);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .lead{font-size:17px;color:#aaa8b5;line-height:1.8;max-width:540px}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:13px;margin:29px 0 45px}
-    .button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:12px;padding:15px 20px;font-weight:700;font-size:13px;border:1px solid transparent;transition:transform .2s,background .2s,border-color .2s;white-space:nowrap}
-    .button:hover:not(:disabled){transform:translateY(-2px)}
-    .button-primary{color:#140c0d;background:linear-gradient(105deg,#ff745a,#f5a376);box-shadow:0 12px 32px rgba(243,87,62,.15)}
-    .button-primary:hover{background:linear-gradient(105deg,#ff8d76,#ffc090)}
-    .button-secondary{background:#18171c;color:#fff;border-color:#39373e}
-    .button-secondary:hover{border-color:#706068}
-    .hero-meta{display:flex;gap:38px;flex-wrap:wrap}
-    .hero-meta strong{font-family:"Space Grotesk";font-size:23px;display:block;letter-spacing:-.04em}
-    .hero-meta span{font-size:11px;color:#7f7d8a;display:block;margin-top:4px}
-    .strip{border-block:1px solid #27252b;background:#100f13}
-    .strip-inner{display:flex;justify-content:space-between;gap:12px;align-items:center;padding-block:14px}
-    .strip-inner b{color:#f4846c;font-size:13px}
-    .quick-link{display:flex;align-items:center;justify-content:center;gap:18px;min-height:44px;padding:10px 14px;border:1px solid transparent;border-radius:9px;background:transparent;color:#aaa4af;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
-    .quick-link span{color:#f59b80;font-size:16px;letter-spacing:0}
-    .quick-link:hover,.quick-link.active{border-color:#6c423e;background:#2b1d23;color:#ffc1ac}
-    section{scroll-margin-top:105px}
-    #start{scroll-margin-top:90px}
-    .catalog{padding:99px 0 112px}
-    .section-top{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:36px}
-    .eyebrow{color:#f18d79;text-transform:uppercase;letter-spacing:.19em;font-weight:700;font-size:11px;margin:0 0 13px}
-    h2{font-size:clamp(33px,3.3vw,48px);letter-spacing:-.055em;line-height:1.1;margin:0 0 14px}
-    .section-description{color:#aaa7b2;line-height:1.7;max-width:600px;margin:0}
-    .count-badge{border:1px solid #37333c;background:#17161b;padding:11px 14px;border-radius:9px;font-size:12px;color:#bbb5bd;white-space:nowrap}
-    .controls{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;margin:27px 0}
-    .filters{display:flex;gap:7px;flex-wrap:wrap}
-    .filter{background:transparent;border:1px solid #33313a;color:#aaa7b4;padding:10px 16px;border-radius:10px;font-size:12px;font-weight:700}
-    .filter:hover{border-color:#66505a;color:white}
-    .filter.active{background:#362026;border-color:#85463e;color:#ffa58c}
-    .search-wrap{display:flex;gap:9px;min-width:min(100%,335px)}
-    .search-wrap input,.search-wrap select{background:#15151b;color:#e8e6ee;border:1px solid #33323b;padding:12px 13px;border-radius:10px;font-size:12px;min-width:0}
-    .search-wrap input{width:195px;flex:1}
-    .search-wrap select{width:125px}
-    .search-wrap input::placeholder{color:#807d8a}
-    .card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    .version-files{display:flex;flex-wrap:wrap;gap:9px;justify-content:end}
-    .file-link{display:flex;gap:12px;align-items:center;border:1px solid #5d4448;background:#2c2229;padding:12px 15px;border-radius:10px;min-width:150px;transition:.2s}
-    .file-link:hover{background:#4b2b2e;border-color:#ee896f;transform:translateY(-2px)}
-    .file-symbol{display:grid;place-items:center;width:33px;height:33px;border-radius:8px;background:#63382f;color:#ffad89;font-family:"Space Grotesk";font-size:10px;font-weight:700}
-    .file-link strong{display:block;font-size:12px;color:#f4eae9}.file-link small{font-size:10px;color:#ad9ca5;display:block;margin-top:3px}
-    .project-card{background:linear-gradient(165deg,#1a191f,#121217 62%);border:1px solid #302e36;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-height:405px;transition:border-color .2s,transform .2s,box-shadow .2s}
-    .project-card:hover{border-color:#58505b;transform:translateY(-4px);box-shadow:0 24px 40px #0005}
-    .card-art{height:154px;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 48%,var(--art-glow),transparent 40%),linear-gradient(125deg,var(--art-from),#17151e 90%);border-bottom:1px solid #ffffff12}
-    .card-art::before{content:"";position:absolute;width:178px;height:178px;right:9%;top:-52px;border:1px solid #ffffff18;border-radius:38px;transform:rotate(27deg);box-shadow:0 0 0 23px #ffffff06,0 0 0 48px #ffffff04}
-    .card-art::after{content:"";position:absolute;inset:0;opacity:.35;background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(90deg,transparent,#000)}
-    .card-art-icon{position:absolute;z-index:1;inset:0;display:grid;place-items:center;color:var(--icon-color);font-family:"Space Grotesk";font-weight:700;font-size:68px;filter:drop-shadow(0 8px 29px var(--art-glow))}
-    .card-platform{position:absolute;z-index:2;top:15px;right:15px;background:#09090bc9;border:1px solid #ffffff20;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:700;color:#dcd5d8;letter-spacing:.02em}
-    .card-content{display:flex;flex-direction:column;flex:1;padding:24px}
-    .card-type{color:#ee977e;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.17em;margin-bottom:10px}
-    .card-content h3{font-size:24px;line-height:1.18;letter-spacing:-.04em;margin:0 0 10px}
-    .card-desc{color:#a39fab;font-size:12px;line-height:1.7;margin:0 0 19px;min-height:63px}
-    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:21px}
-    .card-tags span{padding:5px 8px;font-size:9px;border:1px solid #34313b;border-radius:5px;color:#a49fae}
-    .release-row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:auto;padding:14px 0;border-top:1px solid #302e36;color:#8f8b9a;font-size:10px}
-    .release-row strong{display:block;color:#d4cdd8;font-size:12px;margin-top:5px}
-    .release-dot{width:7px;height:7px;background:#88808d;display:inline-block;border-radius:50%;margin-right:6px}
-    .release-dot.ready{background:#7cd1a0;box-shadow:0 0 10px #7cd1a06b}
-    .card-actions{display:grid;grid-template-columns:1fr auto;gap:8px}
-    .download-btn,.detail-btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;padding:13px 12px;font-size:11px;font-weight:700}
-    .download-btn{border:1px solid transparent;background:linear-gradient(110deg,#fa755e,#e59a76);color:#1b1112}
-    .download-btn:disabled{background:#26232b;color:#827d8b;border:1px solid #343039}
-    .download-btn:not(:disabled):hover{filter:brightness(1.13)}
-    .detail-btn{background:#211e26;color:#d7ced6;border:1px solid #38333d}
-    .detail-btn:hover{border-color:#9c7977}
-    .empty{display:none;border:1px dashed #49424d;border-radius:15px;padding:50px 20px;color:#a8a1b0;text-align:center}
-    .explain{padding:0 0 112px}
-    .explain-grid{display:grid;grid-template-columns:1fr}
-    .explain-pane{border:1px solid #343039;border-radius:22px;padding:38px;background:radial-gradient(circle at 95% 10%,rgba(209,71,53,.10),transparent 52%),#17151b}
-    .eyebrow-icon{display:grid;place-items:center;width:44px;height:44px;border:1px solid #653f40;border-radius:12px;background:#322127;color:#ff9479;font-size:20px;margin-bottom:23px}
-    .explain-pane h2{font-size:31px}
-    .explain-pane p{color:#aaa4b0;line-height:1.7;font-size:13px}
-    .steps{list-style:none;padding:0;margin:27px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
-    .steps li{display:flex;align-items:start;gap:15px;margin:20px 0;color:#c0bbc6;font-size:12px;line-height:1.6}
-    .steps b{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:8px;background:#32242b;border:1px solid #64454a;color:#f5a28a;font-size:11px}
-    .about{position:relative;border-top:1px solid #252329;background:linear-gradient(180deg,#101014,#0b0b0f);padding:90px 0}
-    .about-inner{display:flex;justify-content:space-between;gap:65px;align-items:center}
-    .about h2{font-size:39px;max-width:510px}
-    .about p:not(.eyebrow){color:#aba6b0;max-width:590px;line-height:1.85}
-    .about-graphic{flex:0 0 220px;height:220px;border:1px solid #3b333e;border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:0 0 0 35px #ffffff03,inset 0 0 60px #ff6d3610}
-    .about-graphic::before,.about-graphic::after{content:"";position:absolute;border:1px dashed #755053;border-radius:50%;inset:23px;transform:rotate(34deg)}
-    .about-graphic::after{inset:47px;border-style:solid;border-color:#71413b;transform:rotate(-14deg)}
-    .about-graphic span{font-family:"Space Grotesk";font-size:76px;color:#f38567;font-weight:700;letter-spacing:-.1em;padding-right:14px;z-index:1}
-    .footer{border-top:1px solid #29262d;padding:32px 0;color:#85808c;font-size:11px}
-    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .footer-links{display:flex;gap:25px;flex-wrap:wrap}
-    dialog{width:min(620px,calc(100% - 32px));max-height:calc(100vh - 50px);overflow:auto;border:1px solid #544751;border-radius:20px;padding:0;background:#19171e;color:#eeeaf1;box-shadow:0 32px 160px #000d}
-    dialog::backdrop{background:rgba(0,0,0,.77);backdrop-filter:blur(6px)}
-    .modal-head{padding:26px 28px 22px;background:radial-gradient(circle at 100% 0%,#64312b52,transparent 48%);border-bottom:1px solid #38323b;display:flex;gap:20px;justify-content:space-between;align-items:start}
-    .modal-head h3{font-size:29px;letter-spacing:-.04em;margin:5px 0 8px}
-    .modal-head p{color:#a8a2ae;font-size:12px;line-height:1.5;margin:0}
-    .modal-close{border:1px solid #4a3f4b;background:#29242d;color:#f1eaf1;border-radius:9px;padding:7px 11px;font-size:20px;line-height:1}
-    .modal-body{padding:25px 28px 30px}
-    .detail-line{display:flex;align-items:start;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #302c35;font-size:12px}
-    .detail-line span{color:#97929e}.detail-line strong{color:#e7e1e7;text-align:right;overflow-wrap:anywhere}
-    .modal-section{margin-top:22px}
-    .modal-section h4{font:700 14px "Space Grotesk",sans-serif;margin:0 0 12px}
-    .modal-section p,.modal-section li{color:#a8a2ae;font-size:12px;line-height:1.75}
-    .modal-section ul{padding-left:20px;margin:0}
-    .modal-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
-    .modal-buttons .button{flex:1}
-    @media(max-width:1050px){.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks a{padding-inline:12px}.quick-link{gap:9px;padding-inline:10px;letter-spacing:.09em}}
-    @media(max-width:760px){.container{width:min(100% - 36px,var(--max))}.topnav{height:68px;gap:12px}.brandmark{width:36px;height:36px}.brand{gap:9px}.brandname{font-size:15px}.navcta{padding:10px 13px;font-size:11px}.navlinks{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:#19161e;border:1px solid #4a3942;box-shadow:0 18px 40px #0008;border-radius:14px;padding:10px}.navlinks.open{display:flex;flex-direction:column;align-items:stretch}.navlinks a{padding:15px}.menu-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:42px;height:42px;padding:10px;border:1px solid #4a3d46;border-radius:10px;background:#1b171e;color:#e7d7df}.menu-toggle span{height:2px;width:18px;background:currentColor;border-radius:2px;transition:.2s}.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}.hero{padding:54px 0 58px}.strip-inner{justify-content:center;flex-wrap:wrap;gap:6px;padding-block:12px}.strip-inner b{display:none}.quick-link{gap:10px;padding:10px 12px;font-size:10px}.section-top{align-items:start;flex-direction:column}.catalog{padding:73px 0 80px}.controls{align-items:stretch;flex-direction:column}.search-wrap{width:100%}.search-wrap input{width:100%}.version-files{justify-content:start}.explain{padding-bottom:80px}.steps{grid-template-columns:1fr;gap:0}.steps li{margin:12px 0}.about{padding:70px 0}.about-graphic{display:none}.footer-inner{flex-direction:column;align-items:start}}
-    @media(max-width:540px){h1{font-size:46px}.hero{padding-top:50px}.hero-meta{gap:25px}.card-grid{grid-template-columns:1fr}.card-art{height:140px}.project-card{min-height:auto}.card-desc{min-height:0}.explain-pane{padding:27px}.about h2{font-size:32px}.footer-links{gap:18px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
-  .download-file{min-width:0;max-width:100%}.checksum{max-width:260px;margin-top:8px;font-size:10px;color:#bdb3c5}.checksum summary{cursor:pointer}.checksum code{display:block;overflow-wrap:anywhere;padding:8px 0;line-height:1.6}.search-wrap{min-width:0}.search-wrap select{min-width:0}@media(max-width:480px){.search-wrap{flex-wrap:wrap}.search-wrap select{width:100%}.brandname{font-size:13px}.navcta{font-size:10px}}
-  </style>
+  <link rel="stylesheet" href="./studio.css">
 </head>
 <body>
   <header class="topbar">
@@ -181,7 +45,7 @@
             <a class="button button-secondary" href="#pobieranie">Jak pobierać? <span aria-hidden="true">↓</span></a>
           </div>
           <div class="hero-meta">
-            <div><strong>06</strong><span>Projektów w katalogu</span></div>
+            <div><strong>05</strong><span>Projektów w katalogu</span></div>
             <div><strong>02</strong><span>Platformy</span></div>
             <div><strong>∞</strong><span>Pomysłów na rozwój</span></div>
           </div>
@@ -189,18 +53,11 @@
       </section>
     </div>
 
-    <nav class="strip" aria-label="Skróty do katalogu"><div class="container strip-inner">
-      <button type="button" class="quick-link" data-quick="Android" aria-pressed="false">Android <span aria-hidden="true">↗</span></button><b aria-hidden="true">✦</b>
-      <button type="button" class="quick-link" data-quick="Windows" aria-pressed="false">Windows <span aria-hidden="true">↗</span></button><b aria-hidden="true">✦</b>
-      <button type="button" class="quick-link" data-quick="gry" aria-pressed="false">Gry <span aria-hidden="true">↗</span></button><b aria-hidden="true">✦</b>
-      <button type="button" class="quick-link" data-quick="aplikacje" aria-pressed="false">Aplikacje <span aria-hidden="true">↗</span></button><b aria-hidden="true">✦</b>
-      <button type="button" class="quick-link" data-quick="releases" aria-pressed="false">Nowe wydania <span aria-hidden="true">↗</span></button>
-    </div></nav>
 
     <section id="projekty" class="catalog container" aria-labelledby="catalog-heading">
       <div class="section-top">
         <div><p class="eyebrow">NASZE PROJEKTY</p><h2 id="catalog-heading" tabindex="-1">Wybierz coś dla siebie<span style="color:#ff745e">.</span></h2><p class="section-description">Od mrocznych światów RPG po narzędzia na co dzień. Jeden katalog, w którym znajdziesz informacje o wszystkich naszych projektach.</p></div>
-        <span class="count-badge" id="count">6 projektów</span>
+        <span class="count-badge" id="count">5 projektów</span>
       </div>
       <div class="controls">
         <div class="filters" aria-label="Kategorie projektów">
@@ -245,21 +102,109 @@
 
   <footer class="footer"><div class="footer-inner container"><span>© <span id="year"></span> ZeroSkilla Dev Studio. Wszystkie prawa zastrzeżone.</span><div class="footer-links"><a href="#projekty">Projekty</a><a href="#pobieranie">Pobieranie</a><a href="#start">Do góry ↑</a><a href="https://github.com/ZeroSkillaDevStudio/zeroskilladevstudio.github.io/settings/pages" target="_blank" rel="noopener noreferrer" title="Zarządzaj publikacją strony po zalogowaniu na GitHub">⚙ Administracja ↗</a></div></div></footer>
 
-  <dialog id="project-dialog" aria-labelledby="modal-title">
-    <div class="modal-head"><div><span class="eyebrow" id="modal-category"></span><h3 id="modal-title"></h3><p id="modal-description"></p></div><button type="button" class="modal-close" id="close-modal" aria-label="Zamknij">×</button></div>
-    <div class="modal-body" id="modal-body"></div>
-  </dialog>
   <noscript><div class="container" style="padding:16px;color:#ffb99d">Włącz JavaScript, aby zobaczyć katalog projektów.</div></noscript>
   <script>
     "use strict";
     const catalog = [
-      {id:"infernal-rift",title:"Infernal Rift",type:"gry",typeLabel:"Gra / Action RPG",platform:"Android / Windows",platforms:["Android","Windows"],description:"Mroczne RPG akcji. Najnowsze wydania na własnym silniku oraz Unity, osobno dla Androida i Windows.",tags:["Action RPG","Fantasy","3D"],icon:"✧",color:"#ff9475",from:"#501e24",glow:"#a42d2c8c",details:"Gra action RPG osadzona w świecie mrocznych szczelin. Wersje na własnym silniku to wydania natywne Android, a Unity oferuje APK na Androida i paczki ZIP dla Windows."},
-      {id:"moj-notatnik",title:"Mój Notatnik",type:"aplikacje",typeLabel:"Aplikacja / Produktywność",platform:"Android / Windows",platforms:["Android","Windows"],description:"Notatnik na telefon i komputer: kategorie, przypomnienia, załączniki i synchronizacja z kontem Google.",tags:["Notatki","Android","Windows"],icon:"▤",color:"#b8a7ff",from:"#2e2855",glow:"#5648c087",details:"Aplikacja do zapisywania i organizowania notatek na Androidzie i Windows. Obejmuje notatki, załączniki, przypomnienia i synchronizację. Dostępne paczki znajdziesz poniżej, osobno dla Androida i Windows. Wczesna wersja Windows wymaga własnej konfiguracji Google Desktop do synchronizacji; pełnej zgodności funkcji z Androidem jeszcze nie potwierdzono."},
-      {id:"photomind",title:"PhotoMind",type:"aplikacje",typeLabel:"Aplikacja / Zdjęcia",platform:"Android",description:"Projekt inteligentnej organizacji i wyszukiwania zdjęć z naciskiem na działanie offline.",tags:["Galeria","AI","Offline"],icon:"◎",color:"#8fdef0",from:"#19384c",glow:"#286f9f87",details:"Projekt inteligentnej galerii zdjęć wykorzystujący analizę obrazów na urządzeniu do ułatwiania ich przeglądania i wyszukiwania."},
-      {id:"volvio-scanner",title:"VolVio Scanner",type:"aplikacje",typeLabel:"Aplikacja / Motoryzacja",platform:"Android",description:"Diagnostyka samochodu przez OBD-II i odczyt wybranych parametrów na żywo.",tags:["OBD-II","ELM327","Diagnostyka"],icon:"⌁",color:"#97d4aa",from:"#193d38",glow:"#287d667e",details:"Aplikacja do odczytu parametrów diagnostycznych pojazdu z wykorzystaniem interfejsu ELM327."},
-      {id:"encloser-cad",title:"Encloser CAD",type:"aplikacje",typeLabel:"Narzędzie / Projektowanie CAD",platform:"Windows",description:"Parametryczne projektowanie obudów z otworami, mocowaniami, wentylacją i eksportem modeli.",tags:["CAD","3D","Projektowanie"],icon:"⬡",color:"#e6c890",from:"#4b3a24",glow:"#b18b4f80",details:"Aplikacja do parametrycznego konstruowania obudów i komponentów montażowych. Wersja 0.12.0 korzysta z Direct3D; wcześniejsze zgłoszenie zawieszania Windows nie ma jeszcze pełnej akceptacji użytkownika. Zapisuj projekt przed pracą."},
-      {id:"padbridge",title:"PadBridge",type:"aplikacje",typeLabel:"Narzędzie / Kontrolery",platform:"Windows",description:"Obsługa, mapowanie i emulacja kontrolerów Xbox, PlayStation i Nintendo na PC.",tags:["Gamepad","Remap","Windows"],icon:"⊕",color:"#a6c6ff",from:"#233250",glow:"#4367ab83",details:"Projekt narzędzia komputerowego do obsługi padów różnych producentów, zmiany mapowania przycisków oraz emulacji kontrolerów."}
-    ];
+  {
+    "id": "infernal-rift",
+    "title": "Infernal Rift",
+    "type": "gry",
+    "typeLabel": "Gra / Action RPG",
+    "platform": "Android / Windows",
+    "platforms": [
+      "Android",
+      "Windows"
+    ],
+    "description": "Mroczne RPG akcji. Najnowsze wydania na własnym silniku oraz Unity, osobno dla Androida i Windows.",
+    "tags": [
+      "Action RPG",
+      "Fantasy",
+      "3D"
+    ],
+    "icon": "✧",
+    "color": "#ff9475",
+    "from": "#501e24",
+    "glow": "#a42d2c8c",
+    "details": "Gra action RPG osadzona w świecie mrocznych szczelin. Wersje na własnym silniku to wydania natywne Android, a Unity oferuje APK na Androida i paczki ZIP dla Windows."
+  },
+  {
+    "id": "moj-notatnik",
+    "title": "Mój Notatnik",
+    "type": "aplikacje",
+    "typeLabel": "Aplikacja / Produktywność",
+    "platform": "Android / Windows",
+    "platforms": [
+      "Android",
+      "Windows"
+    ],
+    "description": "Notatnik na telefon i komputer: kategorie, przypomnienia, załączniki i synchronizacja z kontem Google.",
+    "tags": [
+      "Notatki",
+      "Android",
+      "Windows"
+    ],
+    "icon": "▤",
+    "color": "#b8a7ff",
+    "from": "#2e2855",
+    "glow": "#5648c087",
+    "details": "Aplikacja do zapisywania i organizowania notatek na Androidzie i Windows. Obejmuje notatki, załączniki, przypomnienia i synchronizację. Dostępne paczki znajdziesz poniżej, osobno dla Androida i Windows. Wczesna wersja Windows wymaga własnej konfiguracji Google Desktop do synchronizacji; pełnej zgodności funkcji z Androidem jeszcze nie potwierdzono."
+  },
+  {
+    "id": "volvio-scanner",
+    "title": "VolVio Scanner",
+    "type": "aplikacje",
+    "typeLabel": "Aplikacja / Motoryzacja",
+    "platform": "Android",
+    "description": "Diagnostyka samochodu przez OBD-II i odczyt wybranych parametrów na żywo.",
+    "tags": [
+      "OBD-II",
+      "ELM327",
+      "Diagnostyka"
+    ],
+    "icon": "⌁",
+    "color": "#97d4aa",
+    "from": "#193d38",
+    "glow": "#287d667e",
+    "details": "Aplikacja do odczytu parametrów diagnostycznych pojazdu z wykorzystaniem interfejsu ELM327."
+  },
+  {
+    "id": "encloser-cad",
+    "title": "Encloser CAD",
+    "type": "aplikacje",
+    "typeLabel": "Narzędzie / Projektowanie CAD",
+    "platform": "Windows",
+    "description": "Parametryczne projektowanie obudów z otworami, mocowaniami, wentylacją i eksportem modeli.",
+    "tags": [
+      "CAD",
+      "3D",
+      "Projektowanie"
+    ],
+    "icon": "⬡",
+    "color": "#e6c890",
+    "from": "#4b3a24",
+    "glow": "#b18b4f80",
+    "details": "Aplikacja do parametrycznego konstruowania obudów i komponentów montażowych. Wersja 0.12.0 korzysta z Direct3D; wcześniejsze zgłoszenie zawieszania Windows nie ma jeszcze pełnej akceptacji użytkownika. Zapisuj projekt przed pracą."
+  },
+  {
+    "id": "padbridge",
+    "title": "PadBridge",
+    "type": "aplikacje",
+    "typeLabel": "Narzędzie / Kontrolery",
+    "platform": "Windows",
+    "description": "Obsługa, mapowanie i emulacja kontrolerów Xbox, PlayStation i Nintendo na PC.",
+    "tags": [
+      "Gamepad",
+      "Remap",
+      "Windows"
+    ],
+    "icon": "⊕",
+    "color": "#a6c6ff",
+    "from": "#233250",
+    "glow": "#4367ab83",
+    "details": "Projekt narzędzia komputerowego do obsługi padów różnych producentów, zmiany mapowania przycisków oraz emulacji kontrolerów."
+  }
+];
     const state = {filter:"wszystkie",platform:"wszystkie",query:"",readyOnly:false,releases:{}};
     const $ = (id) => document.getElementById(id);
     const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -281,27 +226,18 @@
     }
     const latestDate=(id)=>versionsFor(id).reduce((date,v)=>filesFor(v).length&&String(v.date||"")>date?String(v.date):date,"");
     function cardHtml(p){
-      const versions=versionsFor(p.id),ready=totalFiles(p.id)>0;
-      const version=ready?(p.id==="infernal-rift"?versions.length+" kanały":escapeHtml(versions[0].version)):"Do potwierdzenia";
-      const action=ready?
-        '<button class="download-btn" type="button" data-detail="'+p.id+'">↓ '+(p.id==="infernal-rift"?'Wybierz wersję':'Zobacz paczki')+'</button>':
-        '<button class="download-btn" type="button" disabled title="Brak potwierdzonego linku do instalatora">↓ W przygotowaniu</button>';
+      const versions=versionsFor(p.id),ready=totalFiles(p.id)>0,url='./'+p.id+'.html';
+      const version=ready?(p.id==="infernal-rift"?versions.length+" kanały":escapeHtml(versions[0].version)):"W przygotowaniu";
+      const action='<a class="download-btn'+(ready?'':' pending')+'" href="'+url+(ready?'#pobierz':'')+'">'+(ready?'↓ '+(p.id==="infernal-rift"?'Wybierz wersję':'Pobierz'):'Poznaj projekt ↗')+'</a>';
       return [
         '<article class="project-card" style="--art-from:',p.from,';--art-glow:',p.glow,';--icon-color:',p.color,'">',
           '<div class="card-art"><span class="card-platform">',escapeHtml(p.platform),'</span><span class="card-art-icon" aria-hidden="true">',p.icon,'</span></div>',
-          '<div class="card-content"><div class="card-type">',escapeHtml(p.typeLabel),'</div><h3>',escapeHtml(p.title),'</h3>',
+          '<div class="card-content"><div class="card-type">',escapeHtml(p.typeLabel),'</div><h3><a class="project-link" href="',url,'">',escapeHtml(p.title),'</a></h3>',
           '<p class="card-desc">',escapeHtml(p.description),'</p><div class="card-tags">',p.tags.map((t)=>'<span>'+escapeHtml(t)+'</span>').join(""),'</div>',
           '<div class="release-row"><div>WYDANIA<strong>',version,'</strong></div><span><i class="release-dot ',ready?'ready':'','"></i>',ready?'Pobierz z GitHub':'Oczekuje na paczkę','</span></div>',
-          '<div class="card-actions">',
-          action,
-          '<button class="detail-btn" type="button" data-detail="',p.id,'">Szczegóły ↗</button></div></div>',
+          '<div class="card-actions">',action,'</div></div>',
         '</article>'
       ].join("");
-    }
-    function fileLink(f){
-      const url=safeUrl(f.url);if(!url)return "";
-      const type=escapeHtml(f.type||"PLIK"),platform=escapeHtml(f.platform||""),size=sizeOf(f.sizeBytes);
-      return '<a class="file-link" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer" title="'+escapeHtml(f.name||"Pobierz plik")+' · SHA256: '+escapeHtml(f.sha256||'')+'"><span class="file-symbol">'+type+'</span><span><strong>Pobierz '+type+' ↓</strong><small>'+platform+(size?' · '+size:'')+'</small></span></a><details class="checksum"><summary>SHA256</summary><code>'+escapeHtml(f.sha256||'')+'</code></details>';
     }
     function render(){
       const matches=filtered();
@@ -309,39 +245,10 @@
       $("count").textContent=labelCount(matches.length)+(state.readyOnly?" · z wydaniami":"");
       syncControls();
       $("empty").style.display=matches.length?"none":"block";
-      document.querySelectorAll("[data-detail]").forEach((b)=>b.addEventListener("click",()=>showDetail(b.dataset.detail)));
-    }
-    function showDetail(id){
-      const p=catalog.find((x)=>x.id===id);if(!p)return;
-      const versions=versionsFor(id),ready=totalFiles(id)>0;
-      $("modal-category").textContent=p.typeLabel+" • "+p.platform;
-      $("modal-title").textContent=p.title;
-      $("modal-description").textContent=p.description;
-      let body='';
-      const rows=[["Platforma",p.platform],["Liczba wydań",ready?String(versions.length):"Brak potwierdzonych wydań"],["Dostępne pliki",ready?String(totalFiles(id)):"Nie dodano"]];
-      rows.forEach(([label,value])=>body+='<div class="detail-line"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(value)+'</strong></div>');
-      body+='<div class="modal-section"><h4>O projekcie</h4><p>'+escapeHtml(p.details)+'</p></div>';
-      if(ready){
-        versions.forEach((v)=>{
-          const platform=[...new Set(filesFor(v).map((f)=>f.platform))].join(" / ");
-          const label=[v.engine,platform,v.version].filter(Boolean).join(" · ");
-          body+='<div class="modal-section"><h4>'+escapeHtml(label)+'</h4><div class="version-files" style="justify-content:start">'+filesFor(v).map((f)=>'<div class="download-file">'+fileLink(f)+'</div>').join("")+'</div></div>';
-        });
-      }else{
-        body+='<div class="modal-section"><h4>Informacje o wydaniu</h4><p>'+escapeHtml(releaseFor(id).unavailableReason||'Brak zweryfikowanej paczki do publicznego pobrania.')+'</p></div>';
-      }
-      body+='<div class="modal-buttons">'+(!ready?'<button class="button button-primary" disabled style="opacity:.5">Brak instalatora</button>':'')+'<button type="button" class="button button-secondary" id="dismiss-modal">Zamknij</button></div>';
-      $("modal-body").innerHTML=body;
-      $("dismiss-modal").addEventListener("click",()=>$("project-dialog").close());
-      $("project-dialog").showModal();
     }
     function syncControls(){
       document.querySelectorAll("[data-filter]").forEach((item)=>{
         const on=item.dataset.filter===state.filter;item.classList.toggle("active",on);item.setAttribute("aria-pressed",String(on));
-      });
-      document.querySelectorAll("[data-quick]").forEach((item)=>{
-        const on=item.dataset.quick===state.platform||item.dataset.quick===state.filter||(item.dataset.quick==="releases"&&state.readyOnly);
-        item.classList.toggle("active",on);item.setAttribute("aria-pressed",String(on));
       });
       $("platform").value=state.platform;
     }
@@ -353,7 +260,6 @@
       $("projekty").scrollIntoView({behavior:"smooth",block:"start"});
       $("catalog-heading").focus({preventScroll:true});
     }
-    document.querySelectorAll("[data-quick]").forEach((b)=>b.addEventListener("click",()=>openCatalog(b.dataset.quick)));
     document.querySelectorAll("[data-view]").forEach((link)=>link.addEventListener("click",(e)=>{e.preventDefault();openCatalog(link.dataset.view)}));
     document.querySelectorAll("[data-filter]").forEach((b)=>b.addEventListener("click",()=>{
       state.filter=b.dataset.filter;state.readyOnly=false;render();
@@ -370,8 +276,6 @@
     document.querySelectorAll("#main-navigation a,.brand").forEach((link)=>link.addEventListener("click",closeMenu));
     document.addEventListener("click",(e)=>{if(!e.target.closest(".topbar"))closeMenu()});
     document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&$("menu-toggle").getAttribute("aria-expanded")==="true"){closeMenu();$("menu-toggle").focus()}});
-    $("close-modal").addEventListener("click",()=>$("project-dialog").close());
-    $("project-dialog").addEventListener("click",(e)=>{if(e.target===$("project-dialog"))$("project-dialog").close()});
     $("year").textContent=new Date().getFullYear();
     render();
     fetch("./releases.json",{cache:"no-store"}).then((response)=>{if(!response.ok)throw new Error("Manifest niedostępny");return response.json()}).then((data)=>{
