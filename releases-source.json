@@ -51,7 +51,6 @@
     }
   ],
   "unavailable": {
-    "photomind": "Brak gotowego APK: nie odnaleziono paczki w sprawdzonych lokalnych folderach; folder PhotoMind na Dysku Google jest pusty.",
     "volvio-scanner": "Znalezione APK (najnowsze v3.06, kod 306) to buildy debug. Do publikacji potrzebne jest podpisane wydanie produkcyjne bez android:debuggable."
   }
 }

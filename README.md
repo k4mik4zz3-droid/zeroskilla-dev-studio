@@ -19,7 +19,6 @@ Nowe tagi i nazwy plików:
 | Infernal Rift / Unity / Windows | `infernal-rift-unity-windows-vX.Y.Z` | `Infernal-Rift-Unity-vX.Y.Z-Windows-PC.zip` |
 | Mój Notatnik / Android | `moj-notatnik-android-vX.Y.Z` | `Moj-Notatnik-vX.Y.Z.apk` |
 | Mój Notatnik / Windows | `moj-notatnik-windows-vX.Y.Z` | `Moj-Notatnik-vX.Y.Z-Windows-x64.zip` |
-| PhotoMind / Android | `photomind-android-vX.Y.Z` | `PhotoMind-vX.Y.Z.apk` |
 | VolVio Scanner / Android | `volvio-scanner-android-vX.Y.Z` | `VolVio-Scanner-vX.Y.Z.apk` |
 | Encloser CAD / Windows | `encloser-cad-windows-vX.Y.Z` | `Encloser-CAD-vX.Y.Z-Windows-x64.zip` |
 | PadBridge / Windows | `padbridge-windows-vX.Y.Z` | `PadBridge-vX.Y.Z-Windows-x64.zip` |
@@ -35,5 +34,13 @@ Przed publikacją sprawdź wersję wewnątrz APK/EXE/danych Playera, podpis i br
 `node scripts/build-releases.mjs` pobiera rzeczywiste wydania; opcjonalna zmienna `RELEASE_REPOSITORY` wskazuje repozytorium. `--offline` tworzy pusty katalog bez linków; `--from-file plik.json` służy do testowania zapisanej odpowiedzi GitHub API.
 
 Braki paczek opisuje `unavailable` w `releases-source.json`. Nie dodawaj numerów wersji i atrap plików jako dostępnych wydań.
+
+## Strony projektów i galeria
+
+Pięć kart katalogu prowadzi do osobnych plików HTML w `dist/`: `infernal-rift.html`, `moj-notatnik.html`, `volvio-scanner.html`, `encloser-cad.html` i `padbridge.html`. Link pobierania na karcie prowadzi do sekcji `#pobierz` odpowiedniej podstrony. Wspólny styl to `studio.css` i `project-page.css`, a pobieranie aktualnego katalogu oraz powiększanie galerii obsługuje `project-page.js`.
+
+Każda podstrona pobiera aktualny `releases.json`; numerów i linków do paczek nie wpisuje się ręcznie do stron projektu. Zrzuty testowe pochodzą z kontrolowanych przykładów. Obrazy Mój Notatnik i VolVio są wyraźnie oznaczonymi podglądami demonstracyjnymi z użyciem AI i fikcyjnymi danymi. Przy dodawaniu materiałów nie publikuj prywatnych notatek, fotografii, kont, VIN, MAC urządzeń, ścieżek ani plików projektu. Opisy i podpisy galerii aktualizuj razem z materiałami.
+
+PhotoMind jest na życzenie administratora wyłączony z publicznego katalogu i generatora wydań. Nie przywracaj go automatycznie po dodaniu Release.
 
 Wyłączenie i przywrócenie publikacji opisuje [ADMIN.md](ADMIN.md).
