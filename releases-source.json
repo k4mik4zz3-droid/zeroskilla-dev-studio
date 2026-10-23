@@ -1,11 +1,57 @@
 {
   "schemaVersion": 1,
   "planned": [
-    {"project":"infernal-rift","channel":"native","tag":"infernal-rift-native-v0.346.0","version":"v0.346.0","date":"2026-10-21","description":"Natywna wydajność i kadr kamery"},
-    {"project":"infernal-rift","channel":"native","tag":"infernal-rift-native-v0.345.0","version":"v0.345.0","date":"2026-10-21","description":"Perspektywa i głębia świata"},
-    {"project":"infernal-rift","channel":"native","tag":"infernal-rift-native-v0.344.0","version":"v0.344.0","date":"2026-10-21","description":"Spokojniejsza kamera walki"},
-    {"project":"infernal-rift","channel":"unity","tag":"infernal-rift-unity-v2.14.1","version":"v2.14.1","date":"2026-10-23","description":"Poprawka obrotu i pocisków"},
-    {"project":"infernal-rift","channel":"unity","tag":"infernal-rift-unity-v2.14.0","version":"v2.14.0","date":"2026-10-23","description":"Efekty, celowanie i płynność"},
-    {"project":"moj-notatnik","channel":"android","tag":"moj-notatnik-android-v2.9.7","version":"v2.9.7","date":"2026-09-08","description":"Mój Notatnik na Androida"}
-  ]
+    {
+      "project": "infernal-rift",
+      "channel": "native",
+      "tag": "infernal-rift-native-v0.346.0",
+      "version": "v0.346.0",
+      "date": "2026-10-21",
+      "description": "Natywna wydajność i kadr kamery"
+    },
+    {
+      "project": "infernal-rift",
+      "channel": "native",
+      "tag": "infernal-rift-native-v0.345.0",
+      "version": "v0.345.0",
+      "date": "2026-10-21",
+      "description": "Perspektywa i głębia świata"
+    },
+    {
+      "project": "infernal-rift",
+      "channel": "native",
+      "tag": "infernal-rift-native-v0.344.0",
+      "version": "v0.344.0",
+      "date": "2026-10-21",
+      "description": "Spokojniejsza kamera walki"
+    },
+    {
+      "project": "infernal-rift",
+      "channel": "unity",
+      "tag": "infernal-rift-unity-v2.14.1",
+      "version": "v2.14.1",
+      "date": "2026-10-23",
+      "description": "Poprawka obrotu i pocisków"
+    },
+    {
+      "project": "infernal-rift",
+      "channel": "unity",
+      "tag": "infernal-rift-unity-v2.14.0",
+      "version": "v2.14.0",
+      "date": "2026-10-23",
+      "description": "Efekty, celowanie i płynność"
+    },
+    {
+      "project": "moj-notatnik",
+      "channel": "android",
+      "tag": "moj-notatnik-android-v2.9.7",
+      "version": "v2.9.7",
+      "date": "2026-09-08",
+      "description": "Mój Notatnik na Androida"
+    }
+  ],
+  "unavailable": {
+    "photomind": "Brak gotowego APK: nie odnaleziono paczki w sprawdzonych lokalnych folderach; folder PhotoMind na Dysku Google jest pusty.",
+    "volvio-scanner": "Znalezione APK (najnowsze v3.06, kod 306) to buildy debug. Do publikacji potrzebne jest podpisane wydanie produkcyjne bez android:debuggable."
+  }
 }

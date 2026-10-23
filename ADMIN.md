@@ -1,22 +1,23 @@
-# Panel administratora ZeroSkilla Dev Studio
+# Administracja publikacją
 
-## Zmień stronę z publicznej na prywatną (lub odwrotnie)
+Strona pozostaje publiczna: https://zeroskilladevstudio.github.io/
 
-**[Otwórz ustawienia widoczności w GitHub →](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings#danger-zone)**
+## Wyłącz stronę
 
-1. Zaloguj się na konto GitHub `k4mik4zz3-droid`.
-2. W sekcji **Danger Zone** kliknij **Change visibility**.
-3. Wybierz **Make private** lub **Make public** i potwierdź wymagane kroki GitHuba.
+1. W repozytorium strony otwórz [Settings → Secrets and variables → Actions → Variables](https://github.com/ZeroSkillaDevStudio/zeroskilladevstudio.github.io/settings/variables/actions). Dodaj lub ustaw zmienną repozytorium `PUBLICATION_ENABLED` na `false`. To zatrzymuje kolejne automatyczne wdrożenia; samo nie usuwa już opublikowanej strony.
+2. W [Actions](https://github.com/ZeroSkillaDevStudio/zeroskilladevstudio.github.io/actions) anuluj ewentualne trwające wdrożenie.
+3. W [Settings → Pages](https://github.com/ZeroSkillaDevStudio/zeroskilladevstudio.github.io/settings/pages) wybierz **Unpublish site**. GitHub sprawdza uprawnienia administratora.
 
-Zmiana na **Private** na koncie GitHub Free automatycznie wyłącza publiczną stronę GitHub Pages. Repozytorium i GitHub Releases stają się niedostępne dla niezalogowanych odwiedzających. Wcześniej pobranych kopii plików nie można cofnąć.
+Repozytorium i pliki GitHub Releases pozostają publiczne. Wyłączenie strony nie cofa pobranych plików ani nie ukrywa wydań. Nie jest potrzebna zmiana widoczności repozytorium.
 
-Zmiana na **Public** przywraca publiczną widoczność kodu i wydań. Jeśli strona nie powróci automatycznie, przejdź do [Settings → Pages](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings/pages) i włącz publikację ponownie.
+Repozytorium źródłowe ma osobny pomocniczy adres Pages. Jeśli chcesz wyłączyć również ten adres, ustaw `PUBLICATION_ENABLED=false`, anuluj trwające wdrożenie i wybierz Unpublish site także w [jego ustawieniach Pages](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings/pages).
 
-**Ważne:** po ustawieniu strony jako prywatnej link „Administracja” na samej witrynie nie będzie dostępny. Zapisz pierwszy link jako zakładkę w przeglądarce.
+## Przywróć stronę
 
-## Zarządzanie plikami APK/ZIP
+Ustaw `PUBLICATION_ENABLED=true` (lub usuń zmienną), pozostaw **Build and deployment → GitHub Actions** w ustawieniach Pages i uruchom workflow **Publish ZeroSkilla Dev Studio** z gałęzi `main` przez **Run workflow**. Adres pozostaje ten sam.
 
-- [Wydania GitHub Releases](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases) – dodawanie APK i ZIP.
-- [Publikacja GitHub Pages](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/settings/pages) – zarządzanie adresem i publikacją.
+## Zarządzaj paczkami
 
-Uprawnienia administratora sprawdza GitHub. Strona nie przechowuje hasła, tokena ani innych poświadczeń.
+[GitHub Releases](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases) przechowuje APK i ZIP. Reguły tagów i nazw plików są w README. Usunięcie lub przeniesienie wydania do Draft usuwa je z katalogu przy następnym udanym odświeżeniu. Nie przesyłaj źródeł, kluczy, tokenów, profili, kopii danych, logów, symboli debug ani Infernal Forge.
+
+Witryna nie przechowuje hasła i nie ma własnego mechanizmu nadawania uprawnień. Link Administracja prowadzi do ustawień Pages na GitHub.

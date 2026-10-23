@@ -1,40 +1,39 @@
-# ZeroSkilla Dev Studio — GitHub Pages
+# ZeroSkilla Dev Studio
 
-Publiczna strona studia i katalog APK dla Androida oraz przenośnych ZIP dla Windows.
+Publiczna strona: https://zeroskilladevstudio.github.io/
 
-Strona jest hostowana na **GitHub Pages**, a paczki jako załączniki **GitHub Releases**. Nie dodawaj plików APK/ZIP do historii repozytorium Git: umieszczaj je w zasobach wydań (*Releases → Assets*).
+Stronę utrzymuje repozytorium `ZeroSkillaDevStudio/zeroskilladevstudio.github.io`. Kod i publiczne paczki APK/ZIP znajdują się w tym repozytorium. Hosting pozostaje w GitHub Pages, pliki w GitHub Releases; nie dodawaj binarnych paczek do historii Git.
 
-## Uruchomienie
+## Automatyczny katalog
 
-1. Na koncie `k4mik4zz3-droid` utwórz **publiczne, puste** repozytorium `zeroskilla-dev-studio` (bez automatycznego README i licencji).
-2. Prześlij zawartość tego katalogu na gałąź `main`.
-3. W repozytorium przejdź do **Settings → Pages → Build and deployment** i wybierz **GitHub Actions**.
-4. W zakładce **Releases** utwórz wydania według poniższej listy i dołącz odpowiadające im prawdziwe pliki APK/ZIP.
-5. Uruchom workflow **Publish ZeroSkilla Dev Studio** ręcznie (`Actions → Run workflow`) lub po prostu opublikuj Release — katalog zostanie odświeżony automatycznie.
+Obydwa workflow generują katalog bezpośrednio z GitHub Releases API. Główna strona odświeża się po zmianie workflow, ręcznie i co godzinę. Repozytorium źródłowe reaguje też na publikację, edycję lub usunięcie wydania.
 
-Adres po pomyślnej publikacji będzie miał postać `https://k4mik4zz3-droid.github.io/zeroskilla-dev-studio/`. Adres ten nie jest aktywny, dopóki publikacja nie zakończy się powodzeniem.
+Generator wybiera najwyższą rzeczywiście dostępną wersję osobno dla projektu, silnika i platformy. Brak Windows w nowszym wydaniu Androida nie ukrywa ostatniej dostępnej paczki Windows. Zaplanowane, puste, robocze oraz przedpremierowe wydania nie są pokazywane. Starsze wydania pozostają w archiwum Releases.
 
-## Wydania do przeniesienia
+Nowe tagi i nazwy plików:
 
-| Projekt | GitHub Release tag | Oczekiwane pliki |
+| Kanał | Tag | Paczka |
 | --- | --- | --- |
-| Infernal Rift / natywny | `infernal-rift-native-v0.346.0` | `Infernal-Rift-v0.346.0.apk` |
-| Infernal Rift / natywny | `infernal-rift-native-v0.345.0` | `Infernal-Rift-v0.345.0.apk` |
-| Infernal Rift / natywny | `infernal-rift-native-v0.344.0` | `Infernal-Rift-v0.344.0.apk` |
-| Infernal Rift / Unity | `infernal-rift-unity-v2.14.1` | `Infernal-Rift-Unity-v2.14.1.apk`, `Infernal-Rift-Unity-v2.14.1-Windows-PC.zip` |
-| Infernal Rift / Unity | `infernal-rift-unity-v2.14.0` | `Infernal-Rift-Unity-v2.14.0.apk`, `Infernal-Rift-Unity-v2.14.0-Windows-PC.zip` |
-| Mój Notatnik / Android | `moj-notatnik-android-v2.9.7` | `Moj-Notatnik-v2.9.7.apk` |
+| Infernal Rift / własny / Android | `infernal-rift-native-android-vX.Y.Z` | `Infernal-Rift-vX.Y.Z.apk` |
+| Infernal Rift / Unity / Android | `infernal-rift-unity-android-vX.Y.Z` | `Infernal-Rift-Unity-vX.Y.Z.apk` |
+| Infernal Rift / Unity / Windows | `infernal-rift-unity-windows-vX.Y.Z` | `Infernal-Rift-Unity-vX.Y.Z-Windows-PC.zip` |
+| Mój Notatnik / Android | `moj-notatnik-android-vX.Y.Z` | `Moj-Notatnik-vX.Y.Z.apk` |
+| Mój Notatnik / Windows | `moj-notatnik-windows-vX.Y.Z` | `Moj-Notatnik-vX.Y.Z-Windows-x64.zip` |
+| PhotoMind / Android | `photomind-android-vX.Y.Z` | `PhotoMind-vX.Y.Z.apk` |
+| VolVio Scanner / Android | `volvio-scanner-android-vX.Y.Z` | `VolVio-Scanner-vX.Y.Z.apk` |
+| Encloser CAD / Windows | `encloser-cad-windows-vX.Y.Z` | `Encloser-CAD-vX.Y.Z-Windows-x64.zip` |
+| PadBridge / Windows | `padbridge-windows-vX.Y.Z` | `PadBridge-vX.Y.Z-Windows-x64.zip` |
 
-Katalog jest budowany z rzeczywistych plików zwróconych przez API GitHub. Wersje wpisane w `releases-source.json` pozostają widoczne jako zapowiedziane, jeśli ich pliki nie zostały jeszcze przesłane — przycisk pobierania nie jest wtedy aktywny. Dla przyszłych wydań używaj tagów w formacie `<projekt>-<kanał>-vX.Y.Z`, np. `padbridge-windows-v1.0.0`.
+Starsze tagi `infernal-rift-native-vX.Y.Z` i `infernal-rift-unity-vX.Y.Z` nadal działają. Akceptowane są wyłącznie dokładne nazwy paczek produkcyjnych, dodatni rozmiar i SHA256 przekazane przez GitHub. ZIP źródeł oraz nazwy debug nie przechodzą tej listy.
 
-## Bezpieczeństwo i koszty
+Przed publikacją sprawdź wersję wewnątrz APK/EXE/danych Playera, podpis i brak debuggable w APK, kompletność bibliotek, integralność ZIP i SHA256. Generator sprawdza metadane dystrybucji; nie zastępuje kontroli bezpieczeństwa zawartości ani testów aplikacji. Infernal Forge jest narzędziem wewnętrznym i nie ma publicznego kanału.
 
-- Repozytorium i wydania są publiczne. Dodawaj wyłącznie pliki przeznaczone do dystrybucji.
-- **Nie przesyłaj** kodu źródłowego prywatnych projektów, kluczy podpisywania aplikacji, tokenów, baz danych ani zasobów nieprzeznaczonych do publikacji.
-- Hosting strony i wydania GitHub Releases są dostępne bez opłat przy zwykłym użytkowaniu zgodnym z zasadami GitHub. Pojedynczy załącznik wydania musi mieć mniej niż 2 GiB.
+## Sprawdzenie lokalne
 
-## Testy lokalne
+`node --test scripts/build-releases.test.mjs`
 
-`node scripts/build-releases.mjs --offline`
+`node scripts/build-releases.mjs` pobiera rzeczywiste wydania; opcjonalna zmienna `RELEASE_REPOSITORY` wskazuje repozytorium. `--offline` tworzy pusty katalog bez linków; `--from-file plik.json` służy do testowania zapisanej odpowiedzi GitHub API.
 
-To generuje demonstracyjny katalog z zaplanowanymi wersjami bez aktywnych linków. Prawdziwe adresy są dodawane dopiero przez workflow po odczycie opublikowanych zasobów na GitHub.
+Braki paczek opisuje `unavailable` w `releases-source.json`. Nie dodawaj numerów wersji i atrap plików jako dostępnych wydań.
+
+Wyłączenie i przywrócenie publikacji opisuje [ADMIN.md](ADMIN.md).
