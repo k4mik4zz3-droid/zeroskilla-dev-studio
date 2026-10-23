@@ -15,7 +15,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  refresh_on_release:
+    # Wydania wyzwalane są z taga, a środowisko github-pages jest chronione
+    # regułą gałęzi main. Zlecamy więc nowe wdrożenie na main.
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Schedule a Pages deployment from main
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main'
+            });
+
   build:
+    if: github.event_name != 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout website source
@@ -39,6 +59,7 @@ jobs:
           path: dist
 
   deploy:
+    if: github.event_name != 'release'
     needs: build
     runs-on: ubuntu-latest
     permissions:
