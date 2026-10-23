@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "lastChecked": "2026-10-23",
+  "releases": {
+    "infernal-rift": {
+      "versions": [
+        {
+          "engine": "Własny silnik",
+          "version": "v0.346.0",
+          "date": "2026-10-21",
+          "description": "Natywna wydajność i kadr kamery",
+          "files": [],
+          "tag": "infernal-rift-native-v0.346.0"
+        },
+        {
+          "engine": "Własny silnik",
+          "version": "v0.345.0",
+          "date": "2026-10-21",
+          "description": "Perspektywa i głębia świata",
+          "files": [],
+          "tag": "infernal-rift-native-v0.345.0"
+        },
+        {
+          "engine": "Własny silnik",
+          "version": "v0.344.0",
+          "date": "2026-10-21",
+          "description": "Spokojniejsza kamera walki",
+          "files": [],
+          "tag": "infernal-rift-native-v0.344.0"
+        },
+        {
+          "engine": "Unity",
+          "version": "v2.14.1",
+          "date": "2026-10-23",
+          "description": "Poprawka obrotu i pocisków",
+          "files": [],
+          "tag": "infernal-rift-unity-v2.14.1"
+        },
+        {
+          "engine": "Unity",
+          "version": "v2.14.0",
+          "date": "2026-10-23",
+          "description": "Efekty, celowanie i płynność",
+          "files": [],
+          "tag": "infernal-rift-unity-v2.14.0"
+        }
+      ]
+    },
+    "moj-notatnik": {
+      "versions": [
+        {
+          "version": "v2.9.7",
+          "date": "2026-09-08",
+          "description": "Mój Notatnik na Androida",
+          "files": [],
+          "tag": "moj-notatnik-android-v2.9.7"
+        }
+      ]
+    },
+    "photomind": {
+      "versions": []
+    },
+    "volvio-scanner": {
+      "versions": []
+    },
+    "encloser-cad": {
+      "versions": []
+    },
+    "padbridge": {
+      "versions": []
+    }
+  }
+}
