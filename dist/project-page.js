@@ -9,10 +9,13 @@
   const releaseUrl=(v)=>{try{const url=new URL(v.releaseUrl);return url.protocol==='https:'&&url.hostname==='github.com'&&!url.username&&!url.password&&!url.port&&!url.search&&!url.hash&&url.pathname==='/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/'+encodeURIComponent(v.tag)?url.href:null}catch{return null}};
   function showChanges(v){
     const kind=['changes','release','distribution'].includes(v.changelog?.kind)?v.changelog.kind:'changes';
-    const items=(Array.isArray(v.changelog?.items)?v.changelog.items:[]).filter(item=>typeof item==='string'&&item.trim()&&item.length<=600).slice(0,20);
-    const title={changes:'Co nowego',release:'Informacje o wydaniu',distribution:'Zmiany w wydaniu publicznym'}[kind];
+    const data=v.changelog?.items;
+    const valid=Array.isArray(data)&&data.length>0&&data.every(item=>typeof item==='string'&&item.trim());
+    const items=valid?data:[];
+    const title='Co nowego';
+    const scope={changes:'',release:'Informacje o wydaniu',distribution:'Zmiany w wydaniu publicznym'}[kind];
     const url=releaseUrl(v);
-    return '<section class="release-changes" aria-label="'+escapeHtml(title+' — '+v.version)+'"><h4>'+title+'</h4>'+(items.length?'<ul>'+items.map(item=>'<li>'+escapeHtml(item)+'</li>').join('')+'</ul>':'<p>Brak opisu zmian dla tej wersji.</p>')+(kind==='distribution'?'<p class="release-scope-note">Opis dotyczy publikacji paczki. Szczegółowa lista zmian funkcji tej wersji nie została udostępniona.</p>':'')+(url?'<a class="release-more" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer">Informacje o wydaniu na GitHub ↗</a>':'')+'</section>';
+    return '<section class="release-changes" aria-label="'+escapeHtml(title+' — '+v.version)+'"><h4>'+title+'</h4>'+(scope?'<p class="release-scope-label">'+scope+'</p>':'')+(items.length?'<ul>'+items.map(item=>'<li>'+escapeHtml(item)+'</li>').join('')+'</ul>':'<p>Opis zmian tej wersji wymaga uzupełnienia przez autora.</p>')+(kind==='distribution'?'<p class="release-scope-note">Opis dotyczy publikacji paczki. Szczegółowa lista zmian funkcji tej wersji nie została udostępniona.</p>':'')+(url?'<a class="release-more" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer">Informacje o wydaniu na GitHub ↗</a>':'')+'</section>';
   }
   function publicationDate(value){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';

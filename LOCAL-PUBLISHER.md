@@ -55,4 +55,8 @@ Gotowy build może mieć obok plik o nazwie paczki z końcówką `.changes.json`
 }
 ```
 
-To treść przeznaczona do publikacji: od 1 do 20 punktów, do 600 znaków każdy. Nie dodawaj danych użytkownika, kont, adresów e-mail, ścieżek, linków, kluczy ani raportów roboczych. Numer wersji i kanał muszą odpowiadać zweryfikowanej paczce. Nieprawidłowy jawny opis wstrzymuje publikację do poprawienia; brak pliku nie blokuje gotowej paczki i nie tworzy wymyślonych nowości. Plik opisowy nie jest dodawany do ZIP/APK ani wysyłany jako osobny załącznik: jego punkty trafiają do sekcji `Co nowego` GitHub Release, a stamtąd automatycznie na stronę. Opis już publicznego wydania można poprawić bez ponownego wysyłania paczki w treści Release na GitHub.
+To obowiązkowa treść przeznaczona do publikacji. Lista musi zawierać rzeczywiste zmiany opisane w dokumentacji tej wersji; nie przedstawiaj istniejących wcześniej funkcji jako nowości. Nie dodawaj danych użytkownika, kont, adresów e-mail, ścieżek, linków, kluczy ani raportów roboczych. Numer wersji i kanał muszą odpowiadać zweryfikowanej paczce.
+
+Brak, pusta lista lub nieprawidłowy opis blokują dany kanał przed oznaczeniem go jako gotowy, pakowaniem i wysłaniem plików. Inne poprawnie opisane kanały pracują dalej. Treść opisu jest objęta okresem stabilności razem z paczką; zmiana opisu rozpoczyna ten okres ponownie. Automat ponownie sprawdza opis przed publikacją, a po publikacji porównuje całą treść potwierdzoną przez GitHub.
+
+Program nie ucina liczby ani długości punktów. Cały plik JSON ma limit 64 KiB; przekroczenie tego limitu jest zgłaszane jako błąd, zamiast publikować część tekstu. Plik opisowy nie jest dodawany do ZIP/APK ani wysyłany jako osobny załącznik: jego punkty trafiają do sekcji `Co nowego` GitHub Release, a stamtąd automatycznie na stronę. Opis już publicznego wydania można poprawić bez ponownego wysyłania paczki w treści Release na GitHub.

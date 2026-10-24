@@ -33,12 +33,96 @@ def archive(names):
     return zipfile.ZipFile(stream)
 
 class Validation(unittest.TestCase):
+    def test_missing_notes_block_before_validation_or_upload_then_matching_notes_unblock_check(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':'2.9.8'}
+            class Fake:
+                def releases(self):return [release('moj-notatnik-android','2.9.7')]
+                def publish(self,*args):raise AssertionError('Missing notes must block every upload')
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p,'validate_apk') as validate,patch.object(p,'package_folder') as package:
+                for publishing in (False,True):
+                    events=p.check({}, {},Fake(),{},publishing)
+                    self.assertTrue(any(e['status']=='blocked' and 'Brak publicznego opisu' in e['reason'] for e in events))
+                validate.assert_not_called();package.assert_not_called()
+            (root/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Poprawiono nagrywanie.']}),encoding='utf-8')
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p,'validate_apk',return_value={'version':'2.9.8'}) as validate:
+                events=p.check({}, {},Fake(),{},False)
+                self.assertTrue(any(e['status']=='ready' and e['version']=='2.9.8' for e in events))
+                validate.assert_called_once()
+
+    def test_notes_preserve_every_long_point_and_normalize_wrapped_text(self):
+        with test_folder() as folder:
+            root=Path(folder);candidate={'path':str(root/'app.apk'),'channel':'moj-notatnik-android','version':'2.9.8'}
+            items=['Dłuższa zmiana '+('szczegóły '*90).strip()]+['Zmiana '+str(i)+'.' for i in range(30)]+['Ustawienia > HUD\n  i zapis układu.']
+            data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':items}
+            note=root/'Moj-Notatnik-v2.9.8.changes.json';note.write_text(json.dumps(data,ensure_ascii=False),encoding='utf-8')
+            checked=p.public_release_notes(candidate)
+            self.assertEqual(len(checked),32)
+            self.assertEqual(checked[:-1],items[:-1])
+            self.assertEqual(checked[-1],'Ustawienia > HUD i zapis układu.')
+            data['channel']='volvio-scanner-android';note.write_text(json.dumps(data),encoding='utf-8')
+            with self.assertRaisesRegex(p.Rejected,'kanału'):p.public_release_notes(candidate)
+
+    def test_newer_version_without_notes_does_not_publish_an_older_local_candidate(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidates=[{'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':v} for v in ('2.9.8','2.9.9')]
+            (root/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidates[0]['channel'],'version':'2.9.8','changes':['Starsza zmiana.']}),encoding='utf-8')
+            class Fake:
+                def releases(self):return [release('moj-notatnik-android','2.9.7')]
+                def publish(self,*args):raise AssertionError('Do not fall back to an older local version')
+            with patch.object(p,'discover',return_value=candidates),patch.object(p,'validate_apk') as validate:
+                events=p.check({}, {},Fake(),{},False)
+                validate.assert_not_called()
+                self.assertTrue(any(e['status']=='blocked' and e['version']=='2.9.9' for e in events))
+                self.assertFalse(any(e.get('version')=='2.9.8' for e in events))
+
+    def test_one_missing_changelog_does_not_block_an_independent_described_channel(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidates=[{'channel':ch,'kind':'apk','path':str(file),'version':v} for ch,v in [('moj-notatnik-android','2.9.8'),('volvio-scanner-android','3.18.0')]]
+            (root/'VolVio-Scanner-v3.18.0.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':'volvio-scanner-android','version':'3.18.0','changes':['Opis z dokumentacji tej wersji.']}),encoding='utf-8')
+            class Fake:
+                def releases(self):return []
+            with patch.object(p,'discover',return_value=candidates),patch.object(p,'validate_apk',return_value={}):
+                events=p.check({}, {},Fake(),{},False)
+            self.assertTrue(any(e['channel']=='moj-notatnik-android' and e['status']=='blocked' for e in events))
+            self.assertTrue(any(e['channel']=='volvio-scanner-android' and e['status']=='ready' for e in events))
+
+    def test_note_changes_restart_the_stability_period(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':'2.9.8'}
+            data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Pierwszy opis.']}
+            note=root/'Moj-Notatnik-v2.9.8.changes.json';note.write_text(json.dumps(data),encoding='utf-8')
+            class Fake:
+                def releases(self):return []
+                def publish(self,*args):raise AssertionError('Changed notes must wait for stability')
+            state={};now=p.time.time()+1000
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p.time,'time',return_value=now):
+                first=p.check({'quietSeconds':600},state,Fake(),{},True)
+            data['changes']=['Poprawiony opis.'];note.write_text(json.dumps(data),encoding='utf-8')
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p.time,'time',return_value=now+601):
+                second=p.check({'quietSeconds':600},state,Fake(),{},True)
+            self.assertTrue(any(e['status']=='waiting' for e in first))
+            self.assertTrue(any(e['status']=='waiting' for e in second))
+
+    def test_direct_publish_without_notes_cannot_mutate_github(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
+            candidate={'channel':'moj-notatnik-android','version':'2.9.8','path':str(file)}
+            with patch.object(gh,'enabled'),patch.object(gh,'api') as api:
+                with self.assertRaisesRegex(p.Rejected,'Brak publicznego opisu'):gh.publish(candidate,{'path':str(file),'sizeBytes':3,'sha256':p.sha(file)},[])
+                api.assert_not_called()
+
     def test_public_notes_require_explicit_companion_and_matching_version(self):
         with test_folder() as folder:
             root=Path(folder)
             candidate={'path':str(root/'app.apk'),'channel':'moj-notatnik-android','version':'2.9.8'}
             (root/'README.md').write_text('Private project report',encoding='utf-8')
-            self.assertEqual(p.public_release_notes(candidate),[])
+            with self.assertRaisesRegex(p.Rejected,'Brak publicznego opisu'):p.public_release_notes(candidate)
             note=root/'Moj-Notatnik-v2.9.8.changes.json'
             data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Poprawiono nagrywanie.']}
             note.write_text(json.dumps(data),encoding='utf-8')
@@ -50,13 +134,38 @@ class Validation(unittest.TestCase):
         with test_folder() as folder:
             root=Path(folder);candidate={'path':str(root/'app.apk'),'channel':'moj-notatnik-android','version':'2.9.8'}
             note=root/'Moj-Notatnik-v2.9.8.changes.json'
-            for text in ('C:\\Users\\private\\notes.txt','token=private','<script>bad</script>','Tekst\nDruga linia','person@example.com','https://private.example/report','github_pat_private'):
+            for text in ('C:\\Users\\private\\notes.txt','token=private','<script>bad</script>','Tekst\x01Druga linia','person@example.com','https://private.example/report','github_pat_private','**','__','`','  ** __ `  '):
                 data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':[text]}
                 note.write_text(json.dumps(data),encoding='utf-8')
                 with self.assertRaises(p.Rejected,msg=text):p.public_release_notes(candidate)
             data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Publiczny opis.'],'privateKey':'private'}
             note.write_text(json.dumps(data),encoding='utf-8')
             with self.assertRaises(p.Rejected):p.public_release_notes(candidate)
+
+    def test_an_alternative_copy_of_the_same_latest_version_with_notes_is_ready(self):
+        with test_folder() as folder:
+            root=Path(folder);first=root/'first';second=root/'second'
+            first.mkdir();second.mkdir()
+            for part in (first,second):(part/'app.apk').write_bytes(b'apk')
+            candidates=[{'channel':'moj-notatnik-android','kind':'apk','path':str(part/'app.apk'),'version':'2.9.8'} for part in (first,second)]
+            (second/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':'moj-notatnik-android','version':'2.9.8','changes':['**Poprawiono** zapis `notatki`.']}),encoding='utf-8')
+            self.assertEqual(p.public_release_notes(candidates[1]),['Poprawiono zapis notatki.'])
+            class Fake:
+                def releases(self):return []
+            with patch.object(p,'discover',return_value=candidates),patch.object(p,'validate_apk',return_value={'version':'2.9.8'}) as validate:
+                events=p.check({}, {},Fake(),{},False)
+            self.assertTrue(any(e['status']=='ready' and e['version']=='2.9.8' for e in events))
+            validate.assert_called_once_with(str(second/'app.apk'),'moj-notatnik-android',{})
+
+    def test_notes_must_match_the_hash_verified_with_the_package_before_any_upload(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'moj-notatnik-android','version':'2.9.8','path':str(file)}
+            (root/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':candidate['version'],'changes':['Poprawiono zapis.']}),encoding='utf-8')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
+            with patch.object(gh,'enabled'),patch.object(gh,'api') as api:
+                with self.assertRaisesRegex(p.Rejected,'sprawdzonego razem z paczką'):gh.publish(candidate,{'path':str(file),'sizeBytes':3,'sha256':p.sha(file),'notesSHA256':'0'*64},[])
+                api.assert_not_called()
 
     def test_semantic_order_and_internal_four_component_version(self):
         self.assertGreater(p.order('2.15.3'),p.order('2.9.99'))
@@ -179,6 +288,7 @@ class Validation(unittest.TestCase):
         with test_folder() as folder:
             file=Path(folder)/'app.apk';file.write_bytes(b'apk')
             candidate={'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':'2.9.8'}
+            (Path(folder)/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':candidate['version'],'changes':['Poprawiono nagrywanie.']}),encoding='utf-8')
             class Fake:
                 def releases(self):return [release('moj-notatnik-android','2.9.7')]
                 def publish(self,*a):raise AssertionError('Should not publish an unstable file')
@@ -199,7 +309,8 @@ class Validation(unittest.TestCase):
         with test_folder() as folder:
             file=Path(folder)/'app.apk';file.write_bytes(b'apk')
             gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
-            candidate={'channel':'moj-notatnik-android','version':'2.9.8'}
+            candidate={'channel':'moj-notatnik-android','version':'2.9.8','path':str(file)}
+            (Path(folder)/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':candidate['version'],'changes':['Poprawiono nagrywanie.']}),encoding='utf-8')
             name=p.CHANNELS[candidate['channel']][1].format(v='2.9.8')
             draft={'id':1,'assets':[],'draft':True,'tag_name':'moj-notatnik-android-v2.9.8','body':p.MARKER,'upload_url':f'https://uploads.github.com/repos/{p.REPO}/releases/1/assets{{?name}}'}
             calls=[]
@@ -231,6 +342,7 @@ class Validation(unittest.TestCase):
                     self.assertIn('## Co nowego\n\n- Poprawiono nagrywanie.',body['body'])
                     self.assertIn('SHA256: `'+expected_hash+'`',body['body'])
                     draft['draft']=False
+                    draft['body']=body['body']
                     asset['browser_download_url']=f'https://github.com/{p.REPO}/releases/download/{tag}/{name}'
                 return draft
             with patch.object(gh,'enabled'),patch.object(gh,'api',side_effect=api):

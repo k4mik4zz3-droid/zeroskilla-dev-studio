@@ -339,28 +339,38 @@ def remote_channels(releases):
     return latest
 
 
-def public_release_notes(candidate):
-    """Read only an explicitly named public companion, never project reports."""
+def release_notes_file(candidate):
     if not candidate.get('path'):
-        return []
+        raise Rejected('Brak lokalizacji paczki do dopasowania publicznego opisu zmian')
     channel,v = candidate['channel'],candidate['version']
     name = Path(CHANNELS[channel][1].format(v=v)).stem+'.changes.json'
-    file = Path(candidate['path']).parent/name
+    return Path(candidate['path']).parent/name
+
+
+def public_release_notes(candidate):
+    """Read only an explicitly named public companion, never project reports."""
+    channel,v = candidate['channel'],candidate['version']
+    file = release_notes_file(candidate)
     if not file.exists():
-        return []
-    if file.is_symlink() or not file.is_file() or file.stat().st_size>16384:
+        raise Rejected(f'Brak publicznego opisu zmian dla {channel} v{v}; paczka nie zostanie opublikowana')
+    if file.is_symlink() or not file.is_file() or file.stat().st_size>65536:
         raise Rejected('Nieprawidłowy publiczny opis zmian')
     data = json.loads(file.read_text(encoding='utf-8-sig'))
     if not isinstance(data,dict) or set(data)!={'schemaVersion','channel','version','changes'} or data['schemaVersion']!=1 or data['channel']!=channel or version(data['version'])!=v:
         raise Rejected('Opis zmian nie pasuje do kanału i wersji paczki')
     items = data['changes']
-    if not isinstance(items,list) or not 1<=len(items)<=20:
-        raise Rejected('Publiczny opis wymaga od 1 do 20 punktów zmian')
+    if not isinstance(items,list) or not items:
+        raise Rejected('Publiczny opis wymaga niepustej listy rzeczywistych zmian')
     private = re.compile(r'[a-z]:[\\/]|\\\\|file://|https?://|-----BEGIN|github_pat_|gh[pousr]_[a-z0-9]|(?:token|password|client_secret|api_key)\s*[:=]|[\w.+-]+@[\w.-]+\.[a-z]{2,}',re.I)
+    normalized=[]
     for item in items:
-        if not isinstance(item,str) or not item.strip() or len(item)>600 or re.search(r'[<>\x00-\x1f]',item) or private.search(item):
+        if not isinstance(item,str):
+            raise Rejected('Punkt zmian musi być tekstem')
+        text=' '.join(item.replace('**','').replace('__','').replace('`','').split())
+        if not text or re.search(r'</?[A-Za-z!][^>]*>|[\x00-\x08\x0b\x0c\x0e-\x1f]',item) or private.search(item) or private.search(text):
             raise Rejected('Punkt zmian zawiera niedozwoloną treść lub dane prywatne')
-    return list(dict.fromkeys(item.strip() for item in items))
+        normalized.append(text)
+    return normalized
 
 class GitHub:
     def __init__(self, config, authenticated=False):
@@ -419,10 +429,15 @@ class GitHub:
         tag = channel+'-v'+v
         title = f'{CHANNELS[channel][0]} v{v} — '+('Android' if channel.endswith('android') else 'Windows')
         notes = public_release_notes(candidate)
-        public_changes = ('## Co nowego\n\n'+'\n'.join('- '+item for item in notes)+'\n\n## Plik do pobrania\n\n') if notes else ''
+        if not notes:
+            raise Rejected('Brak publicznego opisu zmian; paczka nie zostanie opublikowana')
+        notes_path=release_notes_file(candidate)
+        notes_hash=sha(notes_path)
+        if package.get('notesSHA256',notes_hash)!=notes_hash:
+            raise Rejected('Opis zmian różni się od sprawdzonego razem z paczką')
+        public_changes = '## Co nowego\n\n'+'\n'.join('- '+item for item in notes)+'\n\n## Plik do pobrania\n\n'
         body = f'{MARKER}\n\n{title}\n\nGotowa paczka dystrybucyjna. Wersja wewnętrzna i integralność sprawdzone automatycznie.\n\nPlik: `{name}`\nRozmiar: {package["sizeBytes"]} bajtów\nSHA256: `{package["sha256"]}`\n\n'+('APK: sprawdzony podpis produkcyjny, debugowanie wyłączone.' if channel.endswith('android') else 'Windows: przenośny ZIP; rozpakuj wszystkie pliki. Kontrola statyczna paczki nie zastępuje testów działania aplikacji.')
-        if public_changes:
-            body = body.replace(title+'\n\n',title+'\n\n'+public_changes,1)
+        body = body.replace(title+'\n\n',title+'\n\n'+public_changes,1)
         release = next((r for r in releases if r['tag_name']==tag),None)
         if release:
             if not release.get('draft') or release.get('prerelease') or MARKER not in (release.get('body') or ''):
@@ -454,11 +469,15 @@ class GitHub:
         if not refreshed.get('draft') or refreshed.get('tag_name')!=tag or MARKER not in (refreshed.get('body') or '') or len(refreshed.get('assets',[]))!=1 or refreshed['assets'][0].get('id')!=asset.get('id'):
             raise Rejected('Szkic zmienił się w trakcie wysyłania — publikacja wstrzymana')
         self.enabled()
-        self.api(f'repos/{REPO}/releases/{release["id"]}','PATCH',{'draft':False,**({'body':body} if notes else {})})
+        if sha(notes_path)!=notes_hash:
+            raise Rejected('Opis zmian zmienił się w trakcie wysyłania; pozostawiono szkic')
+        self.api(f'repos/{REPO}/releases/{release["id"]}','PATCH',{'draft':False,'body':body})
         published = self.api(f'repos/{REPO}/releases/{release["id"]}')
         final_assets = published.get('assets',[])
         if published['draft'] or len(final_assets)!=1 or final_assets[0].get('browser_download_url')!=expected_url or final_assets[0].get('size')!=package['sizeBytes'] or final_assets[0].get('digest')!='sha256:'+package['sha256']:
             raise Rejected('GitHub nie potwierdził publikacji, końcowego adresu i sumy pliku')
+        if published.get('body')!=body:
+            raise Rejected('GitHub nie potwierdził pełnego opisu zmian wydania')
         return {'tag':tag,'url':published['html_url'],'downloadUrl':expected_url,'sha256':package['sha256'],'sizeBytes':package['sizeBytes']}
 
 def discover(config, state, events):
@@ -535,17 +554,31 @@ def check(config, state, github, profiles, publish=False):
         if channel in latest and order(choices[0]['version'])<=order(latest[channel]['version']):
             events.append({'channel':channel,'status':'up-to-date','version':latest[channel]['version']})
             continue
+        notes_required_version=None
         for candidate in choices:
             v = candidate['version']
+            if notes_required_version is not None and order(v)<order(notes_required_version):
+                break
             if channel in latest and order(v)<=order(latest[channel]['version']):
                 break
+            try:
+                public_release_notes(candidate)
+            except Exception as error:
+                events.append({'channel':channel,'version':v,'status':'blocked','reason':str(error)[:1500]})
+                notes_required_version=v
+                continue
             try:
                 profile = profiles.get(channel,{})
                 if candidate['kind']=='folder':
                     plan = folder_plan(candidate['path'],channel,profile,config)
                 else:
                     plan = {Path(candidate['path']).name:Path(candidate['path'])}
+                notes_path=release_notes_file(candidate)
+                plan={**plan,'public-release-notes/'+notes_path.name:notes_path}
+                notes_hash_before=sha(notes_path)
                 fingerprint,newest = plan_fingerprint(plan)
+                if sha(notes_path)!=notes_hash_before:
+                    raise Rejected('Opis zmian zmienił się podczas sprawdzania stabilności')
                 observation_key = channel+'|'+v+'|'+candidate['path']
                 observed = state.setdefault('observations',{}).get(observation_key,{})
                 now = time.time()
@@ -577,7 +610,10 @@ def check(config, state, github, profiles, publish=False):
                     meta = validate_apk(target,channel,config) if candidate['kind']=='apk' else validate_windows_zip(target,channel,v,profile)
                 if meta['version']!=v:
                     raise Rejected('Wersja zweryfikowanej paczki różni się od wykrytej')
+                if sha(notes_path)!=notes_hash_before:
+                    raise Rejected('Opis zmian zmienił się podczas przygotowania paczki')
                 meta['path'] = str(target)
+                meta['notesSHA256']=notes_hash_before
                 result = github.publish(candidate,meta,releases)
                 events.append({'channel':channel,'version':v,'status':'published',**result})
                 # Keep verified cache for retries; avoid repackaging/reuploading existing versions.

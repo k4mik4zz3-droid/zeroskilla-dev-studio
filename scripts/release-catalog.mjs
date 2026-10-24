@@ -41,15 +41,17 @@ export function buildCatalog(published,metadata,repo,checked=new Date().toISOStr
   if(release.draft||release.prerelease)continue;
   const parsed=parseTag(String(release.tag_name||''));if(!parsed)continue;
   const planned=(metadata.planned||[]).find(p=>p.tag===release.tag_name);
-  const changelog=releaseNotes(release.body);
-  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,...(changelog?{changelog}:{}),file});
+  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,body:release.body,file});
  }
  candidates.sort(versionOrder);
  const releases=Object.fromEntries(projects.map(p=>[p,{versions:[],...(metadata.unavailable?.[p]?{unavailableReason:metadata.unavailable[p]}:{})}]));
  const seen=new Set();
  for(const candidate of candidates){
   const key=`${candidate.project}/${candidate.channel}`;if(seen.has(key))continue;seen.add(key);
-  const {project,file,...record}=candidate;releases[project].versions.push({...record,files:[file]});
+  const {project,file,body,...record}=candidate;
+  let changelog=null,status='missing';
+  try{changelog=releaseNotes(body);if(changelog)status='complete';}catch{status='invalid';}
+  releases[project].versions.push({...record,...(changelog?{changelog}:{}),changelogStatus:status,files:[file]});
  }
  return {schemaVersion:2,lastChecked:checked,sourceRepository:repo,releases};
 }
@@ -70,6 +72,8 @@ export async function main(){
  const fixture=process.argv.indexOf('--from-file');
  const published=process.argv.includes('--offline')?[]:fixture>=0?JSON.parse((await readFile(process.argv[fixture+1],'utf8')).replace(/^\uFEFF/,'')):await fetchReleases(repo);
  const catalog=buildCatalog(published,metadata,repo),count=Object.values(catalog.releases).flatMap(p=>p.versions).length;
+ const missing=Object.values(catalog.releases).flatMap(p=>p.versions).filter(v=>v.changelogStatus!=='complete');
+ for(const v of missing)console.warn(`::warning::Publiczne wydanie ${v.tag} wymaga poprawnego opisu zmian; zachowano najnowszą paczkę bez kopiowania starego opisu.`);
  if(!process.argv.includes('--offline')&&!count)throw new Error('No verified assets; keeping previous catalog');
  await writeFile(join(root,'dist','releases.json'),JSON.stringify(catalog,null,2)+'\n');
  console.log(`Latest verified channels: ${count}`);
