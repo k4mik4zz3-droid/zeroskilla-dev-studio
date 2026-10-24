@@ -1,0 +1,198 @@
+"""Safety and idempotency tests; every GitHub mutation is simulated."""
+import importlib.util
+import io
+import json
+import contextlib
+from pathlib import Path
+import struct
+import tempfile
+import unittest
+from unittest.mock import patch
+import zipfile
+
+spec=importlib.util.spec_from_file_location('publisher',Path(__file__).with_name('local-publisher.py'))
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
+TEST_DIR=Path(__file__).resolve().parent/'.publisher-test-temp'
+TEST_DIR.mkdir(exist_ok=True)
+
+@contextlib.contextmanager
+def test_folder():
+    with tempfile.TemporaryDirectory(dir=TEST_DIR) as folder:
+        assert Path(folder).resolve().parent==TEST_DIR.resolve()
+        yield folder
+
+def release(channel,v,draft=False):
+    name=p.CHANNELS[channel][1].format(v=v)
+    return {'tag_name':channel+'-v'+v,'draft':draft,'prerelease':False,'assets':[{'name':name,'state':'uploaded','size':100,'digest':'sha256:'+'a'*64}]}
+
+def archive(names):
+    stream=io.BytesIO()
+    with zipfile.ZipFile(stream,'w') as out:
+        for name in names:out.writestr(name,b'data')
+    stream.seek(0)
+    return zipfile.ZipFile(stream)
+
+class Validation(unittest.TestCase):
+    def test_semantic_order_and_internal_four_component_version(self):
+        self.assertGreater(p.order('2.15.3'),p.order('2.9.99'))
+        self.assertEqual(p.version('0.1.12.0'),'0.1.12')
+        for value in ('2.15','v2.15.3-dev','0.1.12.1','../2.15.3'):
+            with self.assertRaises(p.Rejected):p.version(value)
+
+    def test_volvio_two_part_manifest_version_has_explicit_zero_patch(self):
+        text="package: name='pl.volvio.scanner' versionCode='317' versionName='3.17'"
+        with patch.object(p,'run',return_value=text):
+            meta=p.apk_metadata('app.apk',{'aapt':'aapt'})
+        self.assertEqual(meta['versionName'],'3.17')
+        self.assertEqual(meta['version'],'3.17.0')
+
+    def test_game_version_comes_from_length_prefixed_unity_data(self):
+        text=b'2.15.3'
+        data=b'6000.3.4f1\0'+struct.pack('<I',len(text))+text+b'\0'
+        self.assertEqual(p.unity_version(data),'2.15.3')
+        with self.assertRaises(p.Rejected):p.unity_version(b'2.15.3')
+        with self.assertRaises(p.Rejected):p.unity_version(data+struct.pack('<I',5)+b'1.0.0\0')
+
+    def test_only_real_channels_latest_per_platform(self):
+        rows=[release('infernal-rift-unity-android','2.15.3'),release('infernal-rift-unity-windows','2.15.2'),release('infernal-rift-unity-windows','2.15.4',True),release('moj-notatnik-android','2.9.7')]
+        rows+=[{'tag_name':'infernal-forge-windows-v99.0.0','assets':[]},{'tag_name':'photomind-android-v99.0.0','assets':[]}]
+        latest=p.remote_channels(rows)
+        self.assertEqual(latest['infernal-rift-unity-android']['version'],'2.15.3')
+        self.assertEqual(latest['infernal-rift-unity-windows']['version'],'2.15.2')
+        self.assertFalse(any('forge' in k or 'photomind' in k for k in p.CHANNELS))
+
+    def test_missing_digest_sources_and_previews_not_available(self):
+        good=release('padbridge-windows','0.1.12')
+        missing=release('padbridge-windows','0.1.13');missing['assets'][0]['digest']=None
+        source=release('padbridge-windows','0.1.14');source['assets'][0]['name']='PadBridge-zrodla.zip'
+        preview=release('padbridge-windows','0.1.15');preview['prerelease']=True
+        self.assertEqual(p.remote_channels([missing,source,preview,good])['padbridge-windows']['version'],'0.1.12')
+
+    def test_private_source_and_debug_paths_excluded(self):
+        for name in ('app/token.json','logs/last-built-project.ecad.json','app/source.cs','app/source.cpp','app/Screen.kt','app/a.pdb','app/.env','app/key.keystore','app/release.p12','app/release.pkcs12','backup/profile.zip'):
+            self.assertFalse(p.safe_name(name),name)
+        for name in ('../secret.txt','C:/secret.txt','a\\secret.txt'):
+            with self.assertRaises(p.Rejected):p.safe_name(name)
+        self.assertTrue(p.safe_name('PadBridge/PadBridge.dll'))
+
+    def test_windows_collisions_rejected_android_resource_case_preserved(self):
+        with archive(['res/GR.xml','res/gR.xml']) as bundle:
+            p.checked_entries(bundle,windows=False)
+            with self.assertRaises(p.Rejected):p.checked_entries(bundle)
+        with archive(['same.txt','same.txt']) as bundle:
+            with self.assertRaises(p.Rejected):p.checked_entries(bundle,windows=False)
+
+    def test_zip_traversal_and_symlink_rejected(self):
+        with archive(['../keys.txt']) as bundle:
+            with self.assertRaises(p.Rejected):p.checked_entries(bundle)
+        stream=io.BytesIO()
+        with zipfile.ZipFile(stream,'w') as bundle:
+            info=zipfile.ZipInfo('link');info.external_attr=0o120777<<16;bundle.writestr(info,'secret')
+        stream.seek(0)
+        with zipfile.ZipFile(stream) as bundle:
+            with self.assertRaises(p.Rejected):p.checked_entries(bundle)
+
+    def test_changed_or_incomplete_runtime_is_blocked(self):
+        with test_folder() as folder:
+            root=Path(folder);(root/'PadBridge.exe').write_bytes(b'exe')
+            profile={'entries':['PadBridge/PadBridge.exe','PadBridge/coreclr.dll','CZYTAJ-MNIE.txt']}
+            with self.assertRaisesRegex(p.Rejected,'brak:'):
+                p.folder_plan(root,'padbridge-windows',profile,{})
+            (root/'coreclr.dll').write_bytes(b'dll')
+            self.assertEqual(len(p.folder_plan(root,'padbridge-windows',profile,{})),2)
+            (root/'private.txt').write_text('private')
+            with self.assertRaisesRegex(p.Rejected,'nowe:'):
+                p.folder_plan(root,'padbridge-windows',profile,{})
+
+    def test_secrets_in_approved_json_are_blocked(self):
+        for data in ({'client_secret':'secret'},{'auth':{'refreshToken':'secret'}}):
+            with self.assertRaises(p.Rejected):p.json_without_secrets(data)
+        p.json_without_secrets({'runtimeOptions':{'tfm':'net8.0'}})
+
+    def test_new_apk_debug_and_unapproved_certificate_are_blocked(self):
+        cfg={'java':'java','apksigner':'signer','certificates':{'moj-notatnik-android':['a'*64]}}
+        with patch.object(p,'apk_metadata',return_value={'package':'pl.notatnik.app','debuggable':True,'version':'2.9.8'}):
+            with self.assertRaises(p.Rejected):p.validate_apk('never-opened.apk','moj-notatnik-android',cfg)
+        with patch.object(p,'apk_metadata',return_value={'package':'pl.notatnik.app','debuggable':False,'version':'2.9.8'}),patch.object(p,'run',return_value='Verified using v2 scheme (APK Signature Scheme v2): true\ncertificate SHA-256 digest: '+'b'*64):
+            with self.assertRaisesRegex(p.Rejected,'Certyfikat'):p.validate_apk('never-opened.apk','moj-notatnik-android',cfg)
+
+    def test_paused_local_switch_does_not_touch_github(self):
+        with test_folder() as folder:
+            cfg=Path(folder)/'config.json';cfg.write_text('{"enabled":false}')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh','_path':str(cfg),'stateDir':folder},True)
+            with patch.object(gh,'api') as api:
+                with self.assertRaisesRegex(p.Rejected,'lokalnie'):gh.enabled()
+                api.assert_not_called()
+
+    def test_remote_disable_stops_writes(self):
+        with test_folder() as folder:
+            cfg=Path(folder)/'config.json';cfg.write_text('{"enabled":true}')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh','_path':str(cfg),'stateDir':folder},True)
+            with patch.object(gh,'api',return_value={'value':'false'}):
+                with self.assertRaisesRegex(p.Rejected,'Administrator'):gh.enabled()
+
+    def test_plaintext_credentials_are_refused(self):
+        with test_folder() as folder:
+            (Path(folder)/'hosts.yml').write_text('github.com:\n    oauth_token: fake-test-token\n')
+            with self.assertRaisesRegex(p.Rejected,'bezpiecznym'):p.GitHub({'ghConfig':folder},True)
+
+    def test_first_observation_waits_no_upload(self):
+        with test_folder() as folder:
+            file=Path(folder)/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':'2.9.8'}
+            class Fake:
+                def releases(self):return [release('moj-notatnik-android','2.9.7')]
+                def publish(self,*a):raise AssertionError('Should not publish an unstable file')
+            with patch.object(p,'discover',return_value=[candidate]):
+                events=p.check({'quietSeconds':600},{},Fake(),{},True)
+            self.assertTrue(any(e['status']=='waiting' for e in events))
+
+    def test_equal_version_never_repacked_or_uploaded(self):
+        candidate={'channel':'padbridge-windows','kind':'folder','path':'never-read','version':'0.1.12'}
+        class Fake:
+            def releases(self):return [release('padbridge-windows','0.1.12')]
+        with patch.object(p,'discover',return_value=[candidate]),patch.object(p,'package_folder') as pack:
+            events=p.check({}, {},Fake(),{},True)
+            pack.assert_not_called()
+        self.assertTrue(any(e['status']=='up-to-date' for e in events))
+
+    def test_remote_hash_mismatch_cannot_publish_draft(self):
+        with test_folder() as folder:
+            file=Path(folder)/'app.apk';file.write_bytes(b'apk')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
+            candidate={'channel':'moj-notatnik-android','version':'2.9.8'}
+            name=p.CHANNELS[candidate['channel']][1].format(v='2.9.8')
+            draft={'id':1,'assets':[],'draft':True,'tag_name':'moj-notatnik-android-v2.9.8','body':p.MARKER,'upload_url':f'https://uploads.github.com/repos/{p.REPO}/releases/1/assets{{?name}}'}
+            calls=[]
+            def api(path,method='GET',body=None,file=None):
+                calls.append((path,method))
+                if path.endswith('/commits/main'):return {'sha':'a'*40}
+                if method=='POST' and path.endswith('/releases'):return draft
+                if path.startswith('https://uploads.'):return {'name':name,'state':'uploaded','size':3,'digest':'sha256:'+'b'*64}
+                raise AssertionError('Unexpected call '+path)
+            with patch.object(gh,'enabled'),patch.object(gh,'api',side_effect=api):
+                with self.assertRaisesRegex(p.Rejected,'SHA256'):gh.publish(candidate,{'path':str(file),'sizeBytes':3,'sha256':p.sha(file)},[])
+            self.assertFalse(any(method=='PATCH' for _,method in calls))
+
+    def test_resume_own_draft_accepts_temporary_url_verifies_final_url_no_reupload(self):
+        with test_folder() as folder:
+            file=Path(folder)/'app.apk';file.write_bytes(b'apk')
+            gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
+            channel,v='moj-notatnik-android','2.9.8'
+            tag=channel+'-v'+v;name=p.CHANNELS[channel][1].format(v=v)
+            asset={'id':10,'name':name,'state':'uploaded','size':3,'digest':'sha256:'+p.sha(file),'browser_download_url':f'https://github.com/{p.REPO}/releases/download/untagged-abc123/{name}'}
+            draft={'id':1,'assets':[asset],'draft':True,'prerelease':False,'tag_name':tag,'body':p.MARKER,'html_url':f'https://github.com/{p.REPO}/releases/tag/{tag}'}
+            calls=[]
+            def api(path,method='GET',body=None,file=None):
+                calls.append((path,method))
+                self.assertFalse(path.startswith('https://uploads.'))
+                if method=='PATCH':
+                    draft['draft']=False
+                    asset['browser_download_url']=f'https://github.com/{p.REPO}/releases/download/{tag}/{name}'
+                return draft
+            with patch.object(gh,'enabled'),patch.object(gh,'api',side_effect=api):
+                result=gh.publish({'channel':channel,'version':v},{'path':str(file),'sizeBytes':3,'sha256':p.sha(file)},[draft])
+            self.assertEqual(result['tag'],tag)
+            self.assertEqual(sum(method=='PATCH' for _,method in calls),1)
+
+if __name__=='__main__':unittest.main(verbosity=2)

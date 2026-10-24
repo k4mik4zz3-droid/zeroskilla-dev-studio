@@ -18,6 +18,8 @@ Ustaw `PUBLICATION_ENABLED=true` (lub usuń zmienną), pozostaw **Build and depl
 
 ## Zarządzaj paczkami
 
+Publikację nowych plików z komputera zatrzymuje lokalny `Wylacz.cmd` w folderze **Automatyczne-wydania**. Zadanie Windows nazywa się `ZeroSkilla - automatyczna publikacja wydan`. Automat respektuje również `PUBLICATION_ENABLED=false` w obu repozytoriach. Szczegóły: [LOCAL-PUBLISHER.md](LOCAL-PUBLISHER.md).
+
 [GitHub Releases](https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases) przechowuje APK i ZIP. Reguły tagów i nazw plików są w README. Usunięcie lub przeniesienie wydania do Draft usuwa je z katalogu przy następnym udanym odświeżeniu. Nie przesyłaj źródeł, kluczy, tokenów, profili, kopii danych, logów, symboli debug ani Infernal Forge.
 
 Witryna nie przechowuje hasła i nie ma własnego mechanizmu nadawania uprawnień. Link Administracja prowadzi do ustawień Pages na GitHub.

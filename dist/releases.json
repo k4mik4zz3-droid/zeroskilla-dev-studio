@@ -1,46 +1,46 @@
 {
   "schemaVersion": 2,
-  "lastChecked": "2026-10-23T22:37:51.143Z",
+  "lastChecked": "2026-10-24T00:43:13.642Z",
   "sourceRepository": "k4mik4zz3-droid/zeroskilla-dev-studio",
   "releases": {
     "infernal-rift": {
       "versions": [
         {
-          "version": "v2.15.2",
+          "version": "v2.15.3",
           "engine": "Unity",
           "channel": "unity-windows",
           "date": "2026-10-23",
-          "description": "Infernal Rift Unity v2.15.2 — Windows",
-          "tag": "infernal-rift-unity-windows-v2.15.2",
-          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-windows-v2.15.2",
+          "description": "Infernal Rift Unity v2.15.3 — Windows",
+          "tag": "infernal-rift-unity-windows-v2.15.3",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-windows-v2.15.3",
           "files": [
             {
               "type": "ZIP",
               "platform": "Windows",
-              "name": "Infernal-Rift-Unity-v2.15.2-Windows-PC.zip",
-              "sizeBytes": 57289270,
-              "sha256": "8a583194699a2eb1dee94928d1515857ab3bda9235bcccd0d26da50119e5c6c9",
-              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-windows-v2.15.2/Infernal-Rift-Unity-v2.15.2-Windows-PC.zip",
+              "name": "Infernal-Rift-Unity-v2.15.3-Windows-PC.zip",
+              "sizeBytes": 57308616,
+              "sha256": "62df5e251e684a76cc66cc343e9cafb48b92979e1eeac45dd843a20c7318f628",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-windows-v2.15.3/Infernal-Rift-Unity-v2.15.3-Windows-PC.zip",
               "access": "public"
             }
           ]
         },
         {
-          "version": "v2.15.2",
+          "version": "v2.15.3",
           "engine": "Unity",
           "channel": "unity-android",
           "date": "2026-10-23",
-          "description": "Infernal Rift Unity v2.15.2 — Android",
-          "tag": "infernal-rift-unity-android-v2.15.2",
-          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-android-v2.15.2",
+          "description": "Infernal Rift Unity v2.15.3 — Android",
+          "tag": "infernal-rift-unity-android-v2.15.3",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/infernal-rift-unity-android-v2.15.3",
           "files": [
             {
               "type": "APK",
               "platform": "Android",
-              "name": "Infernal-Rift-Unity-v2.15.2.apk",
-              "sizeBytes": 49560454,
-              "sha256": "5e174869638417529200b27edee478f2ced9e892ecb7ef3591593d90e0a08b7f",
-              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-android-v2.15.2/Infernal-Rift-Unity-v2.15.2.apk",
+              "name": "Infernal-Rift-Unity-v2.15.3.apk",
+              "sizeBytes": 49619764,
+              "sha256": "5c4a5e2b0aad4a303573fa702a1fc78b3f054febcb016f25ed5a8d86c0ebde9a",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/infernal-rift-unity-android-v2.15.3/Infernal-Rift-Unity-v2.15.3.apk",
               "access": "public"
             }
           ]
@@ -110,8 +110,27 @@
       ]
     },
     "volvio-scanner": {
-      "versions": [],
-      "unavailableReason": "Znalezione APK (najnowsze v3.06, kod 306) to buildy debug. Do publikacji potrzebne jest podpisane wydanie produkcyjne bez android:debuggable."
+      "versions": [
+        {
+          "version": "v3.17.0",
+          "channel": "android",
+          "date": "2026-10-24",
+          "description": "VolVio Scanner v3.17.0 — Android",
+          "tag": "volvio-scanner-android-v3.17.0",
+          "releaseUrl": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/tag/volvio-scanner-android-v3.17.0",
+          "files": [
+            {
+              "type": "APK",
+              "platform": "Android",
+              "name": "VolVio-Scanner-v3.17.0.apk",
+              "sizeBytes": 3330453,
+              "sha256": "17b0ad00650beab623710f4fdc5b2a4b22febeb7e12743918240e5ffcf190c41",
+              "url": "https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases/download/volvio-scanner-android-v3.17.0/VolVio-Scanner-v3.17.0.apk",
+              "access": "public"
+            }
+          ]
+        }
+      ]
     },
     "encloser-cad": {
       "versions": [

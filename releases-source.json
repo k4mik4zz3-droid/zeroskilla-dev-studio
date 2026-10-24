@@ -50,7 +50,5 @@
       "description": "Mój Notatnik na Androida"
     }
   ],
-  "unavailable": {
-    "volvio-scanner": "Znalezione APK (najnowsze v3.06, kod 306) to buildy debug. Do publikacji potrzebne jest podpisane wydanie produkcyjne bez android:debuggable."
-  }
+  "unavailable": {}
 }

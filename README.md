@@ -6,6 +6,8 @@ Stronę utrzymuje repozytorium `ZeroSkillaDevStudio/zeroskilladevstudio.github.i
 
 ## Automatyczny katalog
 
+Gotowe paczki z lokalnego komputera może również publikować [lokalny automat](LOCAL-PUBLISHER.md). Po sprawdzeniu paczki wysyła nowy Release i zleca odświeżenie głównej strony. Szczegóły kontroli i wyłączniki są w instrukcji automatu.
+
 Obydwa workflow generują katalog bezpośrednio z GitHub Releases API. Główna strona odświeża się po zmianie workflow, ręcznie i co godzinę. Repozytorium źródłowe reaguje też na publikację, edycję lub usunięcie wydania.
 
 Generator wybiera najwyższą rzeczywiście dostępną wersję osobno dla projektu, silnika i platformy. Brak Windows w nowszym wydaniu Androida nie ukrywa ostatniej dostępnej paczki Windows. Zaplanowane, puste, robocze oraz przedpremierowe wydania nie są pokazywane. Starsze wydania pozostają w archiwum Releases.
@@ -39,7 +41,7 @@ Braki paczek opisuje `unavailable` w `releases-source.json`. Nie dodawaj numeró
 
 Pięć kart katalogu prowadzi do osobnych plików HTML w `dist/`: `infernal-rift.html`, `moj-notatnik.html`, `volvio-scanner.html`, `encloser-cad.html` i `padbridge.html`. Link pobierania na karcie prowadzi do sekcji `#pobierz` odpowiedniej podstrony. Wspólny styl to `studio.css` i `project-page.css`, a pobieranie aktualnego katalogu oraz powiększanie galerii obsługuje `project-page.js`.
 
-Każda podstrona pobiera aktualny `releases.json`; numerów i linków do paczek nie wpisuje się ręcznie do stron projektu. Zrzuty testowe pochodzą z kontrolowanych przykładów. Obrazy Mój Notatnik i VolVio są wyraźnie oznaczonymi podglądami demonstracyjnymi z użyciem AI i fikcyjnymi danymi. Przy dodawaniu materiałów nie publikuj prywatnych notatek, fotografii, kont, VIN, MAC urządzeń, ścieżek ani plików projektu. Opisy i podpisy galerii aktualizuj razem z materiałami.
+Każda podstrona pobiera aktualny `releases.json`; numerów i linków do paczek nie wpisuje się ręcznie do stron projektu. Galerie zawierają rzeczywiste zrzuty aplikacji i gier z kontrolowanych przykładów. Notatnik korzysta z fikcyjnych notatek w osobnym profilu; VolVio pokazuje ekrany bez połączenia z samochodem; CAD i PadBridge używają przykładów testowych. Obrazy są kodowane bezstratnie w WebP, bez zmiany treści interfejsu. Przy dodawaniu materiałów nie publikuj prywatnych notatek, fotografii, kont, VIN, MAC urządzeń, ścieżek ani plików projektu. Opisy i podpisy galerii aktualizuj razem z materiałami.
 
 PhotoMind jest na życzenie administratora wyłączony z publicznego katalogu i generatora wydań. Nie przywracaj go automatycznie po dodaniu Release.
 
