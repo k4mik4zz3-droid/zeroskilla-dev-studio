@@ -52,3 +52,11 @@ Publiczne opisy funkcji znajdują się w `project-features.json`. Każda pozycja
 `node scripts/build-releases.mjs` najpierw generuje statyczne spisy na pięciu podstronach, a potem odświeża katalog paczek. Samo odtworzenie opisów wykonuje `node scripts/build-project-features.mjs`. Strony zawierają pełną treść także bez JavaScript; skrypt `project-features.js` dodaje rozwijane kategorie i wyszukiwanie nazw oraz opisów z obsługą polskich znaków. Nowe wydanie pobiera się automatycznie z Releases, natomiast zmiana jego funkcji wymaga aktualizacji opisów w tym pliku.
 
 Wyłączenie i przywrócenie publikacji opisuje [ADMIN.md](ADMIN.md).
+
+## Ostatnia aktualizacja — Co nowego
+
+Katalog pobiera krótkie listy zmian z treści tego samego GitHub Release, z którego pochodzi najnowsza paczka danego kanału. W opisie wydania dodaj nagłówek `## Co nowego` i poniżej zwykłe punkty `- Zmiana.`. Następny nagłówek kończy tę listę. Strona pokazuje wersję, datę publikacji, listę zmian i link do pełnego wydania. Nie kopiuje opisu starszej wersji, gdy nowa nie ma własnych notatek.
+
+Dla pierwszego opisu paczki bez porównania z wcześniejszą wersją użyj `## Informacje o wydaniu`. `## Zmiany w dystrybucji` służy zmianom podpisu lub publikacji paczki i jest wyraźnie odróżnione od zmian funkcji. Brak notatek pozostaje oznaczony wprost. Nie wpisuj całej listy istniejących funkcji jako nowości.
+
+Lokalny automat może dołączyć publiczne notatki z jawnego pliku `.changes.json` obok gotowej paczki; format opisuje [LOCAL-PUBLISHER.md](LOCAL-PUBLISHER.md). Nie odczytuje w tym celu raportów projektu, prywatnych dokumentów ani notatek użytkownika.

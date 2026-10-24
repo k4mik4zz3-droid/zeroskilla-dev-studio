@@ -1,6 +1,7 @@
 import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {dirname,join,resolve} from 'node:path';
+import {releaseNotes} from './release-notes.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 export const projects=['infernal-rift','moj-notatnik','volvio-scanner','encloser-cad','padbridge'];
 const channels=[['infernal-rift','native','android'],['infernal-rift','unity','android'],['infernal-rift','unity','windows'],['moj-notatnik',null,'android'],['moj-notatnik',null,'windows'],['volvio-scanner',null,'android'],['encloser-cad',null,'windows'],['padbridge',null,'windows']];
@@ -40,7 +41,8 @@ export function buildCatalog(published,metadata,repo,checked=new Date().toISOStr
   if(release.draft||release.prerelease)continue;
   const parsed=parseTag(String(release.tag_name||''));if(!parsed)continue;
   const planned=(metadata.planned||[]).find(p=>p.tag===release.tag_name);
-  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,file});
+  const changelog=releaseNotes(release.body);
+  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,...(changelog?{changelog}:{}),file});
  }
  candidates.sort(versionOrder);
  const releases=Object.fromEntries(projects.map(p=>[p,{versions:[],...(metadata.unavailable?.[p]?{unavailableReason:metadata.unavailable[p]}:{})}]));

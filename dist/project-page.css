@@ -13,6 +13,17 @@
 
 .gallery-original{display:block;text-align:center;font-size:12px;color:#efb9a5;padding:13px 16px 0}.gallery-original:hover{color:#fff}
 
+.release-panel .release-date{margin-top:10px;color:#c8b5c8;font-size:11px}
+.release-changes{grid-column:1/-1;min-width:0;border-top:1px solid #49313f;padding-top:20px}
+.release-changes h4{color:#f4d8cf;font-size:16px;line-height:1.5;margin:0 0 12px;letter-spacing:-.01em}
+.release-changes ul{max-width:960px;margin:0;padding-left:19px;list-style:disc}
+.release-changes li{margin:8px 0;color:#c6b6ca;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.release-changes li::marker{color:#e89c7e}
+.release-panel .release-scope-note{margin-top:12px;max-width:850px}
+.release-more{display:inline-block;margin-top:14px;color:#eeb69e;font-size:11px;line-height:1.8;text-decoration:underline;text-underline-offset:4px}
+.release-more:hover{color:#fff}
+.release-more:focus-visible{outline:2px solid #ffa687;outline-offset:5px;border-radius:2px}
+
 .project-features{padding-top:72px;scroll-margin-top:90px}
 .project-features .section-top{margin-bottom:26px}
 .project-features .section-description{max-width:850px}

@@ -33,6 +33,31 @@ def archive(names):
     return zipfile.ZipFile(stream)
 
 class Validation(unittest.TestCase):
+    def test_public_notes_require_explicit_companion_and_matching_version(self):
+        with test_folder() as folder:
+            root=Path(folder)
+            candidate={'path':str(root/'app.apk'),'channel':'moj-notatnik-android','version':'2.9.8'}
+            (root/'README.md').write_text('Private project report',encoding='utf-8')
+            self.assertEqual(p.public_release_notes(candidate),[])
+            note=root/'Moj-Notatnik-v2.9.8.changes.json'
+            data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Poprawiono nagrywanie.']}
+            note.write_text(json.dumps(data),encoding='utf-8')
+            self.assertEqual(p.public_release_notes(candidate),data['changes'])
+            data['version']='2.9.7';note.write_text(json.dumps(data),encoding='utf-8')
+            with self.assertRaisesRegex(p.Rejected,'wersji'):p.public_release_notes(candidate)
+
+    def test_public_notes_reject_private_content_and_unexpected_fields(self):
+        with test_folder() as folder:
+            root=Path(folder);candidate={'path':str(root/'app.apk'),'channel':'moj-notatnik-android','version':'2.9.8'}
+            note=root/'Moj-Notatnik-v2.9.8.changes.json'
+            for text in ('C:\\Users\\private\\notes.txt','token=private','<script>bad</script>','Tekst\nDruga linia','person@example.com','https://private.example/report','github_pat_private'):
+                data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':[text]}
+                note.write_text(json.dumps(data),encoding='utf-8')
+                with self.assertRaises(p.Rejected,msg=text):p.public_release_notes(candidate)
+            data={'schemaVersion':1,'channel':candidate['channel'],'version':'2.9.8','changes':['Publiczny opis.'],'privateKey':'private'}
+            note.write_text(json.dumps(data),encoding='utf-8')
+            with self.assertRaises(p.Rejected):p.public_release_notes(candidate)
+
     def test_semantic_order_and_internal_four_component_version(self):
         self.assertGreater(p.order('2.15.3'),p.order('2.9.99'))
         self.assertEqual(p.version('0.1.12.0'),'0.1.12')
@@ -194,18 +219,22 @@ class Validation(unittest.TestCase):
             gh=p.GitHub({'ghConfig':folder,'gh':'gh'},True)
             channel,v='moj-notatnik-android','2.9.8'
             tag=channel+'-v'+v;name=p.CHANNELS[channel][1].format(v=v)
+            (Path(folder)/(Path(name).stem+'.changes.json')).write_text(json.dumps({'schemaVersion':1,'channel':channel,'version':v,'changes':['Poprawiono nagrywanie.']}),encoding='utf-8')
             asset={'id':10,'name':name,'state':'uploaded','size':3,'digest':'sha256:'+p.sha(file),'browser_download_url':f'https://github.com/{p.REPO}/releases/download/untagged-abc123/{name}'}
             draft={'id':1,'assets':[asset],'draft':True,'prerelease':False,'tag_name':tag,'body':p.MARKER,'html_url':f'https://github.com/{p.REPO}/releases/tag/{tag}'}
             calls=[]
+            expected_hash=p.sha(file)
             def api(path,method='GET',body=None,file=None):
                 calls.append((path,method))
                 self.assertFalse(path.startswith('https://uploads.'))
                 if method=='PATCH':
+                    self.assertIn('## Co nowego\n\n- Poprawiono nagrywanie.',body['body'])
+                    self.assertIn('SHA256: `'+expected_hash+'`',body['body'])
                     draft['draft']=False
                     asset['browser_download_url']=f'https://github.com/{p.REPO}/releases/download/{tag}/{name}'
                 return draft
             with patch.object(gh,'enabled'),patch.object(gh,'api',side_effect=api):
-                result=gh.publish({'channel':channel,'version':v},{'path':str(file),'sizeBytes':3,'sha256':p.sha(file)},[draft])
+                result=gh.publish({'channel':channel,'version':v,'path':str(file)},{'path':str(file),'sizeBytes':3,'sha256':p.sha(file)},[draft])
             self.assertEqual(result['tag'],tag)
             self.assertEqual(sum(method=='PATCH' for _,method in calls),1)
 

@@ -338,6 +338,30 @@ def remote_channels(releases):
                     latest[channel] = {'version':v,'tag':tag,'asset':asset}
     return latest
 
+
+def public_release_notes(candidate):
+    """Read only an explicitly named public companion, never project reports."""
+    if not candidate.get('path'):
+        return []
+    channel,v = candidate['channel'],candidate['version']
+    name = Path(CHANNELS[channel][1].format(v=v)).stem+'.changes.json'
+    file = Path(candidate['path']).parent/name
+    if not file.exists():
+        return []
+    if file.is_symlink() or not file.is_file() or file.stat().st_size>16384:
+        raise Rejected('Nieprawidłowy publiczny opis zmian')
+    data = json.loads(file.read_text(encoding='utf-8-sig'))
+    if not isinstance(data,dict) or set(data)!={'schemaVersion','channel','version','changes'} or data['schemaVersion']!=1 or data['channel']!=channel or version(data['version'])!=v:
+        raise Rejected('Opis zmian nie pasuje do kanału i wersji paczki')
+    items = data['changes']
+    if not isinstance(items,list) or not 1<=len(items)<=20:
+        raise Rejected('Publiczny opis wymaga od 1 do 20 punktów zmian')
+    private = re.compile(r'[a-z]:[\\/]|\\\\|file://|https?://|-----BEGIN|github_pat_|gh[pousr]_[a-z0-9]|(?:token|password|client_secret|api_key)\s*[:=]|[\w.+-]+@[\w.-]+\.[a-z]{2,}',re.I)
+    for item in items:
+        if not isinstance(item,str) or not item.strip() or len(item)>600 or re.search(r'[<>\x00-\x1f]',item) or private.search(item):
+            raise Rejected('Punkt zmian zawiera niedozwoloną treść lub dane prywatne')
+    return list(dict.fromkeys(item.strip() for item in items))
+
 class GitHub:
     def __init__(self, config, authenticated=False):
         self.config,self.authenticated = config,authenticated
@@ -394,7 +418,11 @@ class GitHub:
         name = CHANNELS[channel][1].format(v=v)
         tag = channel+'-v'+v
         title = f'{CHANNELS[channel][0]} v{v} — '+('Android' if channel.endswith('android') else 'Windows')
+        notes = public_release_notes(candidate)
+        public_changes = ('## Co nowego\n\n'+'\n'.join('- '+item for item in notes)+'\n\n## Plik do pobrania\n\n') if notes else ''
         body = f'{MARKER}\n\n{title}\n\nGotowa paczka dystrybucyjna. Wersja wewnętrzna i integralność sprawdzone automatycznie.\n\nPlik: `{name}`\nRozmiar: {package["sizeBytes"]} bajtów\nSHA256: `{package["sha256"]}`\n\n'+('APK: sprawdzony podpis produkcyjny, debugowanie wyłączone.' if channel.endswith('android') else 'Windows: przenośny ZIP; rozpakuj wszystkie pliki. Kontrola statyczna paczki nie zastępuje testów działania aplikacji.')
+        if public_changes:
+            body = body.replace(title+'\n\n',title+'\n\n'+public_changes,1)
         release = next((r for r in releases if r['tag_name']==tag),None)
         if release:
             if not release.get('draft') or release.get('prerelease') or MARKER not in (release.get('body') or ''):
@@ -426,7 +454,7 @@ class GitHub:
         if not refreshed.get('draft') or refreshed.get('tag_name')!=tag or MARKER not in (refreshed.get('body') or '') or len(refreshed.get('assets',[]))!=1 or refreshed['assets'][0].get('id')!=asset.get('id'):
             raise Rejected('Szkic zmienił się w trakcie wysyłania — publikacja wstrzymana')
         self.enabled()
-        self.api(f'repos/{REPO}/releases/{release["id"]}','PATCH',{'draft':False})
+        self.api(f'repos/{REPO}/releases/{release["id"]}','PATCH',{'draft':False,**({'body':body} if notes else {})})
         published = self.api(f'repos/{REPO}/releases/{release["id"]}')
         final_assets = published.get('assets',[])
         if published['draft'] or len(final_assets)!=1 or final_assets[0].get('browser_download_url')!=expected_url or final_assets[0].get('size')!=package['sizeBytes'] or final_assets[0].get('digest')!='sha256:'+package['sha256']:

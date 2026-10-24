@@ -39,3 +39,20 @@ APK VolVio ma wewnętrzną wersję `3.17`; jej jednoznaczną postacią dla tagu 
 Publiczne wydanie jest podpisane osobnym kluczem produkcyjnym. Pierwotna wersja testowa miała certyfikat Android Debug; przejście z niej wymaga odinstalowania wersji testowej po zabezpieczeniu potrzebnych danych. Klucz produkcyjny i hasło zabezpieczone Windows DPAPI pozostają wyłącznie w prywatnym katalogu automatu. Nie zmieniaj ani nie usuwaj tego klucza — kolejne aktualizacje APK muszą mieć ten sam podpis. Hasło DPAPI jest związane z kontem i komputerem; kopiowanie samego zaszyfrowanego pliku nie zapewnia odzyskania na innym komputerze.
 
 Lokalny `Podpisz-VolVio.ps1` może podpisać kolejny gotowy APK istniejącym kluczem, a wynik powinien trafić do skonfigurowanego folderu gotowych paczek. W zwykłym użyciu nie podawaj `-Initialize`: ten przełącznik służył wyłącznie jednorazowemu utworzeniu klucza. Automat nie podpisuje samodzielnie kolejnych paczek testowych; akceptuje wyłącznie zatwierdzony podpis produkcyjny. Nie publikuj klucza, hasła, konfiguracji konta ani kopii danych użytkownika w repozytorium lub GitHub Releases.
+
+## Publiczny opis zmian obok paczki
+
+Gotowy build może mieć obok plik o nazwie paczki z końcówką `.changes.json` zamiast `.apk` lub `.zip`, np. `Moj-Notatnik-v2.9.8.changes.json`. Dla źródła będącego folderem Windows umieść go w katalogu nadrzędnym tego folderu, używając nazwy docelowego ZIP z tabeli kanałów w README.
+
+```json
+{
+  "schemaVersion": 1,
+  "channel": "moj-notatnik-android",
+  "version": "2.9.8",
+  "changes": [
+    "Krótki opis faktycznie dodanej lub poprawionej funkcji."
+  ]
+}
+```
+
+To treść przeznaczona do publikacji: od 1 do 20 punktów, do 600 znaków każdy. Nie dodawaj danych użytkownika, kont, adresów e-mail, ścieżek, linków, kluczy ani raportów roboczych. Numer wersji i kanał muszą odpowiadać zweryfikowanej paczce. Nieprawidłowy jawny opis wstrzymuje publikację do poprawienia; brak pliku nie blokuje gotowej paczki i nie tworzy wymyślonych nowości. Plik opisowy nie jest dodawany do ZIP/APK ani wysyłany jako osobny załącznik: jego punkty trafiają do sekcji `Co nowego` GitHub Release, a stamtąd automatycznie na stronę. Opis już publicznego wydania można poprawić bez ponownego wysyłania paczki w treści Release na GitHub.

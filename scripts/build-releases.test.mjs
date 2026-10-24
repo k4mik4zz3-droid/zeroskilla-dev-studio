@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {buildCatalog,parseTag} from './release-catalog.mjs';
+import {releaseNotes} from './release-notes.mjs';
 const repo='owner/releases',digest='sha256:'+'a'.repeat(64);
 function release(tag,names,extra={}){return {tag_name:tag,published_at:'2026-10-23T12:00:00Z',name:tag,...extra,assets:names.map(name=>({name,size:100,state:'uploaded',digest,browser_download_url:`https://github.com/${repo}/releases/download/${tag}/${name}`}))}}
 test('Highest semantic version independently for engine and platform',()=>{
@@ -33,4 +34,24 @@ test('Incomplete newer release does not hide latest available platform',()=>{
  const r=buildCatalog([release('moj-notatnik-android-v3.0.0',[]),release('moj-notatnik-android-v2.9.7',['Moj-Notatnik-v2.9.7.apk']),release('moj-notatnik-windows-v0.1.0',['Moj-Notatnik-v0.1.0-Windows-x64.zip'])],{},repo);
  assert.equal(r.releases['moj-notatnik'].versions.length,2);
  assert.equal(parseTag('infernal-rift-native-windows-v0.346.0'),null);
+});
+
+test('Read only the explicit public change section, with bounded plain-text bullets',()=>{
+ const body='Plik: app.apk\nSHA256: secret\n\n## Co nowego\n- **Lepszy odczyt kontrolera.**\n- Lepszy odczyt kontrolera.\n- <img src=x onerror=alert(1)>\n- C:\\Users\\private\\notes.txt\n- token=private\n- Poprawiono zapis.\n\n## Weryfikacja\n- Wewnętrzny raport';
+ assert.deepEqual(releaseNotes(body),{kind:'changes',items:['Lepszy odczyt kontrolera.','Poprawiono zapis.']});
+ assert.equal(releaseNotes('Gotowa paczka.\nSHA256: abc'),null);
+ assert.equal(releaseNotes('<!-- ## Co nowego\n- Ukryty tekst -->'),null);
+ assert.equal(releaseNotes('## Co nowego\n- '+('a'.repeat(601))),null);
+});
+
+test('Latest release never inherits an older changelog or another platform change list',()=>{
+ const rows=[release('moj-notatnik-android-v2.9.7',['Moj-Notatnik-v2.9.7.apk'],{body:'## Co nowego\n- Widget nagrywania.'}),release('moj-notatnik-android-v2.9.8',['Moj-Notatnik-v2.9.8.apk']),release('moj-notatnik-windows-v0.1.0',['Moj-Notatnik-v0.1.0-Windows-x64.zip'],{body:'## Informacje o wydaniu\n- Wersja Windows.'})];
+ const versions=buildCatalog(rows,{},repo).releases['moj-notatnik'].versions;
+ assert.equal(versions.find(v=>v.channel==='android').version,'v2.9.8');
+ assert.equal(versions.find(v=>v.channel==='android').changelog,undefined);
+ assert.deepEqual(versions.find(v=>v.channel==='windows').changelog,{kind:'release',items:['Wersja Windows.']});
+});
+
+test('Distribution notes stay distinct from application changes',()=>{
+ assert.deepEqual(releaseNotes('## Zmiany w dystrybucji\n- Podpis produkcyjny.\n\n## Suma pliku\n- abc'),{kind:'distribution',items:['Podpis produkcyjny.']});
 });

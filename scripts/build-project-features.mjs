@@ -47,6 +47,7 @@ export async function buildFeaturePages(){
   const cssHash=createHash('sha256').update(css).digest('hex').slice(0,12);
   const js=await readFile(join(root,'dist/project-features.js'),'utf8');
   const jsHash=createHash('sha256').update(js).digest('hex').slice(0,12);
+  const pageJsHash=createHash('sha256').update(await readFile(join(root,'dist/project-page.js'),'utf8')).digest('hex').slice(0,12);
   const counts={};
   for(const id of projects){
     const project=data.projects[id],file=join(root,'dist',id+'.html');
@@ -67,6 +68,7 @@ export async function buildFeaturePages(){
       html=html.replace(gallery,'<a class="button button-secondary" href="#funkcje">Wszystkie funkcje ↓</a>'+gallery);
     }
     html=html.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
+    html=html.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
     const script=`<script src="./project-features.js?v=${jsHash}" defer></script>`;
     if(/<script src="\.\/project-features\.js[^"<]*" defer><\/script>/.test(html))html=html.replace(/<script src="\.\/project-features\.js[^"<]*" defer><\/script>/,script);
     else html=html.replace('</body>',`  ${script}\n</body>`);
