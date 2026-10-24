@@ -45,4 +45,10 @@ Każda podstrona pobiera aktualny `releases.json`; numerów i linków do paczek 
 
 PhotoMind jest na życzenie administratora wyłączony z publicznego katalogu i generatora wydań. Nie przywracaj go automatycznie po dodaniu Release.
 
+## Spisy funkcji
+
+Publiczne opisy funkcji znajdują się w `project-features.json`. Każda pozycja ma nazwę i krótki opis; opcjonalne oznaczenia wskazują system lub silnik. `reviewedVersions` zapisuje wersje, na których sprawdzono opis. Po zmianie możliwości aplikacji zaktualizuj tę listę na podstawie gotowego wydania, bez przenoszenia prywatnych danych, ścieżek, kodu źródłowego ani materiałów audytu.
+
+`node scripts/build-releases.mjs` najpierw generuje statyczne spisy na pięciu podstronach, a potem odświeża katalog paczek. Samo odtworzenie opisów wykonuje `node scripts/build-project-features.mjs`. Strony zawierają pełną treść także bez JavaScript; skrypt `project-features.js` dodaje rozwijane kategorie i wyszukiwanie nazw oraz opisów z obsługą polskich znaków. Nowe wydanie pobiera się automatycznie z Releases, natomiast zmiana jego funkcji wymaga aktualizacji opisów w tym pliku.
+
 Wyłączenie i przywrócenie publikacji opisuje [ADMIN.md](ADMIN.md).

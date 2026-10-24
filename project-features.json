@@ -1,0 +1,3038 @@
+{
+  "schemaVersion": 1,
+  "projects": {
+    "infernal-rift": {
+      "platforms": [
+        "Android",
+        "Windows"
+      ],
+      "reviewedVersions": {
+        "native-android": "0.346.0",
+        "unity-android": "2.15.4",
+        "unity-windows": "2.15.4"
+      },
+      "introduction": "Rozgrywka, rozwój bohatera i ustawienia gry, z podziałem na kategorie. Oznaczenia wskazują funkcje konkretnego silnika lub systemu.",
+      "groups": [
+        {
+          "title": "Bohaterowie i zapis wyprawy",
+          "items": [
+            {
+              "name": "Sześć klas bohatera",
+              "description": "Wojownik, Mag, Łucznik, Zabójca, Paladyn i Nekromanta mają własne zestawy ataków oraz umiejętności.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Imię i wygląd postaci",
+              "description": "Przy tworzeniu bohatera wpisujesz imię i wybierasz jeden z trzech wariantów wyglądu, z podglądem postaci.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dwanaście profili",
+              "description": "Każdy z 12 bohaterów ma niezależny zapis; lista pokazuje jego klasę, poziom i postęp szczelin.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wznawianie wyprawy",
+              "description": "Z menu wznawiasz zapis bohatera albo wybierasz inną postać.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Rozwój doświadczeniem",
+              "description": "Pokonywanie przeciwników daje doświadczenie; awans zwiększa możliwości bohatera, przyznaje punkt umiejętności i odnawia życie oraz manę.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Automatyczny i ręczny zapis",
+              "description": "Postęp zapisuje się automatycznie podczas gry i przy zmianie lokacji; menu pauzy pozwala zapisać wyprawę i wrócić do menu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zapis świata wyprawy",
+              "description": "Zapis zachowuje bohatera, wyposażenie, trudność, odkrytą mapę, łup oraz stan portalu i próby Otchłani.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Powrót po śmierci",
+              "description": "W Piekielnej Szczelinie bohater odradza się w punkcie wejścia z odnowionym życiem i maną. Śmierć w Otchłani kończy bieżącą próbę.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Walka i umiejętności",
+          "items": [
+            {
+              "name": "Sześć ataków podstawowych na klasę",
+              "description": "Wybierasz odblokowany wariant ataku podstawowego, który zastępuje główny atak bohatera.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dwadzieścia cztery umiejętności specjalne na klasę",
+              "description": "Aktywne zdolności obejmują między innymi ataki wręcz, pociski, strefy, szarże i efekty zależne od klasy.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dziesięć umiejętności pasywnych na klasę",
+              "description": "Odblokowane pasywne zdolności zapewniają stałe premie bez zajmowania kafelka aktywnej umiejętności.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odblokowanie i ulepszanie rang",
+              "description": "Punkty rozwoju wydajesz na nowe zdolności lub wyższe rangi; obowiązują wymagania poziomu, poprzednich umiejętności i maksymalnej rangi.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Osiem aktywnych kafelków",
+              "description": "Przypisujesz odblokowane specjalne zdolności do ośmiu miejsc i możesz usuwać lub zmieniać przypisania.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Szczegóły zdolności",
+              "description": "Ekran umiejętności pokazuje opis, rangę, wymagany poziom, obrażenia, zasięg, koszt, czas odnowienia i dodatkowe działanie danej zdolności.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Mana i czas odnowienia",
+              "description": "Zdolności zużywają zasoby i mają własne odnowienie; HUD pokazuje pozostały czas przy przypisanych umiejętnościach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Efekty i kontrola przeciwników",
+              "description": "Wybrane zdolności zadają obrażenia w czasie, spowalniają, unieruchamiają lub osłabiają; bossowie mają ograniczoną podatność na część efektów.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Leczenie i osłony",
+              "description": "Odpowiednie zdolności leczą, pochłaniają obrażenia, przyznają czasowe premie lub odzyskują życie z zadanych obrażeń.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Przywołane jednostki",
+              "description": "Umiejętności przywołania tworzą walczących towarzyszy; panel pokazuje liczbę i wspólne zdrowie pomocników oraz strażników.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Unik",
+              "description": "Szybki unik przemieszcza bohatera we wskazanym kierunku i może przerwać przygotowywany atak; kolejne użycie wymaga odnowienia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Mikstury życia i many",
+              "description": "Dwa osobne rodzaje mikstur uzupełniają zasoby bohatera; liczba dostępnych mikstur jest widoczna w panelu walki.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odnawianie mikstur podczas gry",
+              "description": "Zużyte zapasy mikstur uzupełniają się z czasem aktywnej rozgrywki do ustalonego limitu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Celowanie ręczne i automatyczne",
+              "description": "Możesz wskazać przeciwnika lub kierunek ataku; wspomaganie koryguje cel, a ręcznie wybrany kierunek ma pierwszeństwo.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Podejście do zasięgu",
+              "description": "Bohater może podejść do wybranego przeciwnika, aby wykonać atak lub umiejętność zgodnie z jej rzeczywistym zasięgiem.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Oznaczenia celowania",
+              "description": "Włączasz strefy umiejętności, tory pocisków i doskoków oraz kierunkowy celownik z zasięgiem i miejscem trafienia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Ekwipunek, przedmioty i łup",
+          "items": [
+            {
+              "name": "Plecak i dziesięć miejsc wyposażenia",
+              "description": "Przechowujesz łup w plecaku, a broń, drugą rękę, części pancerza, amulet i dwa pierścienie zakładasz w odpowiednich miejscach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zakładanie i zdejmowanie sprzętu",
+              "description": "Rozpoznane przedmioty zgodne z klasą i miejscem wyposażenia możesz zakładać lub zdejmować; dla pierścieni wybierasz jedno z dwóch miejsc.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Parametry i właściwości przedmiotów",
+              "description": "Karta przedmiotu pokazuje poziom, rzadkość, moc, obrażenia lub pancerz, premie oraz specjalne właściwości rozpoznanego sprzętu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Porównanie wyposażenia",
+              "description": "Wybrany przedmiot porównujesz z obecnie założonym; widzisz zmiany parametrów oraz wpływ na całkowitą moc bohatera.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Sortowanie plecaka",
+              "description": "Porządkujesz przedmioty według typu, rzadkości, poziomu, mocy, kolejności pozyskania lub wartości.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Podgląd 3D i przymierzanie",
+              "description": "Oglądasz obracaną postać z aktualnym wyposażeniem lub tymczasowo przymierzasz przedmiot przed jego założeniem.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Szczegółowe statystyki bohatera",
+              "description": "Sprawdzasz atrybuty, życie, manę, obrażenia, tempo ataku, pancerz, odporność i magiczny łup z podziałem na bazę, sprzęt, efekty i wynik.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Moc bohatera i magiczny łup",
+              "description": "Moc pomaga porównywać wyposażenie, a parametr magicznego łupu zwiększa szansę na przedmioty magiczne lub lepsze.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Identyfikacja w podróży",
+              "description": "Wielorazowa księga ujawnia ukryte parametry wybranych przedmiotów; ma 20 użyć odnawianych w obozie i pozwala rozpoznać zaznaczone lub wszystkie do limitu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Łup z potworów i skrzyń",
+              "description": "Przeciwnicy, bossowie i skrzynie dostarczają wyposażenia, złota i mikstur; rzadkość przedmiotów rozpoznajesz po barwie i oznaczeniach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Ręczne lub automatyczne podnoszenie",
+              "description": "Wybierasz automatyczne zbieranie albo podchodzisz do łupu i klikasz jego podpis; dotyczy to sprzętu, złota i mikstur.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Widoczne przedmioty na ziemi",
+              "description": "Łup ma modele w świecie, stabilne podpisy i wyróżnienia; legendarne i mityczne przedmioty otrzymują charakterystyczne aury.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zachowywanie pozostawionego łupu",
+              "description": "Stan łupów jest zapisywany osobno dla wyprawy i areny, aby można było po nie wrócić.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Szczeliny, świat i mapa",
+          "items": [
+            {
+              "name": "Piekielna Szczelina",
+              "description": "Przechodzisz kolejne lokacje z różnymi biomami, przeciwnikami, skrzyniami i strażnikami; wybór obejmuje już odblokowane poziomy.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odblokowywanie dalszych poziomów",
+              "description": "Pokonanie strażnika otwiera dalszą drogę; tempo pokonania bossa wpływa na liczbę odblokowanych poziomów.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Powrót do odblokowanych szczelin",
+              "description": "Wybierasz dowolny dostępny poziom, szybko przechodzisz do najwyższego lub ostatnio odwiedzanego i ponawiasz wyprawy.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Przeciwnicy różnych rang",
+              "description": "Spotykasz zwykłych przeciwników, elity, minibossów i bossów z odmiennymi atakami i nagrodami.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dwadzieścia poziomów trudności",
+              "description": "W dowolnym momencie zmieniasz trudność obu szczelin, zwiększając życie i obrażenia przeciwników.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Szczelina Otchłani od poziomu 20",
+              "description": "Arena wystawia bohatera na niekończące się, coraz silniejsze fale przeciwników aż do śmierci.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wstrzymywanie i wznawianie Otchłani",
+              "description": "Powrót do obozu zachowuje aktywną próbę, a ponowne wejście ją wznawia; po śmierci następna próba zaczyna się od pierwszej fali.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wynik i licznik fal",
+              "description": "Widzisz numer fali, pozostałych przeciwników, czas do kolejnej fali, liczbę przetrwanych fal i najlepszy wynik bohatera.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Minimapa i pełna mapa",
+              "description": "Mapa pokazuje bohatera, odkryty teren, skrzynie, przejścia, bossów, elity, portal, ważny łup oraz usługi obozowe.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Sterowanie mapą",
+              "description": "Przesuwasz i przybliżasz mapę, dopasowujesz całą lokację lub centrujesz na bohaterze. Unity pozwala także centrować na stanowiskach obozu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zachowanie odkrytej mapy",
+              "description": "Odkryty teren pozostaje zapisany dla bohatera i konkretnej szczeliny.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Obóz i usługi",
+          "items": [
+            {
+              "name": "Portal między wyprawą a obozem",
+              "description": "Tworzysz powrót do obozu i wracasz do miejsca przerwanej wyprawy; po użyciu drogi powrotnej portal zostaje zużyty.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odpoczynek przy ognisku",
+              "description": "Ognisko odnawia całe życie i manę, zapisuje grę oraz umożliwia ponowne podejmowanie walk z bossami.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Stanowisko identyfikacji",
+              "description": "W obozie rozpoznajesz wybrane lub wszystkie przedmioty z plecaka i schowka za złoto, a przy okazji odnawiasz użycia księgi.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wytwarzanie sprzętu",
+              "description": "Stół rzemieślniczy zamienia materiały i złoto w nowy losowany przedmiot wyposażenia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Ulepszanie wyposażenia",
+              "description": "Kamień kowalski wzmacnia aktualnie założony sprzęt za rosnący koszt materiałów i złota.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odzysk materiałów",
+              "description": "Wybierasz rzadkości zbędnych przedmiotów z plecaka, sprawdzasz liczbę i potwierdzasz zamianę na materiały; założony sprzęt jest pomijany.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Schowek obozowy",
+              "description": "Przenosisz przedmioty między plecakiem a skrzynią w osobnych, przewijanych panelach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Interakcja ze stanowiskami i przejściami",
+              "description": "Po podejściu korzystasz ze stanowisk, skrzyń i przejść. W Unity kliknięcie obiektu może też skierować bohatera w jego stronę.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Sterowanie i kamera",
+          "items": [
+            {
+              "name": "Mysz i klawiatura",
+              "description": "Lewy przycisk myszy wskazuje ruch lub przeciwnika, strzałki poruszają bohaterem, a skróty obsługują umiejętności, mikstury, unik, mapę i interakcje.",
+              "edition": "unity",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Atak w miejscu",
+              "description": "Przytrzymanie przypisanego klawisza pozwala atakować we wskazanym kierunku bez podchodzenia do celu.",
+              "edition": "unity",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zmiana przypisań klawiszy",
+              "description": "Przypisujesz własne klawisze, zamieniasz kolidujące skróty lub przywracasz sterowanie domyślne.",
+              "edition": "unity",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dotykowy joystick",
+              "description": "Poruszasz postacią wirtualnym drążkiem i dostosowujesz stronę lub układ sterowania.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Gesty walki i anulowanie zdolności",
+              "description": "Przytrzymuj atak, przeciągaj dla kierunku i puszczaj umiejętność, aby ją wykonać. Anuluj powrotem do środka przycisku na własnym silniku albo przeciągnięciem na „Anuluj” w Unity.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Dwie perspektywy kamery",
+              "description": "Przełączasz swobodną kamerę Unity i klasyczny izometryczny widok Infernal Rift.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Obrót i przybliżenie kamery",
+              "description": "Swobodny widok pozwala zmieniać obrót, nachylenie i odległość; klasyczny oferuje własną wysokość oraz pole widzenia.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Statyczne lub dynamiczne prowadzenie",
+              "description": "Wybierasz spokojny widok albo prowadzenie reagujące na kierunek ruchu i ataku bohatera.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dostosowanie pola widzenia i kąta",
+              "description": "Ustawiasz pole widzenia oraz kąt kamery i możesz wrócić do ustawień standardowych.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kadrowanie zasięgu zdolności",
+              "description": "Podczas celowania kamera płynnie przesuwa kadr i w razie potrzeby oddala go, aby pokazać zasięg umiejętności; po użyciu wraca do bohatera.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Interfejs i czytelność",
+          "items": [
+            {
+              "name": "Panel stanu bohatera",
+              "description": "HUD pokazuje życie, manę, doświadczenie, poziom, złoto, moc, lokację i dostępne umiejętności z czasami odnowienia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zdrowie wybranego celu i bossa",
+              "description": "Górny panel pokazuje nazwę przeciwnika oraz procent pozostałego zdrowia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Skala i przezroczystość interfejsu",
+              "description": "Dostosowujesz rozmiar HUD, wielkość tekstu i przezroczystość elementów.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Układy i tryb leworęczny",
+              "description": "Wybierasz klasyczne, rozsunięte lub kompaktowe rozmieszczenie sterowania oraz zamieniasz jego strony.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Edytor HUD",
+              "description": "Przeciągasz i skalujesz elementy interfejsu oraz wspólny panel walki, korygujesz pozycje co piksel, zapisujesz układ lub cofasz zmiany.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Profil układu HUD",
+              "description": "Zapisujesz własny układ i wczytujesz go ponownie; dostępny jest reset pojedynczego elementu lub całego rozmieszczenia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Marginesy ekranu",
+              "description": "Osobno ustawiasz górny, dolny, lewy i prawy margines interfejsu, razem z obszarami dotyku.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Podpisy przeciwników i łupu",
+              "description": "Włączasz lub ukrywasz etykiety potworów i przedmiotów, zmieniasz ich skalę oraz przezroczystość.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Jasność i kontrast interfejsu",
+              "description": "Regulujesz czytelność tekstu, ikon, HUD i okien niezależnie od kolorów świata, z podglądem na żywo.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Opisy ustawień",
+              "description": "Przytrzymanie nazwy opcji wyświetla objaśnienie jej działania i wpływu na wydajność.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ],
+          "edition": "unity"
+        },
+        {
+          "title": "Grafika i wydajność",
+          "items": [
+            {
+              "name": "Profile jakości grafiki",
+              "description": "Wybierasz niski, średni, wysoki, bardzo wysoki lub własny profil jakości.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Sześć własnych profili grafiki",
+              "description": "Zapisujesz i wczytujesz zestawy obsługiwanych ustawień grafiki oraz kolorystyki świata w sześciu miejscach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Skala renderowania sceny",
+              "description": "Zmieniasz rozdzielczość renderowania świata, zachowując interfejs w rozdzielczości ekranu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Tekstury, filtrowanie i materiały",
+              "description": "Dostosowujesz rozdzielczość tekstur, filtrowanie, limit anizotropii, jakość materiałów i szczegółowość normalnych.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dystans rysowania",
+              "description": "Regulujesz zasięg pokazywania świata; wersja Android stosuje własne, krótsze zakresy.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Cienie i światła",
+              "description": "Zmieniasz jakość i dystans cieni, oświetlenie materiałów, liczbę widocznych lamp oraz jasność świata i lamp.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Efekty, mgła i wygładzanie",
+              "description": "Dostosowujesz jakość efektów walki, liczbę cząsteczek, atmosferę, post-processing i antyaliasing.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kolorystyka świata",
+              "description": "Sześć filtrów oraz suwaki jasności, kontrastu, nasycenia i siły filtra pozwalają zmienić wygląd świata z podglądem na żywo.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Limit klatek i licznik FPS",
+              "description": "Wybierasz limit 30, 60, 90 lub 120 klatek na sekundę oraz włączasz licznik bieżącej płynności.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Stabilizacja płynności",
+              "description": "Na Vulkanie dostosowuje rozdzielczość sceny do obciążenia; na OpenGL wybiera obniżony rozmiar obrazu. Interfejs zachowuje pełną rozdzielczość.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Tryb pełnoekranowy i okno",
+              "description": "Na komputerze przełączasz pełny ekran w rozdzielczości monitora oraz tryb okienkowy.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Ukrywanie pasków systemowych",
+              "description": "Możesz wykorzystać ekran telefonu do gry z ukrytymi paskami Androida.",
+              "platforms": [
+                "Android"
+              ]
+            }
+          ],
+          "edition": "unity"
+        },
+        {
+          "title": "Dźwięk i zasoby gry",
+          "items": [
+            {
+              "name": "Mikser dźwięku",
+              "description": "Osobno regulujesz głośność główną, muzykę, otoczenie, interfejs, kroki, walkę, głosy, dźwięki łupu i jego zbierania.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odsłuch i wyciszenie",
+              "description": "Odsłuchujesz przykładowe efekty, wyciszasz całą grę lub przywracasz domyślne poziomy głośności.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Informacje o dźwiękach",
+              "description": "Ekran autorów i licencji wyjaśnia pochodzenie użytego pakietu audio.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Pobieranie zasobów lokacji",
+              "description": "Gra pobiera wymagane modele, tekstury i interfejs, zachowuje zweryfikowane pliki oraz używa ich ponownie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Sprawdzanie i naprawa zasobów",
+              "description": "Wznawiasz pobieranie zasobów lokacji lub sprawdzasz podpisy i sumy kontrolne; brakujące i uszkodzone pliki są pobierane ponownie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ],
+          "edition": "unity"
+        },
+        {
+          "title": "Bohater i postęp na własnym silniku",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Pomoc w odnalezieniu strażnika",
+              "description": "Po trzech minutach mapa pokazuje położenie żywego strażnika lub kierunek do niego, jeśli nadal blokuje dalszą drogę.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Procent odkrycia szczelin",
+              "description": "Lista poziomów pokazuje osobny procent zbadanego terenu dla każdej dostępnej szczeliny.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Podsumowanie pokonania strażnika",
+              "description": "Po walce widzisz dokładny czas, liczbę nowo odblokowanych poziomów i ich zakres.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Wczytanie ostatniego zapisu z pauzy",
+              "description": "Wracaj do ostatniego zapisu aktualnego bohatera bez wyjścia do menu, z potwierdzeniem utraty niezapisanych zmian.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Usuwanie zapisów bohaterów",
+              "description": "Zwalniaj wybrane miejsce na bohatera po dodatkowym potwierdzeniu usunięcia całego jego postępu.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Czas gry bohatera",
+              "description": "Sprawdzaj na karcie zapisu łączny czas gry danym bohaterem obok klasy, poziomu i osiągniętej szczeliny.",
+              "platforms": [
+                "Android"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Sterowanie dotykowe i celowanie",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Analogowy joystick",
+              "description": "Steruj kierunkiem i siłą ruchu, także podczas jednoczesnego atakowania i celowania."
+            },
+            {
+              "name": "Przytrzymywany atak",
+              "description": "Przytrzymaj przycisk, aby ponawiać gotowy atak, a przeciągnięciem wybieraj jego kierunek."
+            },
+            {
+              "name": "Ręczne celowanie umiejętnością",
+              "description": "Przeciągnij przycisk, aby określić kierunek i zasięg umiejętności, puść, aby ją wykonać, lub wróć do środka, aby anulować."
+            },
+            {
+              "name": "Wybór przeciwnika dotykiem",
+              "description": "Dotknij przeciwnika, aby go wskazać, lub dotknij pustego obszaru, aby usunąć wybór."
+            },
+            {
+              "name": "Obszary umiejętności",
+              "description": "Włączaj widoczne strefy trafień, wybuchów i efektów na ziemi."
+            },
+            {
+              "name": "Tory pocisków i doskoków",
+              "description": "Pokazuj kierunek pocisków oraz drogę przemieszczania podczas umiejętności."
+            },
+            {
+              "name": "Tory ostrzy",
+              "description": "Wyświetlaj obrys zasięgu cięć podążający za ruchem broni."
+            },
+            {
+              "name": "Wspomaganie celowania",
+              "description": "Włączaj korektę kierunku strzału do przeciwnika znajdującego się przed postacią."
+            },
+            {
+              "name": "Prosty wskaźnik celowania",
+              "description": "Pokazuj strzałkę kierunku, zasięg i celownik wskazanej strefy."
+            }
+          ]
+        },
+        {
+          "title": "Interfejs, łup i edytor HUD",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Skala HUD",
+              "description": "Wybieraj wielkość całego HUD: 85%, 100% lub 115%."
+            },
+            {
+              "name": "Skala tekstu",
+              "description": "Ustawiaj wielkość napisów: 90%, 100% lub 110%."
+            },
+            {
+              "name": "Przezroczystość HUD",
+              "description": "Ustawiaj widoczność HUD na 65%, 80% lub 100%, zachowując działanie przycisków."
+            },
+            {
+              "name": "Położenie sterowania",
+              "description": "Wybieraj klasyczny, rozsunięty lub kompaktowy układ sterowania."
+            },
+            {
+              "name": "Tryb leworęczny",
+              "description": "Zamieniaj strony wybranych elementów sterowania."
+            },
+            {
+              "name": "Ukryj systemowe paski",
+              "description": "Włączaj pełny ekran bez systemowych pasków Androida."
+            },
+            {
+              "name": "Marginesy ekranu",
+              "description": "Dobieraj automatycznie lub osobno reguluj każdy brzeg ekranu, z krokiem 0,5% krótszego boku."
+            },
+            {
+              "name": "Przywracanie automatycznych marginesów",
+              "description": "Jednym przyciskiem przywróć automatyczny bezpieczny obszar dla HUD i pól dotyku."
+            },
+            {
+              "name": "Przeciąganie elementów HUD",
+              "description": "Rozmieszczaj każdy element interfejsu na podglądzie gry, również poza krawędzią ekranu."
+            },
+            {
+              "name": "Przesunięcie: 1 px",
+              "description": "Dopracowuj pozycję wybranego elementu HUD strzałkami przesuwającymi go o jeden piksel."
+            },
+            {
+              "name": "Skala elementu HUD",
+              "description": "Zmieniaj rozmiar pojedynczego elementu i jego pola dotyku w zakresie 70–150%."
+            },
+            {
+              "name": "Wybór i zwijanie panelu edytora",
+              "description": "Wybieraj także nakładające się elementy strzałkami i zwijaj panel, aby odsłonić podgląd."
+            },
+            {
+              "name": "Resetowanie i zatwierdzanie układu",
+              "description": "Resetuj pojedynczy element lub cały układ, a zmiany zatwierdzaj albo anuluj."
+            },
+            {
+              "name": "Własne profile HUD",
+              "description": "Zapisuj do 16 nazwanych układów, podglądaj je, zastępuj i usuwaj; zastosowanie wymaga zatwierdzenia układu."
+            },
+            {
+              "name": "Czytelność nazw łupu",
+              "description": "Osobno reguluj skalę 75–150% i przezroczystość podpisów przedmiotów na ziemi."
+            },
+            {
+              "name": "Czytelność nazw potworów",
+              "description": "Osobno reguluj skalę 75–150% i przezroczystość etykiet przeciwników."
+            },
+            {
+              "name": "Podpisy łupu",
+              "description": "Włączaj lub ukrywaj podpisy przedmiotów, także przyciskiem bezpośrednio w HUD."
+            },
+            {
+              "name": "Automatyczne podnoszenie przedmiotów",
+              "description": "Wybieraj automatyczne zbieranie pobliskiego łupu, złota i mikstur albo ręczne podnoszenie z listy podpisów."
+            }
+          ]
+        },
+        {
+          "title": "Kamera i mapy",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Wysokość kamery",
+              "description": "Reguluj wysokość kamery suwakiem w grze od 5% do 120%."
+            },
+            {
+              "name": "Pole widzenia",
+              "description": "Zmieniaj pole widzenia od 75% do 160%, suwakiem lub przyciskami szybkiego wyboru."
+            },
+            {
+              "name": "Tryb kamery",
+              "description": "Wybieraj kamerę statyczną albo dynamiczną, kierującą się najpierw atakiem, następnie ruchem postaci."
+            },
+            {
+              "name": "Kąt kamery",
+              "description": "Ustawiaj nachylenie o ±15° względem standardu lub korzystaj z suwaka 25–55° w panelu gry."
+            },
+            {
+              "name": "Przywrócenie standardowej kamery",
+              "description": "Przywracaj jednym przyciskiem domyślne pole widzenia, wysokość i kąt kamery."
+            },
+            {
+              "name": "Minimapa obozu i szczelin",
+              "description": "Śledź otoczenie na minimapie ze stałą północą i obracającą się strzałką bohatera."
+            },
+            {
+              "name": "Zbliżenie minimapy",
+              "description": "Reguluj zbliżenie 50–200%, z osobną wartością dla obozu i wypraw oraz szybkim powrotem do 100%."
+            },
+            {
+              "name": "Pełna mapa z legendą",
+              "description": "Otwieraj mapę z oznaczeniami bohatera, wrogów, przejść, skrzyń, łupu i usług obozowiska."
+            },
+            {
+              "name": "Przesuwanie i dopasowanie mapy",
+              "description": "Przeciągaj mapę, zmieniaj jej zbliżenie, centruj na bohaterze lub dopasowuj widok całej lokacji."
+            }
+          ]
+        },
+        {
+          "title": "Dźwięk",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Głośność główna",
+              "description": "Reguluj wspólny poziom całego dźwięku. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Muzyka",
+              "description": "Ustawiaj głośność muzyki w tle. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Efekty — ogólnie",
+              "description": "Reguluj zbiorczą głośność efektów dźwiękowych. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Otoczenie",
+              "description": "Ustawiaj poziom dźwięków otoczenia. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Głosy przywołań",
+              "description": "Reguluj głośność głosów przywołanych sojuszników. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Potwory — ogólnie",
+              "description": "Ustawiaj poziom głosów i odgłosów potworów. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Interfejs",
+              "description": "Reguluj głośność dźwięków menu i przycisków. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Walka postaci",
+              "description": "Ustawiaj poziom dźwięków walki bohatera. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Walka potworów",
+              "description": "Reguluj poziom odgłosów ataków przeciwników. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Kroki",
+              "description": "Ustawiaj głośność kroków. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Drop zwykłego ekwipunku",
+              "description": "Reguluj dźwięk wypadania zwykłych przedmiotów. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Drop Legendary",
+              "description": "Osobno ustawiaj sygnał wypadania przedmiotu legendarnego. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Drop Mythic",
+              "description": "Osobno ustawiaj sygnał wypadania przedmiotu mitycznego. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Pickup ekwipunku",
+              "description": "Reguluj dźwięk podnoszenia wyposażenia. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Drop złota",
+              "description": "Ustawiaj sygnał wypadania złota. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Zbieranie złota",
+              "description": "Reguluj dźwięk podnoszenia złota. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Aury przedmiotów",
+              "description": "Ustawiaj głośność dźwięków towarzyszących aurom łupu. Zakres wynosi 0–100%."
+            },
+            {
+              "name": "Odsłuch kanałów",
+              "description": "Sprawdzaj wybrany poziom przykładowym dźwiękiem; odsłuch nie obejmuje muzyki ani otoczenia."
+            },
+            {
+              "name": "Wycisz wszystko",
+              "description": "Wycisz całą grę bez zmieniania zapisanych poziomów poszczególnych kanałów."
+            },
+            {
+              "name": "Domyślne ustawienia dźwięku",
+              "description": "Przywracaj standardową konfigurację wszystkich kanałów."
+            },
+            {
+              "name": "Autorzy i licencje audio",
+              "description": "Otwieraj informacje o pochodzeniu dźwięków i licencjach użytych materiałów."
+            }
+          ]
+        },
+        {
+          "title": "Obraz i skalowanie",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Profil grafiki",
+              "description": "Wybieraj cztery gotowe poziomy jakości albo ustawienia własne."
+            },
+            {
+              "name": "Optymalny",
+              "description": "Zastosuj przygotowany zestaw ustawień grafiki, RT i kamery."
+            },
+            {
+              "name": "Własne profile grafiki",
+              "description": "Zapisuj do 16 nazwanych zestawów grafiki, RT, optymalizacji, kamery, skalowania i dokładnych opcji, a następnie wybieraj, zastępuj lub usuwaj je."
+            },
+            {
+              "name": "Skala renderowania",
+              "description": "Reguluj rozdzielczość sceny 3D w zakresie 40–100% suwakiem lub krokami 1%, zachowując pełną rozdzielczość HUD."
+            },
+            {
+              "name": "Dokładna skala sceny",
+              "description": "Wprowadzaj precyzyjne nadpisanie skali sceny 40–100% albo pozostawiaj wartość z profilu."
+            },
+            {
+              "name": "Technika skalowania",
+              "description": "Wybieraj AMD FSR 3.1.4, eksperymentalny Arm ASR lub wyłączenie rekonstrukcji temporalnej."
+            },
+            {
+              "name": "Upscaling / temporal AA",
+              "description": "Wybieraj Native AA, Quality, Balanced, Performance lub Ultra Performance, niezależnie od jakości shaderów ASR."
+            },
+            {
+              "name": "Jakość shaderów Arm ASR",
+              "description": "Dobieraj algorytm Quality, Balanced lub Performance niezależnie od skali obrazu."
+            },
+            {
+              "name": "Antyaliasing",
+              "description": "Wybieraj wyłączenie lub trzy poziomy FXAA; aktywne skalowanie temporalne zastępuje ten etap."
+            },
+            {
+              "name": "Post-processing",
+              "description": "Dobieraj jakość efektów nakładanych na gotowy obraz sceny."
+            },
+            {
+              "name": "Podgląd rozdzielczości",
+              "description": "Sprawdzaj faktyczny rozmiar bufora sceny, wyjścia HUD oraz ostatniego renderowanego obrazu gry."
+            }
+          ]
+        },
+        {
+          "title": "Jakość świata",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Geometria świata",
+              "description": "Dobieraj szczegółowość modeli świata."
+            },
+            {
+              "name": "Jakość terenu",
+              "description": "Reguluj szczegółowość wyglądu terenu."
+            },
+            {
+              "name": "Dystans rysowania",
+              "description": "Wybieraj stały zasięg 360, 480, 720 lub 1080 jednostek albo dopasowanie do kadru kamery z 5% zapasem."
+            },
+            {
+              "name": "Detale środowiska",
+              "description": "Dobieraj poziom drobnych elementów otoczenia."
+            },
+            {
+              "name": "Odległe dekoracje",
+              "description": "Ustawiaj jakość dekoracji widocznych w oddali."
+            },
+            {
+              "name": "Jakość potworów",
+              "description": "Reguluj szczegółowość wyglądu przeciwników."
+            },
+            {
+              "name": "Jakość animacji",
+              "description": "Dobieraj dokładność animacji postaci i potworów."
+            }
+          ]
+        },
+        {
+          "title": "Tekstury i materiały",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Rozdzielczość tekstur",
+              "description": "Wybieraj warianty tekstur świata do 256, 512, 1024 lub 1536 pikseli, z pobieraniem potrzebnej jakości."
+            },
+            {
+              "name": "Filtrowanie tekstur",
+              "description": "Dobieraj filtrowanie biliniowe, trójliniowe lub anizotropowe dla wyraźniejszych powierzchni pod kątem."
+            },
+            {
+              "name": "Limit anizotropii",
+              "description": "Ustawiaj limit filtrowania 1×, 2×, 4×, 8× lub 16× albo dziedzicz go z profilu."
+            },
+            {
+              "name": "Jakość materiałów",
+              "description": "Dobieraj oświetlenie materiałów od prostego rozproszenia do połysku zależnego od chropowatości i efektu Fresnela."
+            },
+            {
+              "name": "Detail normal",
+              "description": "Reguluj szczegóły powierzchni uzyskane przez mapy normalnych."
+            },
+            {
+              "name": "Stan pobierania tekstur",
+              "description": "Sprawdzaj wybraną i dostępną lokalnie jakość oraz postęp przygotowania tekstur, z zachowaniem poprzednich podczas wymiany."
+            }
+          ]
+        },
+        {
+          "title": "Oświetlenie i zwykłe cienie",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Jakość cieni",
+              "description": "Dobieraj jakość zwykłych cieni niezależnie od ray tracingu."
+            },
+            {
+              "name": "Dystans cieni",
+              "description": "Ustawiaj zasięg rysowania zwykłych cieni."
+            },
+            {
+              "name": "Jakość świateł",
+              "description": "Reguluj jakość zwykłego oświetlenia sceny."
+            },
+            {
+              "name": "Lampy w polu widzenia",
+              "description": "Wybieraj udział aktywnych lamp od 0% do 100%, pozostawiając światło ogólne przy ich wyłączeniu."
+            },
+            {
+              "name": "Jasność ogólna",
+              "description": "Rozjaśniaj lub przyciemniaj ogólny wygląd świata w zakresie 0–200%."
+            },
+            {
+              "name": "Jasność lamp",
+              "description": "Osobno reguluj intensywność lamp w zakresie 0–200%."
+            }
+          ]
+        },
+        {
+          "title": "Efekty wizualne",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Jakość VFX",
+              "description": "Dobieraj szczegółowość efektów walki od niskiej do Ultra."
+            },
+            {
+              "name": "Liczba cząsteczek",
+              "description": "Reguluj ilość cząsteczek w efektach."
+            },
+            {
+              "name": "Jakość Szczelin",
+              "description": "Dobieraj wygląd portali i szczelin."
+            },
+            {
+              "name": "Woda i lawa",
+              "description": "Reguluj jakość animowanych powierzchni wody i lawy."
+            },
+            {
+              "name": "Mgła i atmosfera",
+              "description": "Dobieraj jakość mgły i efektów atmosferycznych."
+            },
+            {
+              "name": "Ragdoll",
+              "description": "Włączaj fizyczny wygląd upadku pokonanych postaci."
+            },
+            {
+              "name": "Siła ragdolla",
+              "description": "Reguluj siłę odrzutu ciał w animacji ragdoll."
+            },
+            {
+              "name": "Jakość ragdolla",
+              "description": "Ustawiaj dokładność symulowanego wyglądu ciał."
+            },
+            {
+              "name": "Czas pozostawania ciał",
+              "description": "Wybieraj czas widoczności ciał: 5, 12, 25 lub 45 sekund."
+            }
+          ]
+        },
+        {
+          "title": "Ray tracing",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Ray tracing",
+              "description": "Włączaj dodatkowe cienie i odbicia obliczane przez RT. Dostępność zależy od renderera, urządzenia oraz aktywnych efektów."
+            },
+            {
+              "name": "Profil RT",
+              "description": "Wybieraj jakość Low, Medium lub High, niezależnie od przełączników cieni i odbić."
+            },
+            {
+              "name": "Automatyczna jakość RT",
+              "description": "Pozwalaj grze dostosowywać jakość RT do obciążenia."
+            },
+            {
+              "name": "Cienie RT",
+              "description": "Włączaj cienie obliczane przez ray tracing."
+            },
+            {
+              "name": "Odbicia RT",
+              "description": "Włączaj odbicia sceny w obsługiwanych materiałach."
+            },
+            {
+              "name": "Zasięg promieni",
+              "description": "Dobieraj zasięg RT od 300 do 3200 jednostek świata."
+            },
+            {
+              "name": "Miękkość cieni",
+              "description": "Dobieraj wygląd cieni RT od ostrych do bardzo miękkich."
+            },
+            {
+              "name": "Siła odbić",
+              "description": "Reguluj intensywność aktywnych odbić w zakresie 25–100%."
+            },
+            {
+              "name": "Odbicia na szorstkich powierzchniach",
+              "description": "Wybieraj, na jak szorstkich materiałach są widoczne odbicia."
+            },
+            {
+              "name": "Geometria w ray tracingu",
+              "description": "Dobieraj szczegółowość pomocniczej geometrii RT w trzech poziomach."
+            },
+            {
+              "name": "Odbicia postaci",
+              "description": "Uwzględniaj poruszające się postacie w aktywnych odbiciach."
+            },
+            {
+              "name": "Siła światła pośredniego",
+              "description": "Ustawiaj intensywność istniejącej składowej światła pośredniego w zakresie 25–100%. Nie uruchamia to dodatkowych odbić promieni."
+            }
+          ]
+        },
+        {
+          "title": "Płynność i zużycie zasobów",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Dynamiczna rozdzielczość",
+              "description": "Wybieraj wyłączenie, lekki, średni lub agresywny poziom automatycznego dostosowywania rozdzielczości sceny."
+            },
+            {
+              "name": "Dolna granica DRS",
+              "description": "Określaj minimalną skalę dynamiczną jako 40–100% maksymalnej rozdzielczości sceny."
+            },
+            {
+              "name": "Cel płynności DRS",
+              "description": "Dobieraj cel dynamicznej rozdzielczości: 30, 45, 60, 90 lub 120 FPS albo ustawienie automatyczne."
+            },
+            {
+              "name": "Reakcja DRS",
+              "description": "Wybieraj stabilną, zrównoważoną albo szybką reakcję regulatora rozdzielczości."
+            },
+            {
+              "name": "Limit FPS",
+              "description": "Dobieraj podstawowy limit 30, 60, 90 lub 120 FPS."
+            },
+            {
+              "name": "Dokładny limit FPS",
+              "description": "Dziedzicz limit z profilu, wyłącz go albo wybieraj 30, 45, 60, 90 lub 120 FPS."
+            },
+            {
+              "name": "Pokaż FPS",
+              "description": "Wyświetlaj licznik renderowanych klatek oraz, gdy są potwierdzone, klatek pośrednich; dotknięcie otwiera panel wydajności."
+            },
+            {
+              "name": "Automatyczna optymalizacja",
+              "description": "Pozwalaj grze ograniczać wybrane efekty, dekoracje i zwykłe cienie przy przeciążeniu."
+            },
+            {
+              "name": "Generowanie klatek (FG)",
+              "description": "Zezwalaj na klatki pośrednie przy aktywnym ASR, zapasie GPU i potwierdzonej korzyści. HUD zachowuje pełną rozdzielczość; symulacja i sterowanie nie przyspieszają."
+            }
+          ]
+        },
+        {
+          "title": "Zaawansowane opcje renderowania",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Grupowanie geometrii obozowiska",
+              "description": "Łączy zgodne fragmenty geometrii obozowiska w większe partie."
+            },
+            {
+              "name": "Odświeżanie obrazu obozowiska",
+              "description": "Ogranicza ponowne przygotowywanie niezmienionego obrazu obozowiska."
+            },
+            {
+              "name": "Cache wiązań Vulkan",
+              "description": "Zapamiętuje zgodne wiązania stanu Vulkan między wywołaniami."
+            },
+            {
+              "name": "Przygotowana widoczność i cienie statyczne",
+              "description": "Korzysta z przygotowanych danych widoczności i cieni statycznej sceny."
+            },
+            {
+              "name": "Grupowanie fragmentów świata",
+              "description": "Grupuje fragmenty świata w większe partie renderowania."
+            },
+            {
+              "name": "Oszczędzanie operacji bufora głębi",
+              "description": "Ogranicza zbędne operacje pamięci związane z buforem głębi."
+            },
+            {
+              "name": "Konserwatywne pokrycie komórek widoczności",
+              "description": "Używa konserwatywnego pokrycia komórek do testów widoczności."
+            },
+            {
+              "name": "Połączenie zapisu głębi ze sceną",
+              "description": "Współdzieli zapis głębi z głównym rysowaniem sceny."
+            },
+            {
+              "name": "Skrócone ścieżki materiałów",
+              "description": "Wybiera prostsze ścieżki shaderów dla zgodnych materiałów."
+            },
+            {
+              "name": "Wczesny test głębi",
+              "description": "Wcześniej odrzuca piksele zasłonięte przez bliższą geometrię."
+            },
+            {
+              "name": "Oszczędzanie operacji załączników Vulkan",
+              "description": "Pomija zbędne przechowywanie i wczytywanie załączników Vulkan."
+            },
+            {
+              "name": "Gęsta tablica widoczności materiałów",
+              "description": "Włącza eksperymentalną gęstą tablicę widoczności materiałów."
+            },
+            {
+              "name": "Odrzucanie przygotowanych świateł",
+              "description": "Odrzuca światła, które według przygotowanych danych nie wpływają na obszar."
+            },
+            {
+              "name": "Przygotowane światło rozproszone",
+              "description": "Korzysta z przygotowanych danych światła rozproszonego."
+            },
+            {
+              "name": "Przygotowane światło otoczenia",
+              "description": "Korzysta z przygotowanych danych światła otoczenia."
+            },
+            {
+              "name": "Dodatkowe dowody ukrycia geometrii",
+              "description": "Korzysta z dodatkowych przygotowanych danych o zasłonięciu, aby pomijać niewidoczną geometrię."
+            },
+            {
+              "name": "Przygotowane certyfikaty cieni",
+              "description": "Ponownie wykorzystuje przygotowane informacje o cieniach w statycznych obszarach sceny."
+            },
+            {
+              "name": "Rozgrzewanie potoków Vulkan",
+              "description": "Przygotowuje potrzebne potoki Vulkan przed ich pierwszym rysowaniem."
+            },
+            {
+              "name": "Specjalizacja potoków materiałów",
+              "description": "Dobiera wyspecjalizowane potoki do używanych materiałów."
+            },
+            {
+              "name": "Trwały cache deskryptorów",
+              "description": "Zachowuje i ponownie wykorzystuje zgodne zestawy deskryptorów."
+            },
+            {
+              "name": "Zakresowe odświeżanie pamięci Vulkan",
+              "description": "Odświeża zmienione zakresy mapowanej pamięci zamiast całych buforów."
+            },
+            {
+              "name": "Widoczność efektów i pocisków",
+              "description": "Odrzuca efekty i pociski poza widocznym obszarem."
+            },
+            {
+              "name": "Dokładność siatki widoczności",
+              "description": "Wybiera siatkę Hi-Z 64, 128 lub 256 do testów zasłonięcia."
+            },
+            {
+              "name": "Osobne składanie samych cieni RT",
+              "description": "Rozdziela składanie samych cieni RT od pełnego składania odbić."
+            },
+            {
+              "name": "Ponowne użycie środka filtra RT Low",
+              "description": "Ponownie używa środka filtra w ścieżce RT Low."
+            },
+            {
+              "name": "Podział dużych fragmentów geometrii",
+              "description": "Dzieli duże fragmenty geometrii na bloki 256 lub 128; można wyłączyć."
+            },
+            {
+              "name": "Optymalizacja obozowiska",
+              "description": "Włącza zestaw usprawnień rysowania obozowiska."
+            },
+            {
+              "name": "Włącz domyślne usprawnienia",
+              "description": "Przywracaj domyślny zestaw optymalizacji renderowania."
+            }
+          ]
+        },
+        {
+          "title": "Zasoby gry",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Pobierz wszystko / wznów",
+              "description": "Pobieraj lub wznawiaj zasoby w tle i korzystaj z gotowych poziomów podczas pobierania."
+            },
+            {
+              "name": "Wstrzymaj",
+              "description": "Zatrzymuj pobieranie, zachowując gotowe i zweryfikowane zasoby do dalszej gry."
+            },
+            {
+              "name": "Postęp i dostępność zasobów",
+              "description": "Sprawdzaj postęp bieżącego pliku i całości oraz liczbę gotowych poziomów."
+            },
+            {
+              "name": "Pobieranie tylko przez Wi-Fi",
+              "description": "Ograniczaj transfer zasobów do sieci Wi-Fi albo zezwalaj na dowolne połączenie."
+            },
+            {
+              "name": "Pobieranie poziomów z wyprzedzeniem",
+              "description": "Włączaj przygotowywanie kolejnych poziomów przed dotarciem do nich."
+            },
+            {
+              "name": "Sprawdzanie i naprawa zasobów",
+              "description": "Uruchamiaj kontrolę pobranych plików i ponowne pobranie brakujących lub uszkodzonych zasobów."
+            },
+            {
+              "name": "Gra z gotowymi zasobami offline",
+              "description": "Korzystaj z już zweryfikowanych zasobów przy braku połączenia z siecią."
+            }
+          ]
+        },
+        {
+          "title": "Pomoc i panel wydajności",
+          "edition": "native",
+          "platforms": [
+            "Android"
+          ],
+          "items": [
+            {
+              "name": "Objaśnienia ustawień",
+              "description": "Przytrzymuj nazwę opcji, aby otworzyć opis działania i wpływu na wydajność."
+            },
+            {
+              "name": "Sesje pomiaru płynności",
+              "description": "Włączaj, zatrzymuj i rozpoczynaj nowe pomiary rozgrywki z FPS, skrajnymi 1% klatek i liczbą przycięć."
+            },
+            {
+              "name": "Podgląd CPU i GPU",
+              "description": "Sprawdzaj dostępne pomiary obciążenia, czasów pracy, limitu FPS i stanu termicznego podczas sesji."
+            },
+            {
+              "name": "Podgląd pamięci",
+              "description": "Sprawdzaj zużycie pamięci gry i telefonu oraz dostępne dane o pamięci GPU."
+            },
+            {
+              "name": "Podgląd pracy silnika",
+              "description": "Oglądaj liczniki rysowanej sceny, animacji, przeciwników, pocisków i efektów."
+            },
+            {
+              "name": "Podgląd pełnej konfiguracji",
+              "description": "Sprawdzaj informacje o urządzeniu, gotowości tekstur oraz wybranych i rzeczywiście używanych ustawieniach."
+            },
+            {
+              "name": "Udostępnianie raportu",
+              "description": "Twórz raport sesji i pełnej konfiguracji oraz udostępniaj go przez Androida, także bez wcześniejszego pomiaru FPS."
+            }
+          ]
+        }
+      ]
+    },
+    "moj-notatnik": {
+      "platforms": [
+        "Android",
+        "Windows"
+      ],
+      "reviewedVersions": {
+        "android": "2.9.7",
+        "windows": "0.1.0"
+      },
+      "introduction": "Notatki, załączniki, mapy myśli i przypomnienia. Dodatkowe oznaczenia pokazują funkcje dostępne tylko na telefonie lub komputerze.",
+      "groups": [
+        {
+          "title": "Notatki i porządkowanie",
+          "items": [
+            {
+              "name": "Tworzenie i edycja notatek",
+              "description": "Zapisuj tytuł i treść notatki, a po zakończeniu edycji wróć do listy.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Praca bez internetu",
+              "description": "Notatki i załączniki są przechowywane lokalnie; zmiany mogą zostać zsynchronizowane po odzyskaniu połączenia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Automatyczny zapis",
+              "description": "Treść jest zapisywana automatycznie podczas edycji, z zachowaniem przypomnień i załączników.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Przywracanie szkiców",
+              "description": "Niedokończona edycja może zostać odtworzona po ponownym uruchomieniu aplikacji.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Lista ostatnio edytowanych notatek",
+              "description": "Notatki w wybranej kategorii są uporządkowane według ostatniej zmiany.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wbudowane zakładki",
+              "description": "Ogólne, Hasła, Praca, Rejestrator i Mapa myśli rozdzielają różne rodzaje wpisów. Hasła to zwykła kategoria tekstowa.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Własne zakładki",
+              "description": "Dodawaj własne kategorie i porządkuj notatki według wybranego podziału.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Przenoszenie między kategoriami",
+              "description": "Zmieniaj kategorię istniejącej notatki bez ponownego tworzenia jej treści.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Usuwanie notatek",
+              "description": "Usunięcie wpisu odwołuje jego przypomnienie i jest przekazywane podczas synchronizacji.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Zdjęcia i rysowanie",
+          "items": [
+            {
+              "name": "Wiele zdjęć w notatce",
+              "description": "Dodawaj do jednego wpisu kilka obrazów wybranych z galerii lub z plików.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Zdjęcia z aparatu",
+              "description": "Dołączaj zdjęcie wykonane aparatem obsługiwanego telefonu lub komputera.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Usuwanie zdjęć",
+              "description": "Usuwaj pojedyncze obrazy z notatki bez kasowania całego wpisu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Własny rysunek",
+              "description": "Utwórz pusty obraz albo rysuj bezpośrednio po wybranym zdjęciu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Narzędzia pędzla",
+              "description": "Dobieraj kolor i grubość linii oraz cofaj ostatnio narysowaną kreskę.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kadrowanie obrazu",
+              "description": "Ustaw obszar kadru za pomocą narożników i przesuwania, a następnie zapisz zmieniony obraz.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Powiększanie zdjęć",
+              "description": "Otwieraj obraz na pełnym ekranie, przesuwaj go i przybliżaj do sześciokrotnego powiększenia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Nagrania i transkrypcja",
+          "items": [
+            {
+              "name": "Wiele głosówek",
+              "description": "Dołączaj do notatki kolejne nagrania z mikrofonu, każde o długości do trzech minut.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kontrola nagrywania",
+              "description": "Rozpoczynaj, kończ lub anuluj nagrywanie i obserwuj jego czas.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odtwarzacz nagrań",
+              "description": "Odtwarzaj i zatrzymuj głosówki oraz przewijaj je suwakiem do wybranego miejsca.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Usuwanie głosówek",
+              "description": "Kasuj wybrane nagranie, zachowując pozostałe załączniki notatki.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Rejestrator",
+              "description": "Zapisuj osobne wpisy głosowe w zakładce Rejestrator, z tytułem zawierającym datę nagrania.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Polska transkrypcja na telefonie",
+              "description": "Zamieniaj nagranie w polski tekst przy użyciu usługi mowy telefonu. Wymaga Androida 13 lub nowszego oraz dostępnej usługi rozpoznawania.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Ponowne rozpoznawanie",
+              "description": "Uruchamiaj transkrypcję ponownie i sprawdzaj informację o przetwarzaniu lub błędzie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Edycja transkrypcji",
+              "description": "Poprawiaj rozpoznany tekst przed wykorzystaniem go w notatce.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dopisanie tekstu do notatki",
+              "description": "Dodawaj do treści jedną transkrypcję albo teksty wszystkich nagrań naraz.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Mapy myśli",
+          "items": [
+            {
+              "name": "Tworzenie map",
+              "description": "Zapisuj osobne mapy myśli z własnym tytułem w dedykowanej kategorii.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Gałęzie i nazwy",
+              "description": "Dodawaj gałęzie do wybranego węzła i zmieniaj tekst istniejących elementów.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Usuwanie gałęzi",
+              "description": "Usuwaj wybraną gałąź razem z jej elementami podrzędnymi.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Układ mapy",
+              "description": "Przeciągaj węzły, przesuwaj i powiększaj obszar oraz wyśrodkuj widok; kolory rozróżniają gałęzie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Przypomnienia i alarmy",
+          "items": [
+            {
+              "name": "Data i godzina przypomnienia",
+              "description": "Ustaw przyszły termin dla notatki, zmień go albo usuń przypomnienie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Dźwięk dla notatki",
+              "description": "Wybierz domyślny dźwięk aplikacji lub indywidualny dźwięk konkretnego przypomnienia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Odsłuch dźwięku",
+              "description": "Sprawdź krótki podgląd dźwięku alarmu przed jego użyciem.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Alarm do ręcznego zatrzymania",
+              "description": "Dźwięk powtarza się do zatrzymania, a okno alarmu pokazuje notatkę i jej pierwsze zdjęcie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Okno alarmu na telefonie",
+              "description": "Po udzieleniu odpowiednich zgód wyświetlaj pełnoekranowe przypomnienie także na zablokowanym telefonie.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Wibracje alarmu",
+              "description": "Włącz lub wyłącz wibracje towarzyszące przypomnieniu.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Uprawnienia alarmów Android",
+              "description": "Przejdź z ustawień aplikacji do zgód dokładnych alarmów, pełnego ekranu i działania w trybie Nie przeszkadzać.",
+              "platforms": [
+                "Android"
+              ]
+            },
+            {
+              "name": "Przywracanie przypomnień",
+              "description": "Przyszłe terminy mogą być ponownie planowane po restarcie lub aktualizacji.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Widgety i skróty",
+          "items": [
+            {
+              "name": "Widget wybranej notatki",
+              "description": "Przypnij na ekranie wybrany wpis z treścią, pierwszym zdjęciem i terminem przypomnienia.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Media w widgecie",
+              "description": "Otwieraj zdjęcie i odtwarzaj pierwszą głosówkę bez przechodzenia do edytora notatki.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Szybka notatka",
+              "description": "Uruchamiaj tworzenie nowego wpisu bezpośrednio z małego widgetu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Skrót Rejestratora",
+              "description": "Otwieraj rejestrator z widgetu, aby szybko rozpocząć nagrywanie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Konto, synchronizacja i wygląd",
+          "items": [
+            {
+              "name": "Konto Google",
+              "description": "Połącz konto Google, aby synchronizować dane między urządzeniami. Wczesne wydanie Windows wymaga skonfigurowania dostępu Google Desktop.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Synchronizacja notatek",
+              "description": "Wysyłaj i pobieraj treść, użyte kategorie, mapy myśli, terminy i usunięcia wpisów.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Synchronizacja zdjęć i nagrań",
+              "description": "Przenoś załączniki i transkrypcje razem z notatką; obrazy w chmurze są optymalizowane do mniejszej rozdzielczości.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Sterowanie synchronizacją",
+              "description": "Włącz lub wstrzymaj automatyczne aktualizacje i uruchom synchronizację ręcznie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wylogowanie",
+              "description": "Odłącz konto Google, pozostawiając lokalne wpisy dostępne na urządzeniu.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Usunięcie konta i danych",
+              "description": "Po potwierdzeniu tożsamości usuń konto Mojego Notatnika wraz z przypisanymi danymi lokalnymi i w chmurze.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Informacje o prywatności",
+              "description": "Otwórz politykę prywatności i instrukcję usunięcia danych z ustawień aplikacji.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Jasny i ciemny wygląd",
+              "description": "Na Androidzie aplikacja dopasowuje motyw do systemu, a Windows pozwala też wybrać go ręcznie.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Dodatkowe narzędzia",
+          "items": [
+            {
+              "name": "Wyszukiwanie notatek",
+              "description": "Wyszukuj w tytułach, treści i transkrypcjach wpisów wybranej zakładki.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Cofnięcie usunięcia",
+              "description": "Przywróć ostatnio usuniętą notatkę przyciskiem Cofnij usunięcie.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Historia notatki",
+              "description": "Przeglądaj wcześniejsze wersje i przywracaj wybraną jako osobną kopię.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kolejność zdjęć",
+              "description": "Przesuwaj wybrane obrazy w górę i w dół listy załączników.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Import formatów graficznych",
+              "description": "Wczytuj PNG, JPEG, WebP, AVIF, HEIC, GIF, TIFF, BMP i JXL.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Transkrypcja offline na PC",
+              "description": "Rozpoznawaj polskie nagrania lokalnie za pomocą dołączonego modelu Whisper i opcjonalnie wybierz inny model.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Anulowanie transkrypcji",
+              "description": "Przerwij trwające rozpoznawanie nagrania.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Porównywanie konfliktów",
+              "description": "Porównaj niezależne zmiany z PC i chmury, zachowując jedną wersję lub obie.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Kopia lokalna ZIP",
+              "description": "Zapisz kopię notatek, zdjęć, nagrań, historii i ustawień bieżącego profilu.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Wczytanie kopii",
+              "description": "Importuj archiwum jako dodatkowe kopie notatek, z historią, kategoriami i przypisaniami dźwięków.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Porządkowanie historii i plików",
+              "description": "Usuń lokalną historię oraz nieużywane załączniki, pozostawiając dane aktualnych wpisów i szkiców.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Widgety jako okna pulpitu",
+              "description": "Zmieniaj położenie i rozmiar okien widgetów, przypnij je nad innymi oknami i wybieraj wyświetlaną notatkę.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Praca obok zegara",
+              "description": "Pozostaw aplikację w zasobniku systemowym po zamknięciu głównego okna.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Start po zalogowaniu",
+              "description": "Włącz automatyczne uruchamianie aplikacji w tle po zalogowaniu do Windows.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Opcje alarmu na PC",
+              "description": "Włącz pełny ekran, miganie przyciskiem aplikacji i próbę wybudzenia z uśpienia, jeśli pozwala na to sprzęt.",
+              "platforms": [
+                "Windows"
+              ]
+            },
+            {
+              "name": "Skróty klawiaturowe",
+              "description": "Używaj Ctrl+N do nowej notatki i Ctrl+S do ręcznego zapisu.",
+              "platforms": [
+                "Windows"
+              ]
+            }
+          ],
+          "platforms": [
+            "Windows"
+          ]
+        }
+      ]
+    },
+    "volvio-scanner": {
+      "platforms": [
+        "Android"
+      ],
+      "reviewedVersions": {
+        "android": "3.17.0"
+      },
+      "introduction": "Połączenie z adapterem, odczyty, wykresy, testy i historia diagnostyki. Dostępność danych zależy od samochodu i zgodnego adaptera ELM327 Bluetooth Classic.",
+      "groups": [
+        {
+          "title": "Połączenie z samochodem",
+          "items": [
+            {
+              "name": "Adapter ELM327 przez Bluetooth Classic",
+              "description": "Łączy telefon ze sparowanym adapterem ELM327 przez Bluetooth Classic."
+            },
+            {
+              "name": "Lista i wybór adaptera",
+              "description": "Pokazuje sparowane urządzenia i zapamiętuje adapter wybrany do następnych połączeń."
+            },
+            {
+              "name": "Wyszukiwanie urządzeń",
+              "description": "Pozwala wyszukać nowe urządzenia, zatrzymać szukanie i odświeżyć listę sparowanych adapterów."
+            },
+            {
+              "name": "Ustawienia Bluetooth telefonu",
+              "description": "Otwiera ustawienia Androida potrzebne do sparowania nowego urządzenia lub włączenia Bluetooth."
+            },
+            {
+              "name": "Automatyczne łączenie przy starcie",
+              "description": "Po włączeniu tej opcji łączy się przy następnym uruchomieniu z zapamiętanym adapterem."
+            },
+            {
+              "name": "Ponowne łączenie po utracie",
+              "description": "Opcjonalnie próbuje odzyskać połączenie po jego przerwaniu."
+            },
+            {
+              "name": "Automatyczny dobór protokołu OBD-II",
+              "description": "Sprawdza odpowiedzi ECU i próbuje dostępnych protokołów, aby uruchomić odczyt obsługiwanych parametrów."
+            },
+            {
+              "name": "Rozdzielone stany Bluetooth, adaptera i ECU",
+              "description": "Pokazuje osobno połączenie Bluetooth, odpowiedź ELM327, komunikację z ECU, aktywny protokół i czas odpowiedzi."
+            },
+            {
+              "name": "Ponowienie komunikacji z ECU",
+              "description": "Ręcznie odbudowuje sesję ELM327 i ponawia sprawdzanie komunikacji z samochodem."
+            },
+            {
+              "name": "Test adaptera i napięcia",
+              "description": "Przycisk Test ELM sprawdza odpowiedź adaptera, korzystając z odczytu napięcia ATRV."
+            },
+            {
+              "name": "Ręczne rozłączenie",
+              "description": "Pozwala zakończyć bieżące połączenie z adapterem."
+            }
+          ]
+        },
+        {
+          "title": "Pulpit i dane na żywo",
+          "items": [
+            {
+              "name": "Pulpit z zegarem obrotów",
+              "description": "Zbiera na jednym ekranie obrotomierz, prędkość, temperaturę płynu, napięcie i obciążenie silnika."
+            },
+            {
+              "name": "Obroty silnika",
+              "description": "Pokazuje rzeczywisty odczyt obrotów silnika w obr/min."
+            },
+            {
+              "name": "Prędkość pojazdu",
+              "description": "Pokazuje prędkość zwróconą przez ECU w km/h."
+            },
+            {
+              "name": "Temperatura płynu chłodzącego",
+              "description": "Odczytuje temperaturę płynu chłodzącego w stopniach Celsjusza."
+            },
+            {
+              "name": "Obciążenie silnika",
+              "description": "Pokazuje obciążenie silnika w procentach oraz pasek jego bieżącej wartości na pulpicie."
+            },
+            {
+              "name": "Przepływ powietrza MAF",
+              "description": "Wyświetla masowy przepływ powietrza MAF w g/s, jeśli ECU go udostępnia."
+            },
+            {
+              "name": "Ciśnienie w dolocie MAP",
+              "description": "Wyświetla ciśnienie bezwzględne w kolektorze dolotowym MAP w kPa, jeśli jest dostępne."
+            },
+            {
+              "name": "Temperatura powietrza w dolocie",
+              "description": "Odczytuje temperaturę zasysanego powietrza w stopniach Celsjusza."
+            },
+            {
+              "name": "Ciśnienie paliwa na listwie",
+              "description": "Wyświetla ciśnienie paliwa na listwie zwrócone przez obsługiwany PID ECU."
+            },
+            {
+              "name": "Napięcie mierzone przez adapter",
+              "description": "Pokazuje napięcie odczytane przez ELM327 poleceniem ATRV."
+            },
+            {
+              "name": "Osobna częstotliwość każdego parametru",
+              "description": "Dla dziewięciu parametrów wybierasz jeden z dziesięciu progów od 0,1 do 4,0 Hz. Uzyskane tempo zależy od czasu odpowiedzi ECU i adaptera."
+            },
+            {
+              "name": "Rzeczywista szybkość odczytu",
+              "description": "Pokazuje uzyskiwaną częstotliwość danego parametru oraz łączną szybkość odczytów."
+            },
+            {
+              "name": "Jakość i świeżość danych",
+              "description": "Rozróżnia aktualne wartości, ostatni poprawny odczyt, oczekiwanie, timeout oraz odrzucenie odpowiedzi przez parser."
+            },
+            {
+              "name": "Szacowanie biegu z RPM i prędkości",
+              "description": "Przy wystarczających danych szacuje bieg z obrotów i prędkości. To szacunek; pozycja P/R/N/D i tryb Winter pozostają nieznane."
+            }
+          ]
+        },
+        {
+          "title": "Wykresy",
+          "items": [
+            {
+              "name": "Wybór widocznych parametrów",
+              "description": "Pozwala wybrać zestaw wykresów danych ECU wyświetlanych na ekranie."
+            },
+            {
+              "name": "Zakres czasu",
+              "description": "Pozwala zmienić zakres czasu prezentowany na wykresach."
+            },
+            {
+              "name": "Pauza i wznowienie podglądu",
+              "description": "Zatrzymuje obraz wykresów do analizy i pozwala wrócić do bieżącego podglądu."
+            },
+            {
+              "name": "Wykres na pełnym ekranie",
+              "description": "Otwiera wybrany wykres w większym widoku."
+            },
+            {
+              "name": "Powiększanie gestem",
+              "description": "Pozwala powiększać interesujący fragment wykresu gestem dwóch palców."
+            },
+            {
+              "name": "Przesuwanie wykresu",
+              "description": "Umożliwia przesunięcie widocznego okna wykresu do wcześniejszych danych."
+            },
+            {
+              "name": "Wskazanie próbki",
+              "description": "Po dotknięciu wykresu wskazuje najbliższą rzeczywistą próbkę wraz z wartością i czasem."
+            },
+            {
+              "name": "Statystyki widocznych próbek",
+              "description": "Pokazuje minimum, maksimum i średnią dla danych widocznych na wykresie."
+            },
+            {
+              "name": "Płynność rysowania",
+              "description": "Pozwala wybrać rysowanie 30 lub 60 FPS niezależnie od częstotliwości rzeczywistych odczytów ECU."
+            }
+          ]
+        },
+        {
+          "title": "Sześć modułów testów",
+          "items": [
+            {
+              "name": "Przyspieszenie ze startu",
+              "description": "Mierzy czasy od 0 do 20, 40, 60, 80, 100, 120, 140 i 160 km/h na podstawie timestampów rzeczywistych próbek ECU."
+            },
+            {
+              "name": "Elastyczność",
+              "description": "Mierzy dwanaście zakresów przyspieszenia: 40–60, 40–80, 40–100, 60–80, 60–100, 60–120, 80–100, 80–120, 80–140, 100–120, 100–140 i 100–160 km/h."
+            },
+            {
+              "name": "Skrzynia i obserwacja możliwego poślizgu",
+              "description": "Rejestruje zmiany obrotów względem prędkości i obciążenia. Zaznaczone zdarzenia wymagają interpretacji i nie potwierdzają usterki skrzyni."
+            },
+            {
+              "name": "Monitor gaśnięcia silnika",
+              "description": "Zapisuje zdarzenie gwałtownego spadku RPM blisko zatrzymania silnika, gdy świeży odczyt prędkości wskazuje ruch auta."
+            },
+            {
+              "name": "Hamowanie i wybieg",
+              "description": "Rejestruje prędkość, obroty oraz czas spadku prędkości do późniejszej analizy. Funkcja nie mierzy drogi hamowania."
+            },
+            {
+              "name": "Stabilność biegu jałowego",
+              "description": "Rejestruje co najmniej 30 sekund postoju z pracującym silnikiem oraz kontekst obrotów, powietrza, temperatur i napięcia."
+            },
+            {
+              "name": "Pojedynczy test lub wspólny zestaw",
+              "description": "Pozwala uruchomić pojedynczy moduł albo wszystkie sześć w jednej sesji i zakończyć wspólną rejestrację."
+            },
+            {
+              "name": "Wybrane testy przy starcie aplikacji",
+              "description": "Pozwala wskazać moduły uruchamiane automatycznie, które w razie braku połączenia czekają na poprawne dane ECU."
+            },
+            {
+              "name": "Opis działania i podgląd testu",
+              "description": "Każdy moduł ma wyjaśnienie działania, wykorzystywane dane, warunki interpretacji, status sesji i tabelę danych na żywo."
+            }
+          ]
+        },
+        {
+          "title": "Historia i wyniki testów",
+          "items": [
+            {
+              "name": "Rejestracja podczas pracy w aplikacji",
+              "description": "Sesja zapisuje próbki także podczas przechodzenia do innych ekranów aplikacji."
+            },
+            {
+              "name": "Historia sesji każdego modułu",
+              "description": "Zachowuje aktywne i zakończone sesje wraz z datami, stanem oraz liczbą próbek i wyników."
+            },
+            {
+              "name": "Szczegóły wyników i zdarzeń",
+              "description": "Pokazuje zapisane wyniki oraz rzeczywiste próbki ECU z około 20 sekund przed zdarzeniem i po nim."
+            },
+            {
+              "name": "Podsumowanie dziewięciu parametrów",
+              "description": "Dla sesji podaje liczbę poprawnych próbek oraz minimum, średnią i maksimum każdego parametru."
+            },
+            {
+              "name": "Pełny zapis sesji",
+              "description": "Udostępnia przewijaną stronami listę surowych próbek z czasem, PID-em, wartością, jednostką, jakością i uwagami."
+            },
+            {
+              "name": "CSV po zakończeniu testu",
+              "description": "Po zakończeniu rejestracji zapisuje CSV z danymi testu do późniejszej analizy."
+            },
+            {
+              "name": "Osobna tabela czasów CSV",
+              "description": "Zapisuje czasy pomiarów prędkości i elastyczności wraz z przedziałem, progami, czasem zakończenia i nazwą testu."
+            }
+          ]
+        },
+        {
+          "title": "Diagnostyka OBD-II",
+          "items": [
+            {
+              "name": "Skan kodów DTC",
+              "description": "Odczytuje błędy zapisane, oczekujące i stałe w trybach 03, 07 i 0A standardowego OBD-II. Zakres obejmuje odpowiadające ECU, a nie wszystkie moduły samochodu."
+            },
+            {
+              "name": "Kody producenta P1xxx",
+              "description": "Pokazuje oddzielnie kody P1xxx, jeśli ECM faktycznie zwróci je w obsługiwanym skanie."
+            },
+            {
+              "name": "Freeze frame",
+              "description": "Próbuje odczytać dostępne dane zamrożonej ramki trybu 02 i zachowuje je ze skanem oraz szczegółami błędu."
+            },
+            {
+              "name": "Opisy kodów",
+              "description": "Pokazuje obszar błędu, priorytet, stan i pewność opisu. Niektóre kody producenta wymagają dopasowania do samochodu w dokumentacji serwisowej."
+            },
+            {
+              "name": "Przyczyny i wskazówki sprawdzenia",
+              "description": "Lokalna baza kodów podaje możliwe przyczyny, proponowane sprawdzenia i dalsze kroki dla opisanych błędów."
+            },
+            {
+              "name": "Powiązane błędy",
+              "description": "Pokazuje pozostałe kody odebrane w tym samym standardowym skanie."
+            },
+            {
+              "name": "Przejście z błędu do testu",
+              "description": "Dla odpowiednio opisanych kodów pozwala otworzyć proponowany moduł testowy."
+            },
+            {
+              "name": "Rozróżnienie pełnego i częściowego skanu",
+              "description": "Informuje o niepełnych odpowiedziach i nie oznacza dawnych kodów jako nieaktywnych po skanie częściowym."
+            },
+            {
+              "name": "Lokalna historia diagnostyki",
+              "description": "Zachowuje skany, daty, protokół, surowe odpowiedzi i stan błędów, rozróżniając nowe, powracające, aktywne i nieaktywne wpisy."
+            },
+            {
+              "name": "Kasowanie z zapisem stanu przed operacją",
+              "description": "Przed żądaniem kasowania zapisuje skan z dostępnym freeze frame i ostrzega o możliwej zmianie gotowości monitorów."
+            },
+            {
+              "name": "Potwierdzenie kasowania",
+              "description": "Sprawdza odpowiedź ECU na kasowanie i zachowuje widoczne kody, jeśli sterownik nie potwierdzi wykonania."
+            },
+            {
+              "name": "Podgląd komunikacji TX/RX",
+              "description": "Udostępnia wysłane polecenia i surowe odpowiedzi adaptera wraz z czasem oraz oznaczeniem kompletności."
+            }
+          ]
+        },
+        {
+          "title": "Benchmark i dostrajanie odczytu",
+          "items": [
+            {
+              "name": "Ręczny benchmark adaptera i ECU",
+              "description": "Mierzy komunikację na dziewięciu parametrach, wykonując serię 20 prób każdego z nich."
+            },
+            {
+              "name": "Informacje o adapterze i protokole",
+              "description": "Pokazuje odczytane informacje identyfikacyjne ELM327 oraz aktywny protokół wraz z surowymi odpowiedziami."
+            },
+            {
+              "name": "Wyniki osobno dla każdego parametru",
+              "description": "Pokazuje czasy odpowiedzi, pierwszy bajt, medianę i p95, skuteczność, błędy, timeouty oraz uzyskaną przepustowość."
+            },
+            {
+              "name": "Automatyczne dostrajanie czasu odpowiedzi",
+              "description": "Wyznacza zalecane czasy i tempo odczytu oraz wraca do poprzednich stabilnych ustawień, jeżeli sprawdzony wariant pogarsza skuteczność."
+            },
+            {
+              "name": "Jednorazowy benchmark po połączeniu",
+              "description": "Opcjonalnie wykonuje benchmark po pierwszym połączeniu od uruchomienia aplikacji; następne pomiary można wywołać ręcznie."
+            }
+          ]
+        },
+        {
+          "title": "Logi i zapis danych",
+          "items": [
+            {
+              "name": "Automatyczny log tekstowy",
+              "description": "Każde nowe połączenie tworzy osobny plik TXT z TX, surowym RX, czasami odpowiedzi, zdarzeniami i wynikiem parsera."
+            },
+            {
+              "name": "Wybór folderu logów",
+              "description": "Pozwala wskazać folder automatycznych logów; przed wyborem zapisuje je w katalogu aplikacji."
+            },
+            {
+              "name": "Lista i udostępnianie logów TXT",
+              "description": "Pokazuje zapisane logi diagnostyczne i pozwala je wysłać przez aplikacje Androida lub zapisać w wybranym miejscu."
+            },
+            {
+              "name": "Ręczna sesja CSV",
+              "description": "Pozwala rozpocząć rejestrację i zakończyć ją zapisem CSV obejmującym poprawne i nieudane próby PID oraz surowe transakcje."
+            },
+            {
+              "name": "Lista zapisanych plików CSV",
+              "description": "Wyświetla pliki zapisanych sesji CSV wraz z nazwą i rozmiarem."
+            }
+          ]
+        }
+      ]
+    },
+    "encloser-cad": {
+      "platforms": [
+        "Windows"
+      ],
+      "reviewedVersions": {
+        "windows": "0.12.0"
+      },
+      "introduction": "Od parametrów korpusu i mocowań po pomiary, sprawdzanie modelu i eksport gotowych części.",
+      "groups": [
+        {
+          "title": "Projekty i zapis",
+          "items": [
+            {
+              "name": "Galeria 15 przykładów",
+              "description": "Wyszukaj parametryczny przykład obudowy i użyj go jako w pełni edytowalnego punktu wyjścia."
+            },
+            {
+              "name": "Otwieranie projektów",
+              "description": "Wczytaj zapisany projekt .ecad.json, także ze starszych obsługiwanych formatów programu."
+            },
+            {
+              "name": "Zapis projektu i parametrów",
+              "description": "Zachowaj bieżące wymiary, elementy, operacje i ustawienia projektu przyciskiem Zapisz parametry lub Ctrl+S."
+            },
+            {
+              "name": "Zapis pod nową nazwą",
+              "description": "Utwórz osobną kopię projektu przez Zapisz jako, zachowując wcześniejszy plik."
+            },
+            {
+              "name": "Cofanie i ponawianie",
+              "description": "Cofaj oraz przywracaj zmiany parametrów, operacji i położenia elementów."
+            },
+            {
+              "name": "Ostrzeganie o niezapisanych zmianach",
+              "description": "Przy zmianie projektu lub zamykaniu wybierz zapis, odrzucenie zmian albo anulowanie."
+            }
+          ]
+        },
+        {
+          "title": "Korpus, pokrywa i wnętrze",
+          "items": [
+            {
+              "name": "Parametryczne wymiary",
+              "description": "Ustaw szerokość, głębokość, wysokość oraz grubość ścian i dna w milimetrach."
+            },
+            {
+              "name": "Dziesięć obrysów obudowy",
+              "description": "Wybierz prostokąt z zaokrągleniami, ścięte narożniki, owal, kapsułę, sześciokąt, trapez albo kształt L, D, T lub U."
+            },
+            {
+              "name": "Kształt narożników i wybrań",
+              "description": "Dopasuj promienie, ścięcia i wymiary ramion lub wybrań odpowiednio do wybranego obrysu."
+            },
+            {
+              "name": "Dopasowana pokrywa",
+              "description": "Projektuj osobną pokrywę z własną grubością, rantem ustalającym i regulowanym luzem."
+            },
+            {
+              "name": "Wentylacja pokrywy",
+              "description": "Dodawaj szczeliny wentylacyjne z regulacją liczby, długości, szerokości, rozstawu i położenia."
+            },
+            {
+              "name": "Referencyjna płytka PCB",
+              "description": "Ustaw rozmiar, grubość, położenie i wysokość płytki, aby zarezerwować miejsce na elektronikę."
+            },
+            {
+              "name": "Mocowania PCB",
+              "description": "Twórz cztery dystanse pod płytkę z regulacją otworów, średnic i odsunięcia od jej krawędzi."
+            }
+          ]
+        },
+        {
+          "title": "Otwory, dystanse i połączenia",
+          "items": [
+            {
+              "name": "Otwory i prostokątne wycięcia",
+              "description": "Dodawaj, nazywaj, wyłączaj i usuwaj okrągłe lub prostokątne wycięcia na sześciu ścianach obudowy."
+            },
+            {
+              "name": "Otwór wskazany na modelu",
+              "description": "Kliknij powierzchnię, aby umieścić otwór, a następnie doprecyzuj jego położenie."
+            },
+            {
+              "name": "Pozycjonowanie wzorami",
+              "description": "Wyliczaj pozycje otworów i dystansów z prostych wzorów zależnych od wymiarów obudowy."
+            },
+            {
+              "name": "Odległości od krawędzi",
+              "description": "Ustalaj pozycję otworu lub dystansu względem jednej albo dwóch wskazanych prostych krawędzi bazowych."
+            },
+            {
+              "name": "Niezależne dystanse",
+              "description": "Dodawaj dystanse na wybranej ścianie i reguluj ich średnicę, otwór oraz wysokość."
+            },
+            {
+              "name": "Cztery kształty dystansów",
+              "description": "Wybieraj dystanse okrągłe, sześciokątne, kwadratowe lub ze stopą kołnierzową."
+            },
+            {
+              "name": "Siedem konstrukcji mocowań pokrywy",
+              "description": "Wybierz słupki, gniazda narożne, uchwyty ścienne, warianty z żebrami, bloki, półki lub ramkę obwodową."
+            },
+            {
+              "name": "Wkręty, inserty i nakrętki",
+              "description": "Dobierz połączenie części oraz wymiary otworów, kieszeni insertów lub sześciokątnych nakrętek."
+            },
+            {
+              "name": "Zagłębienia pod łby śrub",
+              "description": "Dodaj do pokrywy pogłębienie walcowe lub stożkowe o ustawionej średnicy i głębokości."
+            },
+            {
+              "name": "Liczba i rozmieszczenie mocowań",
+              "description": "Ustaw własną liczbę mocowań oraz układ przy obrysie, na przodzie i tyle lub na lewej i prawej ścianie."
+            },
+            {
+              "name": "Przesuwanie pojedynczego mocowania",
+              "description": "Zmieniaj pozycję każdego mocowania osobno; odpowiadający mu otwór pokrywy przesuwa się razem z nim."
+            },
+            {
+              "name": "Przywracanie mocowania do obrysu",
+              "description": "Przywróć wybranemu mocowaniu domyślną pozycję wynikającą z kształtu obudowy."
+            }
+          ]
+        },
+        {
+          "title": "Biblioteka elementów i komory",
+          "items": [
+            {
+              "name": "Wyszukiwalna biblioteka elementów",
+              "description": "Znajduj gotowe dystanse, gniazda insertów, mocowania akumulatorów i przegrody w panelu Elementy."
+            },
+            {
+              "name": "Przeciąganie na powierzchnię",
+              "description": "Przeciągnij element z biblioteki na model, korzystając z podglądu położenia i orientacji względem rzeczywistej powierzchni."
+            },
+            {
+              "name": "Przegrody i zamknięte komory",
+              "description": "Dodawaj prostą przegrodę, przegrodę krzyżową lub osobną zamkniętą komorę wewnątrz korpusu."
+            },
+            {
+              "name": "Wymiary i położenie przegród",
+              "description": "Reguluj kierunek, grubość, wysokość, długość i pozycję przegrody albo rozmiar komory."
+            },
+            {
+              "name": "Dopasowanie przegród do wnętrza",
+              "description": "Wykorzystuj automatyczną wysokość pod rant pokrywy i długość obejmującą rzeczywisty obrys wnętrza."
+            }
+          ]
+        },
+        {
+          "title": "Akumulator i jego mocowanie",
+          "items": [
+            {
+              "name": "Gabaryt własnego akumulatora",
+              "description": "Wpisz zmierzone wymiary konkretnego modelu i sprawdzaj zajmowaną przez niego przestrzeń."
+            },
+            {
+              "name": "Koszyk z ogranicznikiem i opaską",
+              "description": "Twórz mocowanie z podstawą, ściankami, ogranicznikiem i przejściami dla osobno montowanej opaski."
+            },
+            {
+              "name": "Modele gniazd akumulatorów",
+              "description": "Korzystaj z profili Makita LXT, Einhell PXC, DeWalt XR, Ferm AX-Power, Bosch GBA, Ryobi ONE+ i Parkside X20V. Wymiary i spasowanie wymagają sprawdzenia dla konkretnego akumulatora."
+            },
+            {
+              "name": "Zakres profilu Milwaukee M18",
+              "description": "Przeglądaj model klipsa styków i PCB M18; mocowanie całej baterii wymaga koszyka z opaską."
+            },
+            {
+              "name": "Dokładna bryła baterii z STEP",
+              "description": "Wczytaj model STEP lub STP baterii; jej geometria i rzeczywiste wymiary zostają osadzone w projekcie."
+            },
+            {
+              "name": "Orientacja i osadzenie baterii",
+              "description": "Ustaw pozycję, obrót co 90 stopni, odstęp i zmierzone zagłębienie akumulatora w gnieździe."
+            },
+            {
+              "name": "Ślepa kieszeń akumulatora",
+              "description": "Buduj kieszeń oddzieloną od elektroniki własnym dnem, stropem i ściankami."
+            },
+            {
+              "name": "Kieszeń narożna",
+              "description": "Wybierz drugą sąsiednią otwartą ścianę, aby utworzyć kieszeń z dwoma wylotami."
+            },
+            {
+              "name": "Dopasowanie w obecnej obudowie",
+              "description": "Dopasuj kieszeń do bieżącego obrysu; program zgłasza brak miejsca zamiast samoczynnie powiększać obudowę."
+            },
+            {
+              "name": "Tor wsuwania i wyjmowania",
+              "description": "Ustal kierunek i drogę ruchu lub oblicz minimalny tor potrzebny do pełnego wyjęcia baterii."
+            },
+            {
+              "name": "Oddzielna widoczność baterii i toru",
+              "description": "Pokazuj lub ukrywaj sam akumulator oraz jego tor, zachowując mocowanie i kontrolę zajętej przestrzeni."
+            }
+          ]
+        },
+        {
+          "title": "Geometria i pomiary",
+          "items": [
+            {
+              "name": "Wybór powierzchni i krawędzi",
+              "description": "Zaznaczaj geometrię bezpośrednio na modelu albo wybieraj także zasłonięte elementy z pełnej listy."
+            },
+            {
+              "name": "Informacje o wskazanej geometrii",
+              "description": "Odczytuj typ geometrii, długość wybranej krawędzi lub pole powierzchni."
+            },
+            {
+              "name": "Zaokrąglanie krawędzi",
+              "description": "Nadawaj wybranej krawędzi regulowany promień zaokrąglenia."
+            },
+            {
+              "name": "Fazowanie krawędzi",
+              "description": "Ścinaj wybraną krawędź, określając wymiar fazy."
+            },
+            {
+              "name": "Odsuwanie powierzchni",
+              "description": "Przesuwaj powierzchnie wzdłuż normalnych, dodając lub usuwając materiał według zadanego wymiaru."
+            },
+            {
+              "name": "Pomiar dwóch krawędzi",
+              "description": "Wskaż parę krawędzi z Ctrl i zapisz ich rzeczywistą odległość 3D narzędziem D."
+            },
+            {
+              "name": "Wymiary sterujące geometrią",
+              "description": "Dla obsługiwanych par prostych równoległych krawędzi powiąż wymiar z wybranym parametrem obudowy."
+            },
+            {
+              "name": "Wzory w wymiarach",
+              "description": "Podawaj wartości lub proste wyrażenia zależne od parametrów obudowy w obsługiwanych polach wymiarów."
+            },
+            {
+              "name": "Zapisane etykiety wymiarów",
+              "description": "Nazywaj pomiary, przesuwaj etykiety, pokazuj je w widoku i otwieraj edycję dwuklikiem."
+            },
+            {
+              "name": "Edycja odniesień i operacji",
+              "description": "Zmieniaj wartość operacji, wskazuj ponownie jej geometrię, wyłączaj operację lub usuwaj ją z projektu."
+            }
+          ]
+        },
+        {
+          "title": "Widok i organizacja pracy",
+          "items": [
+            {
+              "name": "Drzewo struktury projektu",
+              "description": "Wybieraj korpus, pokrywę, otwory, mocowania, przegrody, operacje i zapisane wymiary z jednej listy."
+            },
+            {
+              "name": "Oś czasu operacji",
+              "description": "Przeglądaj historię cech modelu, otwieraj parametry dwuklikiem i włączaj albo wyłączaj operacje."
+            },
+            {
+              "name": "Powiązanie operacji z geometrią",
+              "description": "Podświetlaj powierzchnie i krawędzie należące do wybranej operacji oraz odnajduj operację ze wskazanej geometrii."
+            },
+            {
+              "name": "Przesuwanie elementów",
+              "description": "Używaj trybu M lub pomarańczowego uchwytu do przesuwania elementów; Esc anuluje cały ruch."
+            },
+            {
+              "name": "Obracanie, przesuwanie i przybliżanie widoku",
+              "description": "Oglądaj model myszą, korzystając z obrotu, panoramowania i zmiany zbliżenia."
+            },
+            {
+              "name": "Gotowe kierunki kamery",
+              "description": "Przełączaj widok 3D, górę, przód i tył albo dopasuj cały model do okna."
+            },
+            {
+              "name": "Prześwietlenie X-ray",
+              "description": "Włącz przezroczysty korpus, aby zobaczyć wnętrze i rozmieszczenie elementów."
+            },
+            {
+              "name": "Rozsunięcie korpusu i pokrywy",
+              "description": "Rozsuń części suwakiem w podglądzie, zachowując pozycję złożoną w geometrii eksportu."
+            },
+            {
+              "name": "Widoczność części referencyjnych",
+              "description": "Niezależnie ukrywaj korpus, pokrywę, PCB, akumulator i tor ruchu w drzewie projektu."
+            },
+            {
+              "name": "Regulowane panele i duży widok",
+              "description": "Zmieniaj szerokości paneli, ukrywaj strukturę, parametry i oś czasu albo przełączaj duży widok i przywracaj układ."
+            }
+          ]
+        },
+        {
+          "title": "Kontrola, eksport i pomoc",
+          "items": [
+            {
+              "name": "Podgląd zmian na żywo",
+              "description": "Oglądaj uproszczony podgląd podczas edycji, gdy dokładna bryła jest przeliczana w tle."
+            },
+            {
+              "name": "Sprawdzanie modelu i kolizji",
+              "description": "Odczytuj komunikaty o błędnych parametrach, kolizjach i braku miejsca na elementy."
+            },
+            {
+              "name": "Ostatni poprawny podgląd",
+              "description": "Po błędzie zachowaj widok ostatniej poprawnej geometrii i opis przyczyny; eksport pozostaje wyłączony do poprawienia modelu."
+            },
+            {
+              "name": "Eksport STEP, STL i 3MF",
+              "description": "Zapisuj dokładną geometrię całego złożenia, samego korpusu albo samej pokrywy do dalszej obróbki lub druku."
+            },
+            {
+              "name": "Rozdzielenie części drukowanych i podglądu",
+              "description": "Eksport obejmuje mocowania i przegrody, a pomija referencyjne PCB, bryłę akumulatora i jego tor ruchu."
+            },
+            {
+              "name": "Wyszukiwalna pomoc skrótów",
+              "description": "Otwieraj pełny spis klawiszy i gestów przez F1, filtruj go i kopiuj listę do schowka."
+            }
+          ]
+        }
+      ]
+    },
+    "padbridge": {
+      "platforms": [
+        "Windows"
+      ],
+      "reviewedVersions": {
+        "windows": "0.1.12"
+      },
+      "introduction": "Podłączanie kontrolerów, mapowanie, profile i wirtualne wyjście do gier. Funkcje zależne od sterownika, pada lub gry mają tę informację w opisie.",
+      "groups": [
+        {
+          "title": "Kontrolery, emulacja i podgląd",
+          "items": [
+            {
+              "name": "Kontrolery USB i Bluetooth",
+              "description": "Wykrywa obsługiwane pady podłączone do Windows, reaguje na ich podłączanie i pozwala ręcznie odświeżyć listę."
+            },
+            {
+              "name": "Wiele kontrolerów",
+              "description": "Pokazuje stale dostępny panel podłączonych padów i pozwala przełączać ich osobne ustawienia oraz sesje."
+            },
+            {
+              "name": "Xbox 360 i DualShock 4",
+              "description": "Przekazuje zmapowane wejście do wirtualnego Xboxa 360 albo DualShocka 4 po zainstalowaniu wymaganego sterownika ViGEmBus."
+            },
+            {
+              "name": "Automatyczny wybór wyjścia",
+              "description": "W trybie AUTO dobiera Xbox lub DS4 na podstawie reguły gry, katalogu zgodności i rozpoznania XInput."
+            },
+            {
+              "name": "Włączanie i zatrzymywanie przekazywania",
+              "description": "Pozwala osobno włączyć lub zatrzymać przekazywanie wejścia z każdego wybranego kontrolera."
+            },
+            {
+              "name": "Ukrywanie fizycznego pada",
+              "description": "Po skonfigurowaniu HidHide ukrywa wskazany fizyczny kontroler, aby ograniczyć jednoczesny odczyt pada fizycznego i wirtualnego przez grę."
+            },
+            {
+              "name": "Przekazywanie wibracji",
+              "description": "Przesyła wibracje gry z wirtualnego wyjścia do kontrolera, jeżeli źródło GameInput i urządzenie je obsługują."
+            },
+            {
+              "name": "Graficzny tester pada",
+              "description": "Pokazuje na żywo wciśnięte przyciski, ruch analogów oraz procentowe wychylenie triggerów z oznaczeniami Xbox lub PlayStation."
+            },
+            {
+              "name": "Porównanie wejścia i wyjścia",
+              "description": "Pozwala porównać nacisk triggerów na fizycznym padzie ze stanem po zastosowaniu mapowania."
+            },
+            {
+              "name": "Statystyki odczytu",
+              "description": "Wyświetla liczbę zaobserwowanych odczytów na sekundę, czas przetwarzania mapowania i aktywny proces."
+            },
+            {
+              "name": "Podgląd bez sterownika",
+              "description": "Gdy wirtualne urządzenie nie jest dostępne, udostępnia oznaczony podgląd zmapowanych sygnałów."
+            },
+            {
+              "name": "Ponawianie uruchomienia wyjścia",
+              "description": "Po błędzie próbuje ponownie uruchomić wirtualne wyjście, a przy niedostępnym DS4 może przejść na Xbox z oznaczeniem zmiany."
+            }
+          ]
+        },
+        {
+          "title": "Mapowanie i czułość",
+          "items": [
+            {
+              "name": "Zmiana i wyłączanie przycisków",
+              "description": "Przypisuje przyciskom inne funkcje pada lub całkowicie wyłącza wybrane przypisanie."
+            },
+            {
+              "name": "Przypisywanie z rysunku pada",
+              "description": "Po kliknięciu przycisku na ilustracji zapisuje do niego naciśnięty przycisk lub trigger fizycznego kontrolera."
+            },
+            {
+              "name": "Martwe strefy analogów i triggerów",
+              "description": "Ustawia zakres drobnych wychyleń, który ma być ignorowany, osobno dla lewego analoga, prawego analoga i triggerów."
+            },
+            {
+              "name": "Anti-deadzone",
+              "description": "Dostosowuje minimalną reakcję po wyjściu z martwej strefy, aby skompensować próg działania w grze."
+            },
+            {
+              "name": "Krzywe reakcji",
+              "description": "Zmienia narastanie reakcji analogów i triggerów od łagodniejszej do bardziej zdecydowanej."
+            },
+            {
+              "name": "Odwracanie osi",
+              "description": "Odwraca kierunek osi X lub Y oddzielnie dla każdego analoga."
+            },
+            {
+              "name": "Zamiana analogów i triggerów",
+              "description": "Zamienia miejscami lewy i prawy analog oraz, niezależnie, lewy i prawy trigger."
+            },
+            {
+              "name": "Dodatkowa warstwa Shift",
+              "description": "Udostępnia drugi zestaw przypisań podczas przytrzymywania wybranego przycisku Shift."
+            },
+            {
+              "name": "Turbo",
+              "description": "Powtarza działanie jednego wybranego przycisku z ustawioną częstotliwością od 1 do 30 razy na sekundę."
+            },
+            {
+              "name": "Makra przycisków",
+              "description": "Uruchamia zapisane sekwencje przycisków i czasów po naciśnięciu wyzwalacza; sekwencje ustawia się ręcznie w edytorze JSON."
+            }
+          ]
+        },
+        {
+          "title": "Profile i rozpoznawanie układu",
+          "items": [
+            {
+              "name": "Własne profile mapowania",
+              "description": "Tworzy nazwane profile i zapisuje dla nich przypisania, czułość, makra, touchpad oraz rodzaj wyjścia."
+            },
+            {
+              "name": "Domyślny profil urządzenia",
+              "description": "Przypisuje każdemu kontrolerowi osobny profil używany, gdy nie obowiązuje reguła konkretnej gry."
+            },
+            {
+              "name": "Reguły dla gier",
+              "description": "Łączy nazwę procesu gry z profilem i preferowanym wyjściem AUTO oraz pozwala usuwać te reguły."
+            },
+            {
+              "name": "Kreator nieznanego kontrolera",
+              "description": "Krok po kroku rozpoznaje przyciski, analogi, triggery i kierunki D-pada, umożliwiając pominięcie brakujących elementów i zapis układu."
+            },
+            {
+              "name": "Oddzielne ustawienia znanych urządzeń",
+              "description": "Przy pierwszym wykryciu kontrolera przygotowuje jego własny profil, dzięki czemu ustawienia różnych padów pozostają rozdzielone."
+            }
+          ]
+        },
+        {
+          "title": "Touchpad PlayStation",
+          "items": [
+            {
+              "name": "Podgląd dotyku",
+              "description": "Pokazuje stan touchpada i pozycje maksymalnie dwóch aktywnych palców dla obsługiwanych raportów kontrolera Sony."
+            },
+            {
+              "name": "Touchpad w grach DS4",
+              "description": "Przekazuje dotyk do wirtualnego DualShocka 4, jeżeli gra obsługuje tę funkcję."
+            },
+            {
+              "name": "Sterowanie myszą z touchpada",
+              "description": "Przy włączonym przekazywaniu wejścia przesuwa kursor jednym palcem i przewija dwoma palcami, także po schowaniu okna aplikacji."
+            },
+            {
+              "name": "Ustawienia touchpada",
+              "description": "Pozwala wyłączyć dotyk, zapisać czułość kursora w profilu i używać kliknięcia touchpada jako lewego przycisku myszy lub przypisywalnego przycisku pada."
+            }
+          ]
+        },
+        {
+          "title": "Sterowniki i diagnostyka",
+          "items": [
+            {
+              "name": "Sprawdzanie wymaganych składników",
+              "description": "Rozróżnia brak, instalację i gotowość GameInput, ViGEmBus oraz HidHide, z możliwością ponownego sprawdzenia."
+            },
+            {
+              "name": "Pobieranie i instalacja sterowników",
+              "description": "Pobiera wskazane składniki z oficjalnych źródeł, sprawdza plik oraz podpis wydawcy i uruchamia instalację po zgodzie administratora Windows."
+            },
+            {
+              "name": "Postęp i anulowanie pobierania",
+              "description": "Pokazuje etap oraz czas operacji, pozwala anulować pobieranie i informuje o wyniku instalacji lub potrzebie restartu."
+            },
+            {
+              "name": "Diagnostyka kontrolera",
+              "description": "Wyświetla źródło wejścia, możliwości urządzenia, liczbę kontrolek i status emulacji oraz pozwala odświeżyć dostęp do kontrolera."
+            },
+            {
+              "name": "Rozpoznawanie podwójnego wejścia",
+              "description": "Ostrzega, gdy fizyczny pad pozostaje widoczny obok emulowanego wyjścia, i prowadzi do konfiguracji HidHide."
+            }
+          ]
+        },
+        {
+          "title": "Codzienne korzystanie",
+          "items": [
+            {
+              "name": "Praca w zasobniku",
+              "description": "Schowanie lub zamknięcie okna pozostawia przekazywanie wejścia w tle, a menu ikony pozwala ponownie otworzyć program, odświeżyć pady albo zakończyć pracę."
+            },
+            {
+              "name": "Autostart Windows",
+              "description": "Opcjonalnie uruchamia PadBridge w zasobniku po zalogowaniu użytkownika do Windows."
+            },
+            {
+              "name": "Zachowanie ustawień",
+              "description": "Przechowuje ustawienia i profile między uruchomieniami, waliduje zapis i zachowuje kopię poprzednich ustawień."
+            },
+            {
+              "name": "Tryb demonstracyjny",
+              "description": "Poznaj interfejs i mapowanie na dwóch symulowanych kontrolerach bez fizycznego pada. Tryb demonstracyjny nie tworzy wirtualnego pada dla gry."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
