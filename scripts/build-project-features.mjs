@@ -6,6 +6,10 @@ import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const projects=['infernal-rift','moj-notatnik','volvio-scanner','encloser-cad','padbridge'];
 const start='<!-- project-features:start -->',end='<!-- project-features:end -->';
+const historyStart='<!-- project-history:start -->',historyEnd='<!-- project-history:end -->';
+const historySection=`${historyStart}
+    <section class="project-history" id="historia" aria-labelledby="history-title"><div class="section-top"><div><p class="eyebrow">HISTORIA</p><h2 id="history-title">Historia aktualizacji<span class="title-dot">.</span></h2><p class="section-description">Opublikowane wersje i ich zmiany, od najnowszych do starszych. Wybierz wersję, aby rozwinąć opis.</p></div><a class="button button-secondary" href="#pobierz">Pobierz najnowszą ↓</a></div><div class="history-controls" id="history-controls" hidden><label id="history-engine-label" for="history-engine">Silnik<select id="history-engine"><option value="">Wszystkie silniki</option></select></label><label id="history-platform-label" for="history-platform">System<select id="history-platform"><option value="">Wszystkie systemy</option></select></label></div><p class="history-status" id="history-status" role="status" aria-live="polite">Wczytywanie historii…</p><div class="history-list" id="history-list"></div></section>
+    ${historyEnd}`;
 const escape=(value)=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slug=(value)=>value.toLowerCase().replace(/ł/g,'l').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const editionName={native:'Własny silnik',unity:'Unity'};
@@ -67,6 +71,17 @@ export async function buildFeaturePages(){
       if(!html.includes(gallery))throw Error('Missing project navigation');
       html=html.replace(gallery,'<a class="button button-secondary" href="#funkcje">Wszystkie funkcje ↓</a>'+gallery);
     }
+    if(html.includes(historyStart)){
+      const from=html.indexOf(historyStart),to=html.indexOf(historyEnd,from);
+      if(to<from)throw Error('Missing history section boundary');
+      html=html.slice(0,from)+historySection+html.slice(to+historyEnd.length);
+    }else{
+      const before='<div class="back-to-catalog">';
+      if(!html.includes(before))throw Error('Missing project footer navigation');
+      html=html.replace(before,historySection+'\n    '+before);
+    }
+    if(!html.includes('class="button button-secondary" href="#historia"'))html=html.replace('<a class="button button-secondary" href="#galeria">','<a class="button button-secondary" href="#historia">Historia aktualizacji ↓</a><a class="button button-secondary" href="#galeria">');
+    if(!html.includes('class="back-link" href="#historia"'))html=html.replace('<a class="navcta" href="#pobierz">','<a class="back-link" href="#historia">Historia</a><a class="navcta" href="#pobierz">');
     html=html.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
     html=html.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
     const script=`<script src="./project-features.js?v=${jsHash}" defer></script>`;

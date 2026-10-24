@@ -94,4 +94,67 @@ test('The actual project page renders every note, including long entries after i
  assert.ok(html.includes(items[30].trim()));
  assert.ok(html.includes('<h4>Co nowego</h4>'));
  assert.equal(get('availability').textContent,'Dostępne do pobrania');
+ assert.equal(get('history-controls').hidden,true);
+ assert.equal(get('history-engine-label').hidden,true);
+ assert.equal(get('history-platform-label').hidden,true);
+ assert.equal((get('history-list').innerHTML.match(/<li>/g)||[]).length,31);
+});
+
+test('History contains older verified versions while downloads keep only the latest channel',()=>{
+ const rows=[
+  release('infernal-rift-unity-android-v2.15.4',['Infernal-Rift-Unity-v2.15.4.apk'],{published_at:'2026-10-22T12:00:00Z',body:'## Co nowego\n- Nowa zmiana.'}),
+  release('infernal-rift-unity-android-v2.15.3',['Infernal-Rift-Unity-v2.15.3.apk'],{published_at:'2026-10-24T12:00:00Z',body:'## Co nowego\n- Starsza zmiana.'}),
+  release('infernal-rift-native-v0.346.0',['Infernal-Rift-v0.346.0.apk'])
+ ];
+ const entry=buildCatalog(rows,{},repo).releases['infernal-rift'];
+ assert.equal(entry.versions.length,2);
+ assert.equal(entry.versions.find(v=>v.channel==='unity-android').version,'v2.15.4');
+ assert.deepEqual(entry.history.map(v=>v.version),['v2.15.3','v0.346.0','v2.15.4']);
+ assert.ok(entry.history.every(v=>!Object.hasOwn(v,'files')));
+ assert.equal(entry.history.find(v=>v.version==='v2.15.3').changelog.items[0],'Starsza zmiana.');
+});
+
+test('Canonical platform tags deduplicate a legacy history channel without losing the other platform',()=>{
+ const entry=buildCatalog([
+  release('infernal-rift-unity-v2.14.1',['Infernal-Rift-Unity-v2.14.1.apk','Infernal-Rift-Unity-v2.14.1-Windows-PC.zip']),
+  release('infernal-rift-unity-android-v2.14.1',['Infernal-Rift-Unity-v2.14.1.apk']),
+  release('infernal-rift-unity-android-v2.14.2',['Infernal-Rift-Unity-v2.14.2.apk'],{draft:true})
+ ],{},repo).releases['infernal-rift'];
+ assert.equal(entry.history.length,2);
+ assert.equal(entry.history.find(v=>v.platform==='Android').tag,'infernal-rift-unity-android-v2.14.1');
+ assert.equal(entry.history.find(v=>v.platform==='Windows').tag,'infernal-rift-unity-v2.14.1');
+ assert.equal(entry.versions.length,2);
+});
+
+test('A shared legacy release keeps Android-only and Windows-only changes in the correct history',()=>{
+ const body='## Co nowego\n### Wspólne\n- Wspólna poprawka.\n### Android\n- Obrót telefonu.\n### PC\n- Kursor myszy.\n## Instalacja\n- To nie jest zmiana.';
+ const entry=buildCatalog([release('infernal-rift-unity-v2.14.1',['Infernal-Rift-Unity-v2.14.1.apk','Infernal-Rift-Unity-v2.14.1-Windows-PC.zip'],{body})],{},repo).releases['infernal-rift'];
+ assert.deepEqual(entry.history.find(v=>v.platform==='Android').changelog.items,['Wspólne: Wspólna poprawka.','Android: Obrót telefonu.']);
+ assert.deepEqual(entry.history.find(v=>v.platform==='Windows').changelog.items,['Wspólne: Wspólna poprawka.','PC: Kursor myszy.']);
+ assert.equal(releaseNotes(body).items.length,3);
+});
+
+test('Actual history controls filter platform and engine, and never render archived package downloads',async()=>{
+ const actualRepo='k4mik4zz3-droid/zeroskilla-dev-studio';
+ const rows=[release('infernal-rift-unity-android-v2.15.8',['Infernal-Rift-Unity-v2.15.8.apk']),release('infernal-rift-unity-android-v2.15.7',['Infernal-Rift-Unity-v2.15.7.apk']),release('infernal-rift-unity-windows-v2.15.9',['Infernal-Rift-Unity-v2.15.9-Windows-PC.zip']),release('infernal-rift-native-v0.346.0',['Infernal-Rift-v0.346.0.apk'])];
+ for(const r of rows){r.body='## Co nowego\n- Zmiana '+r.tag_name+'.';r.html_url=`https://github.com/${actualRepo}/releases/tag/${r.tag_name}`;for(const f of r.assets)f.browser_download_url=f.browser_download_url.replace(repo,actualRepo);}
+ const catalog=buildCatalog(rows,{},actualRepo),elements=new Map();
+ const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',events:{},addEventListener(name,action){this.events[name]=action;}});return elements.get(id);};
+ const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
+ runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'infernal-rift'}},getElementById:get,querySelectorAll:()=>[]},fetch:async()=>({ok:true,json:async()=>catalog})});
+ await new Promise(setImmediate);
+ const count=()=>((get('history-list').innerHTML.match(/<details class="history-item">/g))||[]).length;
+ assert.equal(count(),4);
+ assert.equal(get('history-controls').hidden,false);
+ assert.ok(!get('history-list').innerHTML.includes('/releases/download/'));
+ assert.ok(!get('download-list').innerHTML.includes('v2.15.7.apk'));
+ get('history-platform').value='Android';get('history-platform').events.change();
+ assert.equal(count(),3);
+ get('history-engine').value='Unity';get('history-engine').events.change();
+ assert.equal(count(),2);
+ get('history-engine').value='Własny silnik';get('history-engine').events.change();
+ assert.equal(count(),1);
+ get('history-platform').value='Windows';get('history-platform').events.change();
+ assert.equal(count(),0);
+ assert.ok(get('history-list').innerHTML.includes('Brak aktualizacji dla wybranych filtrów.'));
 });

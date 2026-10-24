@@ -10,7 +10,7 @@ Gotowe paczki z lokalnego komputera może również publikować [lokalny automat
 
 Obydwa workflow generują katalog bezpośrednio z GitHub Releases API. Główna strona odświeża się po zmianie workflow, ręcznie i co godzinę. Repozytorium źródłowe reaguje też na publikację, edycję lub usunięcie wydania.
 
-Generator wybiera najwyższą rzeczywiście dostępną wersję osobno dla projektu, silnika i platformy. Brak Windows w nowszym wydaniu Androida nie ukrywa ostatniej dostępnej paczki Windows. Zaplanowane, puste, robocze oraz przedpremierowe wydania nie są pokazywane. Starsze wydania pozostają w archiwum Releases.
+Generator wybiera najwyższą rzeczywiście dostępną wersję osobno dla projektu, silnika i platformy. Brak Windows w nowszym wydaniu Androida nie ukrywa ostatniej dostępnej paczki Windows. Zaplanowane, puste, robocze oraz przedpremierowe wydania nie są pokazywane. Starsze wydania pozostają w archiwum Releases i w historii zmian na podstronie projektu; przyciski pobierania nadal wskazują tylko najnowszą paczkę każdego kanału.
 
 Nowe tagi i nazwy plików:
 
@@ -55,10 +55,18 @@ Wyłączenie i przywrócenie publikacji opisuje [ADMIN.md](ADMIN.md).
 
 ## Ostatnia aktualizacja — Co nowego
 
-Katalog pobiera krótkie listy zmian z treści tego samego GitHub Release, z którego pochodzi najnowsza paczka danego kanału. W opisie wydania dodaj nagłówek `## Co nowego` i poniżej zwykłe punkty `- Zmiana.`. Następny nagłówek kończy tę listę. Strona pokazuje wersję, datę publikacji, listę zmian i link do pełnego wydania. Nie kopiuje opisu starszej wersji, gdy nowa nie ma własnych notatek.
+Katalog pobiera listy zmian z treści tego samego GitHub Release, z którego pochodzi paczka danego kanału. W opisie wydania dodaj nagłówek `## Co nowego` i poniżej zwykłe punkty `- Zmiana.`. Kolejny nagłówek tego samego lub wyższego poziomu kończy listę; głębsze nagłówki tworzą jej podsekcje. Strona pokazuje wersję, datę publikacji, listę zmian i link do pełnego wydania. Nie kopiuje opisu starszej wersji, gdy nowa nie ma własnych notatek.
 
 Dla pierwszego opisu paczki bez porównania z wcześniejszą wersją użyj `## Informacje o wydaniu`. `## Zmiany w dystrybucji` służy zmianom podpisu lub publikacji paczki i jest wyraźnie odróżnione od zmian funkcji. Brak notatek pozostaje oznaczony wprost. Nie wpisuj całej listy istniejących funkcji jako nowości.
 
 Lokalny automat wymaga publicznych notatek z jawnego pliku `.changes.json` obok gotowej paczki; format opisuje [LOCAL-PUBLISHER.md](LOCAL-PUBLISHER.md). Brak lub niezgodny opis zatrzymuje nową paczkę przed publikacją. Nie odczytuje w tym celu raportów projektu, prywatnych dokumentów ani notatek użytkownika.
 
 Czytnik zachowuje pełną listę punktów, ciągi dalsze w kolejnych wierszach i podsekcje pod nagłówkiem zmian. Nie ucina listy po 20 wpisach ani dłuższych punktów. Nieprawidłowy opis już publicznego wydania jest zgłaszany w GitHub Actions; wybór najnowszej paczki nadal zależy od jej wersji i integralności, bez cofania numeru lub kopiowania starszych zmian. Nagłówek `Co nowego` jest wspólny dla wszystkich kanałów, a dodatkowa etykieta rozróżnia zmiany funkcji, informacje o wydaniu i zmiany dystrybucji.
+
+## Historia aktualizacji
+
+Każda podstrona projektu ma sekcję `#historia` z rozwijanymi wpisami: numerem wersji, datą publikacji GitHub, systemem, opcjonalnym silnikiem i pełną listą zmian. Filtry pojawiają się tylko wtedy, gdy istnieje więcej niż jeden system lub silnik. Nowe i edytowane wydania trafiają do historii przez ten sam automatyczny katalog, bez ręcznej zmiany HTML.
+
+`releases.json` zachowuje dotychczasowe `versions` z najnowszymi paczkami, a `history` zawiera wszystkie opublikowane, zweryfikowane kanały i wersje. Historia używa tej samej kontroli tagu, nazwy pliku, rozmiaru i SHA256 co pobieranie; nie zawiera bezpośrednich linków do starych APK/ZIP. Dla jednego projektu, kanału i numeru wersji powstaje jeden wpis; tag z jawną platformą ma pierwszeństwo przed starszym wspólnym tagiem. Wpisy są uporządkowane według dnia publikacji, następnie malejąco według numeru wersji, z rozdzieleniem kanałów.
+
+Starszy wspólny Release może rozdzielać zmiany pod nagłówkami `### Android` i `### Windows` (także `### PC`). Czytnik przypisuje je tylko właściwemu systemowi. Pozostałe podsekcje tego samego poziomu są wspólne. Puste lub nieprawidłowe opisy pozostają jawnie oznaczone; historii nie uzupełnia się opisami innej wersji. Pełne spisy funkcji, galerie i pobieranie najnowszych paczek działają niezależnie od historii.

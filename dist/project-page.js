@@ -17,10 +17,41 @@
     const url=releaseUrl(v);
     return '<section class="release-changes" aria-label="'+escapeHtml(title+' — '+v.version)+'"><h4>'+title+'</h4>'+(scope?'<p class="release-scope-label">'+scope+'</p>':'')+(items.length?'<ul>'+items.map(item=>'<li>'+escapeHtml(item)+'</li>').join('')+'</ul>':'<p>Opis zmian tej wersji wymaga uzupełnienia przez autora.</p>')+(kind==='distribution'?'<p class="release-scope-note">Opis dotyczy publikacji paczki. Szczegółowa lista zmian funkcji tej wersji nie została udostępniona.</p>':'')+(url?'<a class="release-more" href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer">Informacje o wydaniu na GitHub ↗</a>':'')+'</section>';
   }
-  function publicationDate(value){
+  function formattedDate(value){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';
     const date=new Date(value+'T00:00:00Z');if(Number.isNaN(date.getTime()))return '';
-    return '<p class="release-date">Opublikowano <time datetime="'+escapeHtml(value)+'">'+new Intl.DateTimeFormat('pl-PL',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(date)+'</time></p>';
+    return new Intl.DateTimeFormat('pl-PL',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(date);
+  }
+  function publicationDate(value){
+    const label=formattedDate(value);
+    return label?'<p class="release-date">Opublikowano <time datetime="'+escapeHtml(value)+'">'+label+'</time></p>':'';
+  }
+  function showHistory(entry){
+    const list=$('history-list');if(!list)return;
+    const rows=(Array.isArray(entry?.history)?entry.history:[]).filter(v=>/^v\d+\.\d+\.\d+$/.test(v.version||'')&&['Android','Windows'].includes(v.platform));
+    const latest=new Set((entry?.versions||[]).map(v=>v.channel+'/'+v.version));
+    const engine=$('history-engine'),platform=$('history-platform');
+    const engines=[...new Set(rows.map(v=>v.engine).filter(Boolean))].sort();
+    const platforms=[...new Set(rows.map(v=>v.platform))].sort();
+    $('history-engine-label').hidden=engines.length<2;
+    $('history-platform-label').hidden=platforms.length<2;
+    $('history-controls').hidden=engines.length<2&&platforms.length<2;
+    engine.innerHTML='<option value="">Wszystkie silniki</option>'+engines.map(value=>'<option value="'+escapeHtml(value)+'">'+escapeHtml(value)+'</option>').join('');
+    platform.innerHTML='<option value="">Wszystkie systemy</option>'+platforms.map(value=>'<option value="'+escapeHtml(value)+'">'+escapeHtml(value)+'</option>').join('');
+    engine.value='';platform.value='';
+    function renderHistory(){
+      const selected=rows.filter(v=>(!engine.value||v.engine===engine.value)&&(!platform.value||v.platform===platform.value));
+      const count=selected.length;
+      $('history-status').textContent=count+' '+(count===1?'wpis':count%10>=2&&count%10<=4&&(count%100<12||count%100>14)?'wpisy':'wpisów')+' w historii';
+      if(!selected.length){list.innerHTML='<p class="history-empty">'+(rows.length?'Brak aktualizacji dla wybranych filtrów.':'Historia pojawi się po opublikowaniu pierwszego wydania.')+'</p>';return;}
+      list.innerHTML=selected.map(v=>{
+        const current=latest.has(v.channel+'/'+v.version),date=formattedDate(v.date);
+        return '<details class="history-item"><summary><span class="history-version"><strong>'+escapeHtml(v.version)+'</strong><span>'+escapeHtml([v.engine,v.platform].filter(Boolean).join(' · '))+'</span></span><span class="history-meta">'+(date?'<time datetime="'+escapeHtml(v.date)+'">'+date+'</time>':'')+'<span class="history-badge'+(current?' is-current':'')+'">'+(current?'Najnowsza':'Archiwum')+'</span><span class="history-chevron" aria-hidden="true"></span></span></summary><div class="history-body">'+(v.description?'<p class="history-description">'+escapeHtml(v.description)+'</p>':'')+showChanges(v)+'</div></details>';
+      }).join('');
+    }
+    engine.addEventListener('change',renderHistory);
+    platform.addEventListener('change',renderHistory);
+    renderHistory();
   }
   function showDownloads(entry){
     const versions=(Array.isArray(entry?.versions)?entry.versions:[]).filter(v=>filesFor(v).length);
@@ -38,9 +69,12 @@
   fetch('./releases.json',{cache:'no-store'}).then(response=>{if(!response.ok)throw Error('Manifest niedostępny');return response.json()}).then(data=>{
     if(data?.schemaVersion!==2||!data.releases||typeof data.releases!=='object')throw Error('Nieprawidłowy manifest');
     showDownloads(data.releases[projectId]);
+    showHistory(data.releases[projectId]);
   }).catch(()=>{
     $('availability').textContent='Nie udało się sprawdzić';
     $('download-list').innerHTML='<div class="unavailable"><h3>Nie udało się wczytać wydań</h3><p>Odśwież stronę lub sprawdź <a href="https://github.com/k4mik4zz3-droid/zeroskilla-dev-studio/releases" target="_blank" rel="noopener noreferrer">archiwum GitHub Releases ↗</a>.</p></div>';
+    if($('history-list'))$('history-list').innerHTML='<p class="history-empty">Nie udało się wczytać historii. Odśwież stronę lub sprawdź archiwum GitHub Releases.</p>';
+    if($('history-status'))$('history-status').textContent='Historia chwilowo niedostępna';
   });
   const gallery=[...document.querySelectorAll('.gallery-open')];
   const dialog=$('gallery-dialog');

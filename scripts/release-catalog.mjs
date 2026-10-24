@@ -13,10 +13,13 @@ export function parseTag(tag){
  const old=/^infernal-rift-(native|unity)-(v\d+\.\d+\.\d+)$/.exec(tag);
  return old?{project:'infernal-rift',engine:old[1],platform:null,version:old[2]}:null;
 }
-export function versionOrder(a,b){
+function numericOrder(a,b){
  const va=a.version.slice(1).split('.').map(Number),vb=b.version.slice(1).split('.').map(Number);
  for(let i=0;i<3;i++)if(va[i]!==vb[i])return vb[i]-va[i];
- return String(b.date||'').localeCompare(String(a.date||''));
+ return 0;
+}
+export function versionOrder(a,b){
+ return numericOrder(a,b)||String(b.date||'').localeCompare(String(a.date||''));
 }
 function expectedNames({project,engine,version:v},platform){
  if(project==='infernal-rift')return engine==='native'?(platform==='android'?[`Infernal-Rift-${v}.apk`]:[]):platform==='android'?[`Infernal-Rift-Unity-${v}.apk`]:[`Infernal-Rift-Unity-${v}-Windows-PC.zip`];
@@ -41,18 +44,22 @@ export function buildCatalog(published,metadata,repo,checked=new Date().toISOStr
   if(release.draft||release.prerelease)continue;
   const parsed=parseTag(String(release.tag_name||''));if(!parsed)continue;
   const planned=(metadata.planned||[]).find(p=>p.tag===release.tag_name);
-  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,body:release.body,file});
+  for(const file of assetFiles(release,parsed,repo))candidates.push({project:parsed.project,version:parsed.version,...(parsed.engine?{engine:parsed.engine==='native'?'Własny silnik':'Unity'}:{}),channel:[parsed.engine,file.platform.toLowerCase()].filter(Boolean).join('-'),date:String(release.published_at||release.created_at||'').slice(0,10),description:planned?.description||String(release.name||'').slice(0,160),tag:release.tag_name,releaseUrl:release.html_url,canonical:Boolean(parsed.platform),body:release.body,file});
  }
- candidates.sort(versionOrder);
- const releases=Object.fromEntries(projects.map(p=>[p,{versions:[],...(metadata.unavailable?.[p]?{unavailableReason:metadata.unavailable[p]}:{})}]));
- const seen=new Set();
+ candidates.sort((a,b)=>numericOrder(a,b)||Number(b.canonical)-Number(a.canonical)||versionOrder(a,b)||a.tag.localeCompare(b.tag));
+ const releases=Object.fromEntries(projects.map(p=>[p,{versions:[],history:[],...(metadata.unavailable?.[p]?{unavailableReason:metadata.unavailable[p]}:{})}]));
+ const seen=new Set(),historical=new Set();
  for(const candidate of candidates){
-  const key=`${candidate.project}/${candidate.channel}`;if(seen.has(key))continue;seen.add(key);
-  const {project,file,body,...record}=candidate;
+  const key=`${candidate.project}/${candidate.channel}`,historyKey=key+'/'+candidate.version;
+  if(historical.has(historyKey))continue;historical.add(historyKey);
+  const {project,file,body,canonical,...record}=candidate;
   let changelog=null,status='missing';
-  try{changelog=releaseNotes(body);if(changelog)status='complete';}catch{status='invalid';}
-  releases[project].versions.push({...record,...(changelog?{changelog}:{}),changelogStatus:status,files:[file]});
+  try{changelog=releaseNotes(body,{platform:file.platform});if(changelog)status='complete';}catch{status='invalid';}
+  const described={...record,...(changelog?{changelog}:{}),changelogStatus:status};
+  releases[project].history.push({...described,platform:file.platform});
+  if(!seen.has(key)){seen.add(key);releases[project].versions.push({...described,files:[file]});}
  }
+ for(const project of Object.values(releases))project.history.sort((a,b)=>b.date.localeCompare(a.date)||versionOrder(a,b)||a.channel.localeCompare(b.channel));
  return {schemaVersion:2,lastChecked:checked,sourceRepository:repo,releases};
 }
 async function fetchReleases(repo){
@@ -72,7 +79,7 @@ export async function main(){
  const fixture=process.argv.indexOf('--from-file');
  const published=process.argv.includes('--offline')?[]:fixture>=0?JSON.parse((await readFile(process.argv[fixture+1],'utf8')).replace(/^\uFEFF/,'')):await fetchReleases(repo);
  const catalog=buildCatalog(published,metadata,repo),count=Object.values(catalog.releases).flatMap(p=>p.versions).length;
- const missing=Object.values(catalog.releases).flatMap(p=>p.versions).filter(v=>v.changelogStatus!=='complete');
+ const missing=Object.values(catalog.releases).flatMap(p=>p.history).filter(v=>v.changelogStatus!=='complete');
  for(const v of missing)console.warn(`::warning::Publiczne wydanie ${v.tag} wymaga poprawnego opisu zmian; zachowano najnowszą paczkę bez kopiowania starego opisu.`);
  if(!process.argv.includes('--offline')&&!count)throw new Error('No verified assets; keeping previous catalog');
  await writeFile(join(root,'dist','releases.json'),JSON.stringify(catalog,null,2)+'\n');
