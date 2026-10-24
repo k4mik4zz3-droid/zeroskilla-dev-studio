@@ -50,6 +50,8 @@ jobs:
           node-version: '22'
       - name: Test release selection
         run: node --test scripts/build-releases.test.mjs
+      - name: Test local release publisher safety
+        run: python3 scripts/test-local-publisher.py
       - name: Build verified release catalog
         run: node scripts/build-releases.mjs
         env:
