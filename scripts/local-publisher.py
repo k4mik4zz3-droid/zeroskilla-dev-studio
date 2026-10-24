@@ -42,6 +42,7 @@ BAD_EXT = {'.pdb','.mdb','.cs','.csproj','.sln','.c','.cpp','.cxx','.h','.hpp','
 BAD_DIR = {'logs','backup','backups','sources','zrodla','userdata','savedata','playerdata','.git','.vs','obj','debug','tests','profiles'}
 BAD_NAMES = {'createdump.exe','czytaj-najpierw.html'}
 PUBLIC_RUNTIME_NAMES = {'microsoft.security.authentication.oauth.projection.dll','microsoft.security.authentication.oauth.winmd'}
+ANDROID_VERSION_FILES = {'META-INF/androidx.credentials_credentials.version','META-INF/androidx.credentials_credentials-play-services-auth.version'}
 SECRET_NAME = re.compile(r'(^|[_.-])(id_rsa|id_ed25519|credentials|secrets?|tokens?|oauth|client_secret|service_account|private_key)([_.-]|$)', re.I)
 
 class Rejected(Exception):
@@ -76,7 +77,7 @@ def safe_name(name):
         raise Rejected('Niebezpieczna ścieżka w paczce')
     if any(p.lower() in BAD_DIR for p in path.parts) or path.suffix.lower() in BAD_EXT:
         return False
-    if path.name.lower() in BAD_NAMES or path.name.startswith('.env') or (SECRET_NAME.search(path.name) and path.name.lower() not in PUBLIC_RUNTIME_NAMES):
+    if path.name.lower() in BAD_NAMES or path.name.startswith('.env') or (SECRET_NAME.search(path.name) and path.name.lower() not in PUBLIC_RUNTIME_NAMES and name not in ANDROID_VERSION_FILES):
         return False
     return True
 
@@ -159,6 +160,11 @@ def validate_apk(path, channel, config):
         for info in archive.infolist():
             if not info.is_dir() and not safe_name(info.filename):
                 raise Rejected(f'Niedozwolony plik APK: {info.filename}')
+            if info.filename in ANDROID_VERSION_FILES:
+                # AndroidX publishes these two dependency-version markers. The
+                # exact path is exempted only when its contents are a version.
+                if info.file_size>80 or not re.fullmatch(rb'\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?\r?\n?',archive.read(info)):
+                    raise Rejected('Metadane biblioteki AndroidX zawierają treść inną niż numer wersji')
     return {**meta,'certificates':sorted(certs),'sha256':sha(path),'sizeBytes':Path(path).stat().st_size}
 
 def checked_entries(archive,windows=True):

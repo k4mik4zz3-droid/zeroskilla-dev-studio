@@ -116,6 +116,20 @@ class Validation(unittest.TestCase):
         with patch.object(p,'apk_metadata',return_value={'package':'pl.notatnik.app','debuggable':False,'version':'2.9.8'}),patch.object(p,'run',return_value='Verified using v2 scheme (APK Signature Scheme v2): true\ncertificate SHA-256 digest: '+'b'*64):
             with self.assertRaisesRegex(p.Rejected,'Certyfikat'):p.validate_apk('never-opened.apk','moj-notatnik-android',cfg)
 
+    def test_androidx_credentials_metadata_requires_exact_path_and_version_only(self):
+        cfg={'java':'java','apksigner':'signer','certificates':{'moj-notatnik-android':['a'*64]}}
+        metadata={'package':'pl.notatnik.app','debuggable':False,'version':'2.9.8','versionName':'2.9.8','versionCode':21}
+        output='Verified using v2 scheme (APK Signature Scheme v2): true\ncertificate SHA-256 digest: '+'a'*64
+        name='META-INF/androidx.credentials_credentials.version'
+        self.assertTrue(p.safe_name(name))
+        self.assertFalse(p.safe_name('assets/androidx.credentials_credentials.version'))
+        with test_folder() as folder,patch.object(p,'apk_metadata',return_value=metadata),patch.object(p,'run',return_value=output):
+            path=Path(folder)/'app.apk'
+            with zipfile.ZipFile(path,'w') as bundle:bundle.writestr(name,'1.3.0\n')
+            self.assertEqual(p.validate_apk(path,'moj-notatnik-android',cfg)['version'],'2.9.8')
+            with zipfile.ZipFile(path,'w') as bundle:bundle.writestr(name,'access_token=private-data')
+            with self.assertRaisesRegex(p.Rejected,'numer wersji'):p.validate_apk(path,'moj-notatnik-android',cfg)
+
     def test_paused_local_switch_does_not_touch_github(self):
         with test_folder() as folder:
             cfg=Path(folder)/'config.json';cfg.write_text('{"enabled":false}')
