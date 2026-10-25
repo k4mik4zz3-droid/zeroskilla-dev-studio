@@ -163,7 +163,7 @@ test('Open pages receive new release data every minute and upon returning to the
  const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
  const events={},calls=[],delivered=[];let tick,revision=1;
  const document={hidden:false,addEventListener(name,fn){events[name]=fn;}};
- const context={document,AbortSignal,Date,URL,setInterval(fn,ms){assert.equal(ms,60000);tick=fn;return 1;},clearInterval(){},fetch:async(url)=>{calls.push(url);return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:'v0.1.'+revision}]}}})}}};
+ const context={document,AbortSignal,Date,URL,setTimeout,clearTimeout,setInterval(fn,ms){assert.equal(ms,60000);tick=fn;return 1;},clearInterval(){},fetch:async(url)=>{calls.push(url);return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:'v0.1.'+revision}]}}})}}};
  runInNewContext(source,context);
  const stop=context.ZeroSkillaReleases.watch(data=>delivered.push(data));
  await context.ZeroSkillaReleases.refresh();
@@ -181,7 +181,7 @@ test('Open pages receive new release data every minute and upon returning to the
 test('A temporary source outage keeps newer data instead of reverting to an older hosted catalog',async()=>{
  const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
  let offline=false,failAll=false;const delivered=[],errors=[];
- const context={AbortSignal,Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
+ const context={AbortSignal,Date,setTimeout,clearTimeout,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
   if(failAll||(offline&&url.startsWith('https:')))throw Error('Temporary outage');
   return {ok:true,json:async()=>({schemaVersion:2,lastChecked:url.startsWith('https:')?'2026-10-25T08:01:00Z':'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:url.startsWith('https:')?'v0.1.13':'v0.1.12'}]}}})};
  }};
@@ -193,10 +193,42 @@ test('A temporary source outage keeps newer data instead of reverting to an olde
 
 test('Local release data remains available when the primary source cannot be read',async()=>{
  const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');const delivered=[];
- const context={AbortSignal,Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
+ const context={AbortSignal,Date,setTimeout,clearTimeout,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
   if(url.startsWith('https:'))return {ok:true,json:async()=>({schemaVersion:1})};
   return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[]}}})};
  }};
  runInNewContext(source,context);context.ZeroSkillaReleases.watch(data=>delivered.push(data));await context.ZeroSkillaReleases.refresh();
  assert.equal(delivered.length,1);
+});
+
+test('Mobile browsers without AbortSignal.timeout or AbortController still load public releases',async()=>{
+ const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
+ for(const controls of [{AbortSignal:{},AbortController},{}]){
+  const delivered=[],errors=[],options=[];
+  const context={...controls,setTimeout,clearTimeout,Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url,request)=>{
+   options.push(request);return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[]}}})};
+  }};
+  runInNewContext(source,context);context.ZeroSkillaReleases.watch(data=>delivered.push(data),error=>errors.push(error));
+  await context.ZeroSkillaReleases.refresh();
+  assert.equal(delivered.length,1);assert.equal(errors.length,0);assert.equal(options.length,2);
+  assert.equal(Object.hasOwn(options[0],'signal'),Boolean(controls.AbortController));
+ }
+});
+
+test('A stalled cross-site request cannot delay rendering the same-site mobile catalog',async()=>{
+ const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
+ const delivered=[],timeouts=new Map();let nextId=0;
+ const context={Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},
+  setTimeout(fn){timeouts.set(++nextId,fn);return nextId},clearTimeout(id){timeouts.delete(id)},fetch:async(url)=>{
+   if(url.startsWith('https:'))return new Promise(()=>{});
+   return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:'v0.1.12'}]}}})};
+  }};
+ runInNewContext(source,context);context.ZeroSkillaReleases.watch(data=>delivered.push(data));
+ await new Promise(setImmediate);
+ assert.equal(delivered.length,1,'Local catalog should render before the remote request times out');
+ assert.equal(delivered[0].releases.padbridge.versions[0].version,'v0.1.12');
+ assert.equal(timeouts.size,1);
+ for(const expire of timeouts.values())expire();
+ await context.ZeroSkillaReleases.refresh();
+ assert.equal(timeouts.size,0);
 });

@@ -6,24 +6,35 @@
   let current=null,signature='',pending=null,timer=null;
   const valid=data=>data?.schemaVersion===2&&data.releases&&typeof data.releases==='object'&&!Array.isArray(data.releases)&&Number.isFinite(Date.parse(data.lastChecked));
   function deliver(subscriber,data){try{subscriber.update(data)}catch(error){subscriber.error?.(error)}}
+  async function readSource(source){
+    const controller=typeof AbortController==='function'?new AbortController():null;
+    let timeout;
+    const watchdog=new Promise((_,reject)=>{timeout=setTimeout(()=>{controller?.abort();reject(Error('Przekroczono czas wczytywania wydań'));},15000);});
+    try{
+      const response=await Promise.race([fetch(source+'?v='+Math.floor(Date.now()/intervalMs),{cache:'no-store',...(controller?{signal:controller.signal}:{})}),watchdog]);
+      if(!response.ok)throw Error('Manifest niedostępny');
+      const data=await Promise.race([response.json(),watchdog]);
+      if(!valid(data))throw Error('Nieprawidłowy manifest');
+      return data;
+    }finally{clearTimeout(timeout);}
+  }
+  function accept(data){
+    if(current&&Date.parse(data.lastChecked)<Date.parse(current.lastChecked))return;
+    const nextSignature=JSON.stringify(data.releases);
+    current=data;
+    if(nextSignature!==signature){signature=nextSignature;for(const subscriber of subscribers)deliver(subscriber,data);}
+  }
   function refresh(){
     if(pending)return pending;
     pending=(async()=>{
-      let data=null,lastError;
-      for(const source of sources){
+      let received=false,lastError;
+      await Promise.all(sources.map(async source=>{
         try{
-          const response=await fetch(source+'?v='+Math.floor(Date.now()/intervalMs),{cache:'no-store',signal:AbortSignal.timeout(15000)});
-          if(!response.ok)throw Error('Manifest niedostępny');
-          const result=await response.json();
-          if(!valid(result))throw Error('Nieprawidłowy manifest');
-          data=result;break;
+          const data=await readSource(source);
+          received=true;accept(data);
         }catch(error){lastError=error;}
-      }
-      if(!data){if(!current)for(const subscriber of subscribers)subscriber.error?.(lastError);return;}
-      if(current&&Date.parse(data.lastChecked)<Date.parse(current.lastChecked))return;
-      const nextSignature=JSON.stringify(data.releases);
-      current=data;
-      if(nextSignature!==signature){signature=nextSignature;for(const subscriber of subscribers)deliver(subscriber,data);}
+      }));
+      if(!received&&!current)for(const subscriber of subscribers)subscriber.error?.(lastError);
     })().finally(()=>{pending=null});
     return pending;
   }
