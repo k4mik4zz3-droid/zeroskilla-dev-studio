@@ -10,6 +10,8 @@ Gotowe paczki z lokalnego komputera może również publikować [lokalny automat
 
 Obydwa workflow generują katalog bezpośrednio z GitHub Releases API. Główna strona odświeża się po zmianie workflow, ręcznie i co godzinę. Repozytorium źródłowe reaguje też na publikację, edycję lub usunięcie wydania.
 
+Strona główna i pięć podstron korzystają ze wspólnego `release-feed.js`. Na otwartej, widocznej karcie sprawdzają katalog co 60 sekund oraz po powrocie do karty lub okna. Czytają katalog z repozytorium źródłowego, który powstaje po zdarzeniu publikacji Release, bez oczekiwania na godzinne odświeżenie głównego hostingu. W razie niedostępności tego źródła korzystają z lokalnego `releases.json`; starsza kopia nie zastępuje już wczytanych nowszych danych. Adres JSON ma parametr bieżącej minuty ograniczający opóźnienie pamięci podręcznej. Niezmienione dane nie powodują ponownego rysowania strony. Opóźnienie obejmuje wykrycie stabilnej paczki, kontrolę i przesłanie, czas wykonania GitHub Actions oraz maksymalnie minutę do następnego sprawdzenia w przeglądarce; GitHub nie gwarantuje czasu uruchomienia zadania.
+
 Generator wybiera najwyższą rzeczywiście dostępną wersję osobno dla projektu, silnika i platformy. Brak Windows w nowszym wydaniu Androida nie ukrywa ostatniej dostępnej paczki Windows. Zaplanowane, puste, robocze oraz przedpremierowe wydania nie są pokazywane. Starsze wydania pozostają w archiwum Releases i w historii zmian na podstronie projektu; przyciski pobierania nadal wskazują tylko najnowszą paczkę każdego kanału.
 
 Nowe tagi i nazwy plików:

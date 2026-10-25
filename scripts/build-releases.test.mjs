@@ -143,18 +143,60 @@ test('Actual history controls filter platform and engine, and never render archi
  const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
  runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'infernal-rift'}},getElementById:get,querySelectorAll:()=>[]},fetch:async()=>({ok:true,json:async()=>catalog})});
  await new Promise(setImmediate);
- const count=()=>((get('history-list').innerHTML.match(/<details class="history-item">/g))||[]).length;
+ const count=()=>((get('history-list').innerHTML.match(/<details class="history-item"/g))||[]).length;
  assert.equal(count(),4);
  assert.equal(get('history-controls').hidden,false);
  assert.ok(!get('history-list').innerHTML.includes('/releases/download/'));
  assert.ok(!get('download-list').innerHTML.includes('v2.15.7.apk'));
- get('history-platform').value='Android';get('history-platform').events.change();
+ get('history-platform').value='Android';get('history-platform').onchange();
  assert.equal(count(),3);
- get('history-engine').value='Unity';get('history-engine').events.change();
+ get('history-engine').value='Unity';get('history-engine').onchange();
  assert.equal(count(),2);
- get('history-engine').value='Własny silnik';get('history-engine').events.change();
+ get('history-engine').value='Własny silnik';get('history-engine').onchange();
  assert.equal(count(),1);
- get('history-platform').value='Windows';get('history-platform').events.change();
+ get('history-platform').value='Windows';get('history-platform').onchange();
  assert.equal(count(),0);
  assert.ok(get('history-list').innerHTML.includes('Brak aktualizacji dla wybranych filtrów.'));
+});
+
+test('Open pages receive new release data every minute and upon returning to the tab',async()=>{
+ const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
+ const events={},calls=[],delivered=[];let tick,revision=1;
+ const document={hidden:false,addEventListener(name,fn){events[name]=fn;}};
+ const context={document,AbortSignal,Date,URL,setInterval(fn,ms){assert.equal(ms,60000);tick=fn;return 1;},clearInterval(){},fetch:async(url)=>{calls.push(url);return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:'v0.1.'+revision}]}}})}}};
+ runInNewContext(source,context);
+ const stop=context.ZeroSkillaReleases.watch(data=>delivered.push(data));
+ await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered.length,1);
+ assert.ok(calls[0].startsWith('https://k4mik4zz3-droid.github.io/zeroskilla-dev-studio/releases.json?v='));
+ tick();await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered.length,1,'Unchanged data must not collapse open history or rerender controls');
+ revision=2;tick();await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered.length,2);assert.equal(delivered[1].releases.padbridge.versions[0].version,'v0.1.2');
+ document.hidden=true;const count=calls.length;tick();assert.equal(calls.length,count);
+ revision=3;document.hidden=false;events.visibilitychange();await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered[2].releases.padbridge.versions[0].version,'v0.1.3');stop();
+});
+
+test('A temporary source outage keeps newer data instead of reverting to an older hosted catalog',async()=>{
+ const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');
+ let offline=false,failAll=false;const delivered=[],errors=[];
+ const context={AbortSignal,Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
+  if(failAll||(offline&&url.startsWith('https:')))throw Error('Temporary outage');
+  return {ok:true,json:async()=>({schemaVersion:2,lastChecked:url.startsWith('https:')?'2026-10-25T08:01:00Z':'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[{version:url.startsWith('https:')?'v0.1.13':'v0.1.12'}]}}})};
+ }};
+ runInNewContext(source,context);context.ZeroSkillaReleases.watch(data=>delivered.push(data),error=>errors.push(error));
+ await context.ZeroSkillaReleases.refresh();offline=true;await context.ZeroSkillaReleases.refresh();
+ failAll=true;await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered.length,1);assert.equal(delivered[0].releases.padbridge.versions[0].version,'v0.1.13');assert.equal(errors.length,0);
+});
+
+test('Local release data remains available when the primary source cannot be read',async()=>{
+ const source=await readFile(new URL('../dist/release-feed.js',import.meta.url),'utf8');const delivered=[];
+ const context={AbortSignal,Date,document:{addEventListener(){}},setInterval(){return 1},clearInterval(){},fetch:async(url)=>{
+  if(url.startsWith('https:'))return {ok:true,json:async()=>({schemaVersion:1})};
+  return {ok:true,json:async()=>({schemaVersion:2,lastChecked:'2026-10-25T08:00:00Z',releases:{padbridge:{versions:[]}}})};
+ }};
+ runInNewContext(source,context);context.ZeroSkillaReleases.watch(data=>delivered.push(data));await context.ZeroSkillaReleases.refresh();
+ assert.equal(delivered.length,1);
 });

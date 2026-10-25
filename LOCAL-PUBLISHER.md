@@ -1,13 +1,13 @@
 # Automatyczne wydania z komputera
 
-Lokalny program `scripts/local-publisher.py` uzupełnia istniejące odświeżanie GitHub Pages. Uruchamia się z Harmonogramu zadań Windows co 10 minut i po zalogowaniu użytkownika. Komputer musi być włączony, użytkownik zalogowany, a internet dostępny. Po publikacji paczki zleca odświeżenie głównej strony; godzinny harmonogram GitHub Actions pozostaje zabezpieczeniem na wypadek niedostępnego zlecenia.
+Lokalny program `scripts/local-publisher.py` uzupełnia istniejące odświeżanie GitHub Pages. Uruchamia się z Harmonogramu zadań Windows co minutę i po zalogowaniu użytkownika. Komputer musi być włączony, użytkownik zalogowany, a internet dostępny. Po publikacji paczki natychmiast zleca odświeżenie głównej strony. Nieudane zlecenie zachowuje w stanie i ponawia przy kolejnym uruchomieniu, nawet gdy nie powstała kolejna paczka; godzinny harmonogram GitHub Actions pozostaje dodatkowym zabezpieczeniem.
 
 ## Reguły
 
 - Sprawdza wyłącznie jawnie skonfigurowane lokalizacje gotowych paczek. Nie skanuje całego dysku, nie buduje aplikacji i nie kopiuje źródeł.
 - Wersję odczytuje z manifestu APK, zasobu PRODUCTVERSION w EXE/DLL lub danych Playera Unity. Nazwa katalogu nie rozstrzyga o wersji.
 - Wybiera najnowszą dostępną wersję osobno dla kanału. Nie nadpisuje publicznych wydań ani plików o tym samym numerze. Nie publikuje historycznych wersji niższych niż najnowsza już dostępna.
-- Przed wysłaniem wymaga co najmniej dwóch zgodnych obserwacji i 10 minut bez zmian plików. Odczyt/pakowanie musi zakończyć się bez zmiany źródłowego buildu.
+- Przed wysłaniem wymaga co najmniej dwóch zgodnych obserwacji i 60 sekund bez zmian plików. `quietSeconds` może wydłużyć ten czas, ale nie skrócić go poniżej minuty. Odczyt/pakowanie musi zakończyć się bez zmiany źródłowego buildu. Wersja, podpis, kompletność i SHA256 nadal są sprawdzane przed publikacją.
 - APK musi mieć oczekiwany identyfikator aplikacji, wyłączone debugowanie, poprawny podpis v2/v3 i zatwierdzony certyfikat produkcyjny. Klucz Android Debug jest odrzucany. Nowy certyfikat wymaga świadomej aktualizacji konfiguracji.
 - ZIP Windows musi zawierać cały zatwierdzony zestaw plików wykonawczych i bibliotek. Profile w `scripts/local-publisher-profiles.json` pochodzą z uprzednio zweryfikowanych publicznych paczek. Inny zestaw plików wstrzymuje publikację do przeglądu profilu. Nie usuwaj tej kontroli, by wymusić wysłanie niekompletnej paczki.
 - Źródła, klucze, tokeny, profile, notatki, logi, kopie, symbole debug i pliki robocze są wykluczone. OCP jest dołączane jako bajtkod Python 3.12, z zachowaniem bibliotek i licencji. Infernal Forge oraz PhotoMind nie mają publicznego kanału.
@@ -43,6 +43,8 @@ Lokalny `Podpisz-VolVio.ps1` może podpisać kolejny gotowy APK istniejącym klu
 ## Publiczny opis zmian obok paczki
 
 Gotowy build może mieć obok plik o nazwie paczki z końcówką `.changes.json` zamiast `.apk` lub `.zip`, np. `Moj-Notatnik-v2.9.8.changes.json`. Dla źródła będącego folderem Windows umieść go w katalogu nadrzędnym tego folderu, używając nazwy docelowego ZIP z tabeli kanałów w README.
+
+Proces przygotowujący nowe wydanie powinien zapisać ten plik razem z gotowym APK/ZIP, po potwierdzeniu rzeczywistych zmian. Dla Unity Android i Windows są to dwa osobne pliki, ponieważ sterowanie i poprawki mogą dotyczyć jednego systemu. Brak tego kroku w procesie tworzenia wydania powoduje wstrzymanie automatu; częstsze sprawdzanie nie zastąpi prawdziwego opisu.
 
 ```json
 {

@@ -296,6 +296,46 @@ class Validation(unittest.TestCase):
                 events=p.check({'quietSeconds':600},{},Fake(),{},True)
             self.assertTrue(any(e['status']=='waiting' for e in events))
 
+    def test_one_minute_stability_still_requires_two_unchanged_observations(self):
+        with test_folder() as folder:
+            file=Path(folder)/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'moj-notatnik-android','kind':'apk','path':str(file),'version':'2.9.8'}
+            (Path(folder)/'Moj-Notatnik-v2.9.8.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':candidate['version'],'changes':['Poprawiono nagrywanie.']}),encoding='utf-8')
+            class Fake:
+                def releases(self):return []
+                def publish(self,*args):return {'tag':'moj-notatnik-android-v2.9.8'}
+                def enabled(self):pass
+                def api(self,*args):pass
+            state={};now=p.time.time()+1000
+            config={'quietSeconds':1,'stateDir':folder}
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p,'validate_apk',return_value={'version':'2.9.8'}):
+                for offset in (0,59):
+                    with patch.object(p.time,'time',return_value=now+offset):events=p.check(config,state,Fake(),{},True)
+                    self.assertTrue(any(e['status']=='waiting' for e in events))
+                with patch.object(p.time,'time',return_value=now+60):events=p.check(config,state,Fake(),{},True)
+                self.assertTrue(any(e['status']=='published' for e in events))
+
+    def test_failed_website_refresh_is_retried_even_without_another_new_package(self):
+        calls=[]
+        class Fake:
+            def releases(self):return []
+            def enabled(self):pass
+            def api(self,*args):
+                calls.append(args)
+                if len(calls)==1:raise p.Rejected('Temporary connection failure')
+        state={'websiteRefreshPending':True};github=Fake()
+        with patch.object(p,'discover',return_value=[]):
+            p.check({},state,github,{},False)
+            self.assertEqual(calls,[])
+            first=p.check({},state,github,{},True)
+            self.assertTrue(state['websiteRefreshPending'])
+            self.assertTrue(any(e['status']=='website-refresh-pending' for e in first))
+            second=p.check({},state,github,{},True)
+            self.assertFalse(state['websiteRefreshPending'])
+            self.assertTrue(any(e['status']=='website-refresh-requested' for e in second))
+            p.check({},state,github,{},True)
+            self.assertEqual(len(calls),2)
+
     def test_equal_version_never_repacked_or_uploaded(self):
         candidate={'channel':'padbridge-windows','kind':'folder','path':'never-read','version':'0.1.12'}
         class Fake:

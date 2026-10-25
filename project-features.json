@@ -8,8 +8,8 @@
       ],
       "reviewedVersions": {
         "native-android": "0.346.0",
-        "unity-android": "2.15.4",
-        "unity-windows": "2.15.4"
+        "unity-android": "2.15.11",
+        "unity-windows": "2.15.11"
       },
       "introduction": "Rozgrywka, rozwój bohatera i ustawienia gry, z podziałem na kategorie. Oznaczenia wskazują funkcje konkretnego silnika lub systemu.",
       "groups": [
@@ -322,6 +322,15 @@
                 "Android",
                 "Windows"
               ]
+            },
+            {
+              "name": "Podejście po wskazaniu łupu",
+              "description": "W Unity kliknięcie lub dotknięcie przedmiotu na ziemi zleca podejście i jego podniesienie.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
             }
           ]
         },
@@ -570,6 +579,23 @@
                 "Android",
                 "Windows"
               ]
+            },
+            {
+              "name": "Umiejętność po puszczeniu przycisku",
+              "description": "W Unity przytrzymanie skrótu, ikony lub dotyku utrzymuje celowanie i podgląd zasięgu, a puszczenie uruchamia umiejętność jeden raz.",
+              "edition": "unity",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Ruch po dotknięciu świata",
+              "description": "Krótkie dotknięcie podłoża zleca ruch, a wskazanie skrzyni, portalu lub stanowiska zleca podejście i interakcję. Drążek, nowe zlecenie lub zmiana ekranu przerywają poprzednie podejście.",
+              "edition": "unity",
+              "platforms": [
+                "Android"
+              ]
             }
           ]
         },
@@ -753,6 +779,30 @@
               "description": "Możesz wykorzystać ekran telefonu do gry z ukrytymi paskami Androida.",
               "platforms": [
                 "Android"
+              ]
+            },
+            {
+              "name": "Fizyka ciał potworów",
+              "description": "Po śmierci ciała korzystają z fizyki oryginalnego szkieletu i znikają po trzech sekundach.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Ustawienia ragdolli",
+              "description": "Opcje grafiki pozwalają dostosować jakość i siłę fizyki ciał.",
+              "platforms": [
+                "Android",
+                "Windows"
+              ]
+            },
+            {
+              "name": "Przestrzenna krew i plamy",
+              "description": "Trafienia tworzą przestrzenne rozpryski krwi i plamy na podłożu; ograniczone pule utrzymują kontrolowaną liczbę tych efektów.",
+              "platforms": [
+                "Android",
+                "Windows"
               ]
             }
           ],

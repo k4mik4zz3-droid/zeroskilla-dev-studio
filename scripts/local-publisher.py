@@ -585,9 +585,9 @@ def check(config, state, github, profiles, publish=False):
                 if observed.get('fingerprint')!=fingerprint:
                     observed = {'fingerprint':fingerprint,'since':now}
                 state['observations'][observation_key] = observed
-                quiet = config.get('quietSeconds',600)
+                quiet = max(60, int(config.get('quietSeconds',60)))
                 if publish and (now-newest<quiet or now-observed['since']<quiet):
-                    events.append({'channel':channel,'version':v,'status':'waiting','reason':'Paczka musi pozostać bez zmian przez dwa sprawdzenia i co najmniej 10 minut'})
+                    events.append({'channel':channel,'version':v,'status':'waiting','reason':f'Paczka musi pozostać bez zmian przez dwa sprawdzenia i co najmniej {quiet} sekund'})
                     break
                 if not publish:
                     # Real APK/ZIP checks in check mode, without copying or packaging huge folders.
@@ -621,12 +621,15 @@ def check(config, state, github, profiles, publish=False):
             except Exception as error:
                 events.append({'channel':channel,'version':v,'status':'blocked','reason':str(error)[:1500]})
     if any(e['status']=='published' for e in events):
+        state['websiteRefreshPending'] = True
+    if publish and state.get('websiteRefreshPending'):
         try:
             github.enabled()
             github.api(f'repos/{SITE}/actions/workflows/publish.yml/dispatches','POST',{'ref':'main'})
+            state['websiteRefreshPending'] = False
             events.append({'status':'website-refresh-requested'})
         except Exception as error:
-            events.append({'status':'website-hourly-fallback','reason':str(error)[:1000]})
+            events.append({'status':'website-refresh-pending','reason':str(error)[:1000]})
     return events
 
 def main():

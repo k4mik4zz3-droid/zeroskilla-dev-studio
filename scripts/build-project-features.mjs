@@ -52,6 +52,8 @@ export async function buildFeaturePages(){
   const js=await readFile(join(root,'dist/project-features.js'),'utf8');
   const jsHash=createHash('sha256').update(js).digest('hex').slice(0,12);
   const pageJsHash=createHash('sha256').update(await readFile(join(root,'dist/project-page.js'),'utf8')).digest('hex').slice(0,12);
+  const feedHash=createHash('sha256').update(await readFile(join(root,'dist/release-feed.js'),'utf8')).digest('hex').slice(0,12);
+  const feedScript=(defer)=>`<script src="./release-feed.js?v=${feedHash}"${defer?' defer':''}></script>`;
   const counts={};
   for(const id of projects){
     const project=data.projects[id],file=join(root,'dist',id+'.html');
@@ -84,11 +86,18 @@ export async function buildFeaturePages(){
     if(!html.includes('class="back-link" href="#historia"'))html=html.replace('<a class="navcta" href="#pobierz">','<a class="back-link" href="#historia">Historia</a><a class="navcta" href="#pobierz">');
     html=html.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
     html=html.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
+    if(/<script src="\.\/release-feed\.js[^"<]*" defer><\/script>/.test(html))html=html.replace(/<script src="\.\/release-feed\.js[^"<]*" defer><\/script>/,feedScript(true));
+    else html=html.replace(/(<script src="\.\/project-page\.js[^"<]*" defer><\/script>)/,feedScript(true)+'\n  $1');
     const script=`<script src="./project-features.js?v=${jsHash}" defer></script>`;
     if(/<script src="\.\/project-features\.js[^"<]*" defer><\/script>/.test(html))html=html.replace(/<script src="\.\/project-features\.js[^"<]*" defer><\/script>/,script);
     else html=html.replace('</body>',`  ${script}\n</body>`);
     await writeFile(file,html);
   }
+  const indexFile=join(root,'dist/index.html');
+  let index=await readFile(indexFile,'utf8');
+  if(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/.test(index))index=index.replace(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/,feedScript(false));
+  else index=index.replace('  <script>','  '+feedScript(false)+'\n  <script>');
+  await writeFile(indexFile,index);
   console.log('Project feature lists: '+JSON.stringify(counts));
   return counts;
 }
