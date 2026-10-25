@@ -33,6 +33,61 @@ def archive(names):
     return zipfile.ZipFile(stream)
 
 class Validation(unittest.TestCase):
+    def test_windows_child_processes_never_create_console_windows(self):
+        result=type('Result',(),{'returncode':0,'stdout':'ok','stderr':''})()
+        with patch.object(p.os,'name','nt'),patch.object(p.subprocess,'run',return_value=result) as child:
+            self.assertEqual(p.run(['gh','api','repos/example/repository']),'ok')
+        self.assertTrue(child.call_args.kwargs['creationflags'] & 0x08000000)
+        self.assertTrue(child.call_args.kwargs['capture_output'])
+
+    def test_only_opted_in_version_matched_public_report_changes_are_published(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'infernal-rift-unity-android','kind':'apk','path':str(file),'version':'2.15.12'}
+            report=root/'Instrukcja-i-raport-v2.15.12.txt'
+            report.write_text('Infernal Rift Unity v2.15.12 — poprawki\nPC i Android korzystają ze wspólnych zasobów.\n\nPoprawki:\n- Przywrócono krew\n  i plamy na podłożu.\n- Zachowano zapisane życie.\n\nInstalacja:\nC:\\private\\report.txt\n',encoding='utf-8')
+            with self.assertRaisesRegex(p.Rejected,'Brak publicznego opisu'):p.public_release_notes(candidate)
+            candidate['allowPublicReport']=True
+            self.assertEqual(p.release_notes_file(candidate),report)
+            self.assertEqual(p.public_release_notes(candidate),['Przywrócono krew i plamy na podłożu.','Zachowano zapisane życie.'])
+            (root/'Infernal-Rift-Unity-v2.15.12.changes.json').write_text(json.dumps({'schemaVersion':1,'channel':candidate['channel'],'version':'2.15.12','changes':['Jawny opis autora.']}),encoding='utf-8')
+            self.assertEqual(p.public_release_notes(candidate),['Jawny opis autora.'])
+
+    def test_public_reports_keep_platform_specific_changes_separate(self):
+        text='Infernal Rift Unity v2.15.12 — poprawki\nPC i Android.\nPoprawki:\n- Wspólna zmiana.\nAndroid:\n- Dotyk.\nWindows:\n- Mysz.\nWspólne:\n- Zapis.\n- Android: Ikony.\n- PC: Skróty.\nInstalacja:\nPrywatny tekst.'
+        for suffix,expected in [('android',['Wspólna zmiana.','Dotyk.','Zapis.','Android: Ikony.']),('windows',['Wspólna zmiana.','Mysz.','Zapis.','PC: Skróty.'])]:
+            candidate={'channel':'infernal-rift-unity-'+suffix,'version':'2.15.12','allowPublicReport':True}
+            self.assertEqual(p.public_report_data(text,candidate)['changes'],expected)
+
+    def test_wrong_private_or_ambiguous_report_cannot_unlock_a_release(self):
+        with test_folder() as folder:
+            root=Path(folder);candidate={'path':str(root/'app.apk'),'channel':'infernal-rift-unity-android','version':'2.15.12','allowPublicReport':True}
+            report=root/'Instrukcja-i-raport-v2.15.12.txt'
+            base='Infernal Rift Unity v2.15.12 — poprawki\nPC i Android.\nPoprawki:\n- Poprawiono krew.\n'
+            for text in (base.replace('v2.15.12','v2.15.11'),base.replace('PC i Android.','Nieokreślony system.'),base+'- token=private\n',base+'Niewyodrębniona dodatkowa zmiana.\n',base+'- Wspólna zmiana; PC: inna funkcja.\n',base+'- person@example.com\n'):
+                report.write_text(text,encoding='utf-8')
+                with self.assertRaises(p.Rejected):p.public_release_notes(candidate)
+            with self.assertRaises(p.Rejected):p.public_report_data(base,{**candidate,'channel':'moj-notatnik-android'})
+
+    def test_public_report_changes_restart_the_stability_period(self):
+        with test_folder() as folder:
+            root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')
+            candidate={'channel':'infernal-rift-unity-android','kind':'apk','path':str(file),'version':'2.15.12','allowPublicReport':True}
+            note=root/'Instrukcja-i-raport-v2.15.12.txt'
+            base='Infernal Rift Unity v2.15.12 — poprawki\nPC i Android.\nPoprawki:\n- Pierwszy opis.\n'
+            note.write_text(base,encoding='utf-8')
+            class Fake:
+                def releases(self):return []
+                def publish(self,*args):raise AssertionError('Modified public notes must wait')
+            state={};now=p.time.time()+1000
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p.time,'time',return_value=now):
+                first=p.check({'quietSeconds':60},state,Fake(),{},True)
+            note.write_text(base.replace('Pierwszy opis.','Uzupełniony opis.'),encoding='utf-8')
+            with patch.object(p,'discover',return_value=[candidate]),patch.object(p.time,'time',return_value=now+61):
+                second=p.check({'quietSeconds':60},state,Fake(),{},True)
+            self.assertTrue(any(e['status']=='waiting' for e in first))
+            self.assertTrue(any(e['status']=='waiting' for e in second))
+
     def test_missing_notes_block_before_validation_or_upload_then_matching_notes_unblock_check(self):
         with test_folder() as folder:
             root=Path(folder);file=root/'app.apk';file.write_bytes(b'apk')

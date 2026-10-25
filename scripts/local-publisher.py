@@ -49,6 +49,8 @@ class Rejected(Exception):
     pass
 
 def run(args, **kwargs):
+    if os.name == 'nt':
+        kwargs['creationflags'] = kwargs.get('creationflags',0) | getattr(subprocess,'CREATE_NO_WINDOW',0x08000000)
     proc = subprocess.run([str(x) for x in args], capture_output=True, text=True,
                           encoding='utf-8', errors='replace', timeout=kwargs.pop('timeout',180), **kwargs)
     if proc.returncode:
@@ -344,18 +346,79 @@ def release_notes_file(candidate):
         raise Rejected('Brak lokalizacji paczki do dopasowania publicznego opisu zmian')
     channel,v = candidate['channel'],candidate['version']
     name = Path(CHANNELS[channel][1].format(v=v)).stem+'.changes.json'
-    return Path(candidate['path']).parent/name
+    companion = Path(candidate['path']).parent/name
+    if companion.exists() or candidate.get('allowPublicReport') is not True:
+        return companion
+    if channel not in ('infernal-rift-unity-android','infernal-rift-unity-windows'):
+        raise Rejected('Publiczny raport nie jest zatwierdzony dla tego kanału')
+    return Path(candidate['path']).parent/f'Instrukcja-i-raport-v{v}.txt'
+
+
+def public_report_data(text,candidate):
+    """Read the changes section of an opted-in, version-matched public Unity report."""
+    channel,v = candidate['channel'],candidate['version']
+    if candidate.get('allowPublicReport') is not True or channel not in ('infernal-rift-unity-android','infernal-rift-unity-windows'):
+        raise Rejected('Brak zgody na odczyt publicznego raportu dla tego kanału')
+    lines = text.splitlines()
+    title = next((line.strip() for line in lines if line.strip()),'')
+    if not re.fullmatch(r'Infernal Rift Unity v'+re.escape(v)+r'(?:\s+[—–-].+)?',title):
+        raise Rejected('Tytuł publicznego raportu nie pasuje do projektu i wersji paczki')
+    shared = re.search(r'^(?:(?:PC|Windows)\s+i\s+Android|Android\s+i\s+(?:PC|Windows))\b',text,re.M|re.I)
+    separate = re.search(r'^Android\s*:',text,re.M|re.I) and re.search(r'^(?:PC|Windows)\s*:',text,re.M|re.I)
+    if not (shared or separate):
+        raise Rejected('Publiczny raport nie określa jednoznacznie Androida i Windows')
+    selected = 'android' if channel.endswith('android') else 'windows'
+    points,pending = [],[]
+    scope = None
+    active = False
+    def finish():
+        if pending and (scope is None or scope==selected):
+            points.append(' '.join(pending))
+        pending.clear()
+    for raw in lines:
+        line = raw.strip()
+        if re.fullmatch(r'(?:#{1,6}\s*)?(?:Co nowego|Poprawki|Zmiany)\s*:?',line,re.I):
+            finish();active=True;scope=None;continue
+        if not active:
+            continue
+        if re.fullmatch(r'(?:#{1,6}\s*)?(?:Android|Windows|PC|Wspólne)\s*:?',line,re.I):
+            finish();label=re.sub(r'^#+\s*|\s*:$','',line).casefold()
+            scope='android' if label=='android' else 'windows' if label in ('windows','pc') else None
+            continue
+        if re.match(r'^(?:#{1,6}\s*)?(?:Instalacja|Weryfikacja|Testy|Ograniczenia|Znane ograniczenia|Pliki|Pobieranie|SHA256)\b',line,re.I):
+            finish();break
+        bullet = re.match(r'^\s*[-*+]\s+(.+)$',raw)
+        if bullet:
+            finish();pending.append(bullet[1])
+        elif not line:
+            continue
+        elif pending and re.match(r'^\s{2,}\S',raw):
+            pending.append(line)
+        else:
+            raise Rejected('Niejednoznaczny format sekcji zmian publicznego raportu; wymagany jawny plik changes.json')
+    finish()
+    scoped=[]
+    for point in points:
+        label=re.match(r'^(Android|Windows|PC)\s*:\s*(.+)$',point,re.I)
+        if label:
+            platform='android' if label[1].casefold()=='android' else 'windows'
+            if platform!=selected:continue
+        elif re.search(r'\b(?:Android|Windows|PC)\s*:',point,re.I):
+            raise Rejected('Punkt miesza zmiany systemów; wymagany jawny plik changes.json')
+        scoped.append(point)
+    return {'schemaVersion':1,'channel':channel,'version':v,'changes':scoped}
 
 
 def public_release_notes(candidate):
-    """Read only an explicitly named public companion, never project reports."""
+    """Read explicit JSON or an opted-in public section; never copy private reports."""
     channel,v = candidate['channel'],candidate['version']
     file = release_notes_file(candidate)
     if not file.exists():
         raise Rejected(f'Brak publicznego opisu zmian dla {channel} v{v}; paczka nie zostanie opublikowana')
     if file.is_symlink() or not file.is_file() or file.stat().st_size>65536:
         raise Rejected('Nieprawidłowy publiczny opis zmian')
-    data = json.loads(file.read_text(encoding='utf-8-sig'))
+    text = file.read_text(encoding='utf-8-sig')
+    data = public_report_data(text,candidate) if file.suffix=='.txt' else json.loads(text)
     if not isinstance(data,dict) or set(data)!={'schemaVersion','channel','version','changes'} or data['schemaVersion']!=1 or data['channel']!=channel or version(data['version'])!=v:
         raise Rejected('Opis zmian nie pasuje do kanału i wersji paczki')
     items = data['changes']
@@ -519,7 +582,12 @@ def discover(config, state, events):
                 if kind=='apk' and (meta['debuggable'] or meta['package']!=CHANNELS[channel][2]):
                     events.append({'channel':channel,'status':'rejected','file':path.name,'reason':'Wersja debug lub inny identyfikator aplikacji'})
                     continue
-                found.append({'channel':channel,'kind':kind,'path':str(path),'version':meta['version']})
+                candidate={'channel':channel,'kind':kind,'path':str(path),'version':meta['version']}
+                if source.get('publicReport') is True:
+                    if channel not in ('infernal-rift-unity-android','infernal-rift-unity-windows'):
+                        raise Rejected('Publiczne raporty nie są zatwierdzone dla tego kanału')
+                    candidate['allowPublicReport']=True
+                found.append(candidate)
             except Exception as error:
                 events.append({'channel':channel,'status':'rejected','file':path.name,'reason':str(error)[:1000]})
     return found

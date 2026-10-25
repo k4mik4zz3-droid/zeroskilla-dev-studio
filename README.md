@@ -61,7 +61,7 @@ Katalog pobiera listy zmian z treści tego samego GitHub Release, z którego poc
 
 Dla pierwszego opisu paczki bez porównania z wcześniejszą wersją użyj `## Informacje o wydaniu`. `## Zmiany w dystrybucji` służy zmianom podpisu lub publikacji paczki i jest wyraźnie odróżnione od zmian funkcji. Brak notatek pozostaje oznaczony wprost. Nie wpisuj całej listy istniejących funkcji jako nowości.
 
-Lokalny automat wymaga publicznych notatek z jawnego pliku `.changes.json` obok gotowej paczki; format opisuje [LOCAL-PUBLISHER.md](LOCAL-PUBLISHER.md). Brak lub niezgodny opis zatrzymuje nową paczkę przed publikacją. Nie odczytuje w tym celu raportów projektu, prywatnych dokumentów ani notatek użytkownika.
+Lokalny automat wymaga publicznych notatek z jawnego pliku `.changes.json` obok gotowej paczki; format opisuje [LOCAL-PUBLISHER.md](LOCAL-PUBLISHER.md). Dla jawnie skonfigurowanych folderów Infernal Rift Unity obsługuje także publiczną, wersjonowaną instrukcję i wyłącznie jej sekcję zmian. Brak lub niezgodny opis zatrzymuje nową paczkę przed publikacją. Nie odczytuje prywatnych dokumentów ani notatek użytkownika i nie publikuje pełnych raportów.
 
 Czytnik zachowuje pełną listę punktów, ciągi dalsze w kolejnych wierszach i podsekcje pod nagłówkiem zmian. Nie ucina listy po 20 wpisach ani dłuższych punktów. Nieprawidłowy opis już publicznego wydania jest zgłaszany w GitHub Actions; wybór najnowszej paczki nadal zależy od jej wersji i integralności, bez cofania numeru lub kopiowania starszych zmian. Nagłówek `Co nowego` jest wspólny dla wszystkich kanałów, a dodatkowa etykieta rozróżnia zmiany funkcji, informacje o wydaniu i zmiany dystrybucji.
 

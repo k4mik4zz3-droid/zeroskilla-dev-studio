@@ -2,6 +2,8 @@
 
 Lokalny program `scripts/local-publisher.py` uzupełnia istniejące odświeżanie GitHub Pages. Uruchamia się z Harmonogramu zadań Windows co minutę i po zalogowaniu użytkownika. Komputer musi być włączony, użytkownik zalogowany, a internet dostępny. Po publikacji paczki natychmiast zleca odświeżenie głównej strony. Nieudane zlecenie zachowuje w stanie i ponawia przy kolejnym uruchomieniu, nawet gdy nie powstała kolejna paczka; godzinny harmonogram GitHub Actions pozostaje dodatkowym zabezpieczeniem.
 
+Zadanie uruchamia bezpośrednio `pythonw.exe`, bez pośrednictwa PowerShella. Wszystkie programy pomocnicze (GitHub CLI, odczyt APK i weryfikacja podpisu) uruchamia z `CREATE_NO_WINDOW`. Samo `powershell.exe -WindowStyle Hidden` nie jest wystarczające do wyeliminowania krótkiego pojawiania się konsoli. Wynik i błędy pozostają w lokalnych raportach oraz w `Status.cmd`.
+
 ## Reguły
 
 - Sprawdza wyłącznie jawnie skonfigurowane lokalizacje gotowych paczek. Nie skanuje całego dysku, nie buduje aplikacji i nie kopiuje źródeł.
@@ -60,5 +62,13 @@ Proces przygotowujący nowe wydanie powinien zapisać ten plik razem z gotowym A
 To obowiązkowa treść przeznaczona do publikacji. Lista musi zawierać rzeczywiste zmiany opisane w dokumentacji tej wersji; nie przedstawiaj istniejących wcześniej funkcji jako nowości. Nie dodawaj danych użytkownika, kont, adresów e-mail, ścieżek, linków, kluczy ani raportów roboczych. Numer wersji i kanał muszą odpowiadać zweryfikowanej paczce.
 
 Brak, pusta lista lub nieprawidłowy opis blokują dany kanał przed oznaczeniem go jako gotowy, pakowaniem i wysłaniem plików. Inne poprawnie opisane kanały pracują dalej. Treść opisu jest objęta okresem stabilności razem z paczką; zmiana opisu rozpoczyna ten okres ponownie. Automat ponownie sprawdza opis przed publikacją, a po publikacji porównuje całą treść potwierdzoną przez GitHub.
+
+### Publiczna instrukcja wydań Infernal Rift Unity
+
+Dla konkretnych źródeł Unity w lokalnej konfiguracji można włączyć `publicReport: true`. Jeśli obok paczki nie ma pliku `.changes.json`, automat czyta wtedy wyłącznie sekcję `Poprawki:`, `Zmiany:` lub `Co nowego:` z pliku `Instrukcja-i-raport-vX.Y.Z.txt` w tym samym katalogu. Tytuł musi wskazywać dokładnie Infernal Rift Unity i tę samą wersję co paczka, a dokument musi jawnie określać Androida i Windows. Rozdział systemów i prefiksy `Android:`/`PC:`/`Windows:` są respektowane. Zwykłe punkty są wspólne, a wcięte dalsze wiersze zachowywane w całości.
+
+Odczyt kończy się przed instalacją, weryfikacją, ograniczeniami lub listą plików. Publikowane są tylko punkty zmian, po tej samej kontroli danych prywatnych co JSON. Cały raport nie jest wysyłany ani dołączany do paczki. Niezgodna wersja, brak jednoznacznej sekcji, mieszanie systemów wewnątrz punktu lub prywatna treść zatrzymują dany kanał; program nie dopowiada zmian. Plik JSON ma pierwszeństwo, także gdy jest błędny. Inne aplikacje nadal wymagają jawnego JSON; program nie przeszukuje ich dokumentów. Ustawienie jest przeznaczone wyłącznie dla dwóch kanałów Unity i nie obejmuje Infernal Forge.
+
+Raport jest objęty tą samą kontrolą stabilności i sumy jak JSON. Ta opcja usuwa konieczność ręcznego przepisywania już istniejącej, publicznej listy zmian każdego wydania Unity.
 
 Program nie ucina liczby ani długości punktów. Cały plik JSON ma limit 64 KiB; przekroczenie tego limitu jest zgłaszane jako błąd, zamiast publikować część tekstu. Plik opisowy nie jest dodawany do ZIP/APK ani wysyłany jako osobny załącznik: jego punkty trafiają do sekcji `Co nowego` GitHub Release, a stamtąd automatycznie na stronę. Opis już publicznego wydania można poprawić bez ponownego wysyłania paczki w treści Release na GitHub.
