@@ -2392,6 +2392,104 @@
       "UnityPlayer.dll",
       "dstorage.dll",
       "dstoragecore.dll"
-    ]
+    ],
+    "additionalEntriesByVersion": {
+      "2.18.0": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.18.1": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.18.2": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.18.3": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.18.4": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.18.5": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.19.0": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.19.1": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.20.0": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.0": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.1": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.2": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.3": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.4": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.5": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ],
+      "2.21.6": [
+        "Infernal Rift - tryb zgodnosci.exe",
+        "Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt",
+        "Uruchamianie.txt",
+        "Uruchom - tryb zgodnosci.cmd"
+      ]
+    }
   }
 }
