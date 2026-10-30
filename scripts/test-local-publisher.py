@@ -257,7 +257,32 @@ class Validation(unittest.TestCase):
                                    'Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt'})
         with test_folder() as folder:
             path=Path(folder)/'reviewed-unity.zip'
-            def test_only_real_channels_latest_per_platform(self):
+            def write(v,entries):
+                with zipfile.ZipFile(path,'w') as bundle:
+                    for entry in sorted(entries):
+                        name=entry.format(version=v)
+                        value=v.encode('ascii')
+                        data=struct.pack('<I',len(value))+value+b'\0' if name.endswith('_Data/globalgamemanagers') else b'data'
+                        bundle.writestr(name,data)
+            for v in ('2.17.1','99.0.0'):
+                self.assertNotIn(v,profile['additionalEntriesByVersion'])
+                write(v,base)
+                self.assertEqual(p.validate_windows_zip(path,channel,v,profile)['version'],v)
+            for v,reviewed in profile['additionalEntriesByVersion'].items():
+                additions=set(reviewed)
+                write(v,base|additions)
+                self.assertEqual(p.validate_windows_zip(path,channel,v,profile)['version'],v)
+                write(v,(base|additions)-{'Infernal Rift - tryb zgodnosci.exe'})
+                with self.assertRaisesRegex(p.Rejected,'brak:'):
+                    p.validate_windows_zip(path,channel,v,profile)
+                write(v,base|additions|{'Unreviewed.exe'})
+                with self.assertRaisesRegex(p.Rejected,'nowe:'):
+                    p.validate_windows_zip(path,channel,v,profile)
+            write('2.17.1',base|additions)
+            with self.assertRaisesRegex(p.Rejected,'nowe:'):
+                p.validate_windows_zip(path,channel,'2.17.1',profile)
+
+    def test_only_real_channels_latest_per_platform(self):
         rows=[release('infernal-rift-unity-android','2.15.3'),release('infernal-rift-unity-windows','2.15.2'),release('infernal-rift-unity-windows','2.15.4',True),release('moj-notatnik-android','2.9.7')]
         rows+=[{'tag_name':'infernal-forge-windows-v99.0.0','assets':[]},{'tag_name':'photomind-android-v99.0.0','assets':[]}]
         latest=p.remote_channels(rows)
