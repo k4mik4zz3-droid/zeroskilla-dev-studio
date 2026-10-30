@@ -191,6 +191,9 @@ def validate_windows_zip(path, channel, v, profile):
         names = [e.filename for e in archive.infolist() if not e.is_dir()]
         normalized = {normal_unity(n,v) if channel=='infernal-rift-unity-windows' else n for n in names}
         required = set(profile['entries'])
+        if channel=='infernal-rift-unity-windows':
+            # Reviewed additions are mandatory for that exact release only.
+            required.update(profile.get('additionalEntriesByVersion',{}).get(v,[]))
         extra, missing = normalized-required, required-normalized
         if extra or missing:
             raise Rejected(f'Układ paczki wymaga przeglądu; nowe: {sorted(extra)[:6]}, brak: {sorted(missing)[:6]}')
