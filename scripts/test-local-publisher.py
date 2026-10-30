@@ -242,7 +242,22 @@ class Validation(unittest.TestCase):
         with self.assertRaises(p.Rejected):p.unity_version(b'2.15.3')
         with self.assertRaises(p.Rejected):p.unity_version(data+struct.pack('<I',5)+b'1.0.0\0')
 
-    def test_only_real_channels_latest_per_platform(self):
+    def test_reviewed_unity_additions_are_required_only_for_exact_release(self):
+        channel='infernal-rift-unity-windows'
+        profile=json.loads(Path(__file__).with_name('local-publisher-profiles.json').read_text(encoding='utf-8-sig'))[channel]
+        base=set(profile['entries'])
+        additions=set(profile['additionalEntriesByVersion']['2.18.0'])
+        self.assertEqual(set(profile['additionalEntriesByVersion']['2.18.1']),additions)
+        self.assertEqual(set(profile['additionalEntriesByVersion']['2.18.2']),additions)
+        self.assertEqual(set(profile['additionalEntriesByVersion']['2.18.3']),additions)
+        self.assertEqual(set(profile['additionalEntriesByVersion']['2.18.4']),additions)
+        self.assertEqual(set(profile['additionalEntriesByVersion']['2.18.5']),additions)
+        self.assertEqual(additions,{'Infernal Rift - tryb zgodnosci.exe','Uruchamianie.txt',
+                                   'Uruchom - tryb zgodnosci.cmd',
+                                   'Infernal Rift v{version}_Data/StreamingAssets/Attribution2180.txt'})
+        with test_folder() as folder:
+            path=Path(folder)/'reviewed-unity.zip'
+            def test_only_real_channels_latest_per_platform(self):
         rows=[release('infernal-rift-unity-android','2.15.3'),release('infernal-rift-unity-windows','2.15.2'),release('infernal-rift-unity-windows','2.15.4',True),release('moj-notatnik-android','2.9.7')]
         rows+=[{'tag_name':'infernal-forge-windows-v99.0.0','assets':[]},{'tag_name':'photomind-android-v99.0.0','assets':[]}]
         latest=p.remote_channels(rows)
