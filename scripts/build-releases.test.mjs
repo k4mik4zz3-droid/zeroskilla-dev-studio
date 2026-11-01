@@ -95,7 +95,7 @@ test('The actual project page renders every note, including long entries after i
  row.html_url=`https://github.com/${actualRepo}/releases/tag/${row.tag_name}`;
  const catalog=buildCatalog([row],{},actualRepo);
  const elements=new Map();
- const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',addEventListener(){}});return elements.get(id);};
+ const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',dataset:{},addEventListener(){}});return elements.get(id);};
  const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
  runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'moj-notatnik'}},getElementById:get,querySelectorAll:()=>[]},fetch:async()=>({ok:true,json:async()=>catalog})});
  await new Promise(setImmediate);
@@ -149,7 +149,7 @@ test('Actual history controls filter platform and engine, and never render archi
  const rows=[release('infernal-rift-unity-android-v2.15.8',['Infernal-Rift-Unity-v2.15.8.apk']),release('infernal-rift-unity-android-v2.15.7',['Infernal-Rift-Unity-v2.15.7.apk']),release('infernal-rift-unity-windows-v2.15.9',['Infernal-Rift-Unity-v2.15.9-Windows-PC.zip']),release('infernal-rift-native-v0.346.0',['Infernal-Rift-v0.346.0.apk'])];
  for(const r of rows){r.body='## Co nowego\n- Zmiana '+r.tag_name+'.';r.html_url=`https://github.com/${actualRepo}/releases/tag/${r.tag_name}`;for(const f of r.assets)f.browser_download_url=f.browser_download_url.replace(repo,actualRepo);}
  const catalog=buildCatalog(rows,{},actualRepo),elements=new Map();
- const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',events:{},addEventListener(name,action){this.events[name]=action;}});return elements.get(id);};
+ const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',dataset:{},events:{},addEventListener(name,action){this.events[name]=action;}});return elements.get(id);};
  const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
  runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'infernal-rift'}},getElementById:get,querySelectorAll:()=>[]},fetch:async()=>({ok:true,json:async()=>catalog})});
  await new Promise(setImmediate);
@@ -241,4 +241,67 @@ test('A stalled cross-site request cannot delay rendering the same-site mobile c
  for(const expire of timeouts.values())expire();
  await context.ZeroSkillaReleases.refresh();
  assert.equal(timeouts.size,0);
+});
+
+
+test('Top downloads select one latest file per system and link to that exact changelog after live updates',async()=>{
+ const actualRepo='k4mik4zz3-droid/zeroskilla-dev-studio';
+ function catalog(windows){
+  const rows=[release('infernal-rift-native-v0.346.0',['Infernal-Rift-v0.346.0.apk']),release('infernal-rift-unity-android-v2.9.0',['Infernal-Rift-Unity-v2.9.0.apk']),release('infernal-rift-unity-android-v2.10.0',['Infernal-Rift-Unity-v2.10.0.apk']),release('infernal-rift-unity-windows-v'+windows,['Infernal-Rift-Unity-v'+windows+'-Windows-PC.zip'])];
+  for(const r of rows){r.body='## Co nowego\n- Zmiana '+r.tag_name+'.';r.html_url=`https://github.com/${actualRepo}/releases/tag/${r.tag_name}`;for(const f of r.assets)f.browser_download_url=f.browser_download_url.replace(repo,actualRepo);}
+  const data=buildCatalog(rows,{},actualRepo);
+  data.releases['infernal-rift'].versions.reverse();
+  return data;
+ }
+ const elements=new Map();
+ const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',dataset:{},addEventListener(){}});return elements.get(id);};
+ let update;
+ const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
+ runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'infernal-rift'}},getElementById:get,querySelectorAll:()=>[]},ZeroSkillaReleases:{watch(fn){update=fn;}}});
+ function check(windows){
+  const html=get('latest-downloads').innerHTML,downloads=get('download-list').innerHTML;
+  assert.equal(get('latest-downloads').dataset.count,'2');
+  assert.equal((html.match(/class="latest-download"/g)||[]).length,2);
+  assert.ok(html.includes('Infernal-Rift-Unity-v2.10.0.apk'));
+  assert.ok(html.includes('Infernal-Rift-Unity-v'+windows+'-Windows-PC.zip'));
+  assert.ok(!html.includes('v2.9.0.apk')&&!html.includes('v0.346.0.apk'));
+  const targets=[...html.matchAll(/href="#([^"]+)"/g)].map(m=>decodeURIComponent(m[1]));
+  assert.deepEqual(targets,['zmiany-unity-android-v2.10.0','zmiany-unity-windows-v'+windows]);
+  for(const id of targets){
+   assert.equal(downloads.split('id="'+id+'"').length-1,1);
+   assert.ok(!get('history-list').innerHTML.includes('id="'+id+'"'));
+   const body=downloads.slice(downloads.indexOf('id="'+id+'"')).split('</section>')[0];
+   assert.ok(body.includes('Zmiana infernal-rift-'+id.replace('zmiany-','')+'.'));
+  }
+ }
+ update(catalog('2.8.0'));check('2.8.0');
+ update(catalog('2.11.0'));check('2.11.0');
+ assert.ok(!get('latest-downloads').innerHTML.includes('zmiany-unity-windows-v2.8.0'));
+ assert.ok(!get('download-list').innerHTML.includes('id="zmiany-unity-windows-v2.8.0"'));
+});
+
+test('Top downloads show only a real available system and clear links for missing or invalid files and load errors',async()=>{
+ const actualRepo='k4mik4zz3-droid/zeroskilla-dev-studio';
+ const row=release('volvio-scanner-android-v3.17.0',['VolVio-Scanner-v3.17.0.apk'],{body:'## Co nowego\n- Zmiana Androida.'});
+ row.assets[0].browser_download_url=row.assets[0].browser_download_url.replace(repo,actualRepo);
+ row.html_url=`https://github.com/${actualRepo}/releases/tag/${row.tag_name}`;
+ const data=buildCatalog([row],{},actualRepo),elements=new Map();
+ const get=id=>{if(!elements.has(id))elements.set(id,{textContent:'',innerHTML:'',dataset:{},addEventListener(){}});return elements.get(id);};
+ let update,fail;
+ const source=await readFile(new URL('../dist/project-page.js',import.meta.url),'utf8');
+ runInNewContext(source,{URL,Intl,document:{body:{dataset:{project:'volvio-scanner'}},getElementById:get,querySelectorAll:()=>[]},ZeroSkillaReleases:{watch(fn,error){update=fn;fail=error;}}});
+ update(data);
+ assert.equal(get('latest-downloads').dataset.count,'1');
+ assert.equal((get('latest-downloads').innerHTML.match(/>Opis zmian</g)||[]).length,1);
+ assert.ok(!get('latest-downloads').innerHTML.includes('Windows'));
+ assert.ok(get('latest-downloads').innerHTML.includes('#zmiany-android-v3.17.0'));
+ const bad=JSON.parse(JSON.stringify(data));bad.releases['volvio-scanner'].versions[0].files[0].sha256='bad';
+ update(bad);
+ assert.equal(get('latest-downloads').dataset.count,'0');
+ assert.ok(!get('latest-downloads').innerHTML.includes('/releases/download/'));
+ update({schemaVersion:2,releases:{}});
+ assert.equal(get('latest-downloads').dataset.count,'0');
+ update(data);fail();
+ assert.ok(!get('latest-downloads').innerHTML.includes('/releases/download/'));
+ assert.ok(!get('latest-downloads').innerHTML.includes('href="#zmiany-'));
 });

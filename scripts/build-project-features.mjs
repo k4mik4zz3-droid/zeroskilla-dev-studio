@@ -93,6 +93,13 @@ export async function buildFeaturePages(){
     else html=html.replace('</body>',`  ${script}\n</body>`);
     await writeFile(file,html);
   }
+  // Launcher utrzymuje własny opis, ale korzysta z tych samych wydań i stylów.
+  const launcherFile=join(root,'dist/zeroskilla-launcher.html');
+  let launcher=await readFile(launcherFile,'utf8');
+  launcher=launcher.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
+  launcher=launcher.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
+  launcher=launcher.replace(/<script src="\.\/release-feed\.js[^"<]*" defer><\/script>/,feedScript(true));
+  await writeFile(launcherFile,launcher);
   const indexFile=join(root,'dist/index.html');
   let index=await readFile(indexFile,'utf8');
   if(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/.test(index))index=index.replace(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/,feedScript(false));

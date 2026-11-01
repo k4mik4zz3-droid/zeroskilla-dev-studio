@@ -84,3 +84,20 @@
 .function-group[hidden],.function-item[hidden],.function-controls[hidden],.function-empty[hidden]{display:none}
 .project-intro .hero-actions{flex-wrap:wrap}
 @media(max-width:760px){.project-features{padding-top:51px}.function-controls{grid-template-columns:1fr;gap:13px}.function-buttons button{flex:1;min-height:44px;padding:10px 13px;font-size:11px}.function-groups{grid-template-columns:1fr;gap:13px}.function-group>summary{padding:19px 17px;gap:12px}.function-group-label{gap:10px}.function-group h3{font-size:17px}.function-group-meta{gap:6px}.function-list{grid-template-columns:1fr;padding:0 19px 3px}.function-item{padding:17px 0}.function-item:nth-last-child(2){border-bottom:1px solid #302433}.function-item:last-child{border-bottom:0}.function-item dd{font-size:13px}}
+
+/* Najnowsze paczki i dokładny opis zmian dla każdego systemu. */
+.latest-downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:680px;margin-top:29px}
+.latest-downloads[data-count="1"]{grid-template-columns:minmax(0,330px)}
+.latest-download{display:grid;align-content:start;gap:8px;min-width:0}
+.latest-download-link{flex-direction:column;gap:7px;min-height:84px;padding:17px 14px;white-space:normal;text-align:center}
+.latest-download-link strong{font-size:14px;line-height:1.5}
+.latest-download-link>span{font-size:11px;line-height:1.6;font-weight:500;overflow-wrap:anywhere}
+.latest-changes-link{min-height:42px;padding:10px 14px;font-size:12px;font-weight:600}
+.latest-download-status{grid-column:1/-1;margin:0;color:#b9a6bf;font-size:13px;line-height:1.8}
+.latest-download-status a{color:#efb9a5;text-decoration:underline;text-underline-offset:3px}
+.project-intro .hero-actions{margin-top:20px}
+.release-changes[id]{scroll-margin-top:110px}
+.release-panel .changes-version{margin:-5px 0 15px;font-size:12px;color:#efb59e}
+.release-changes:target{outline:2px solid #ed9d82;outline-offset:10px;border-radius:5px}
+.latest-downloads a:focus-visible{outline:2px solid #ffa687;outline-offset:4px}
+@media(max-width:520px){.latest-downloads,.latest-downloads[data-count="1"]{grid-template-columns:minmax(0,1fr)}.latest-download-link{min-height:78px}.latest-downloads{gap:17px}}
