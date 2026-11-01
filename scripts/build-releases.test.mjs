@@ -6,6 +6,16 @@ import {buildCatalog,parseTag} from './release-catalog.mjs';
 import {releaseNotes} from './release-notes.mjs';
 const repo='owner/releases',digest='sha256:'+'a'.repeat(64);
 function release(tag,names,extra={}){return {tag_name:tag,published_at:'2026-10-23T12:00:00Z',name:tag,...extra,assets:names.map(name=>({name,size:100,state:'uploaded',digest,browser_download_url:`https://github.com/${repo}/releases/download/${tag}/${name}`}))}}
+test('launcher: osobne zweryfikowane wydania Android i Windows',()=>{
+ const rows=[
+  release('zeroskilla-launcher-android-v0.2.1',['ZeroSkilla-Dev-Studio-Launcher-v0.2.1.apk']),
+  release('zeroskilla-launcher-windows-v0.2.1',['ZeroSkilla-Dev-Studio-Launcher-v0.2.1-Windows-x64.zip']),
+  release('zeroskilla-launcher-android-v9.0.0',['ZeroSkilla-Dev-Studio-Launcher-v9.0.0-debug.apk'])
+ ];
+ const versions=buildCatalog(rows,{},repo).releases['zeroskilla-launcher'].versions;
+ assert.deepEqual(versions.map(x=>x.channel).sort(),['android','windows']);
+ assert.ok(versions.every(x=>x.version==='v0.2.1'&&x.files[0].sha256==='a'.repeat(64)));
+});
 test('Highest semantic version independently for engine and platform',()=>{
  const r=buildCatalog([
   release('infernal-rift-unity-v2.9.0',['Infernal-Rift-Unity-v2.9.0.apk','Infernal-Rift-Unity-v2.9.0-Windows-PC.zip']),
