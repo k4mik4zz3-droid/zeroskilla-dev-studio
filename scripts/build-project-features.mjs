@@ -93,13 +93,15 @@ export async function buildFeaturePages(){
     else html=html.replace('</body>',`  ${script}\n</body>`);
     await writeFile(file,html);
   }
-  // Launcher utrzymuje własny opis, ale korzysta z tych samych wydań i stylów.
-  const launcherFile=join(root,'dist/zeroskilla-launcher.html');
-  let launcher=await readFile(launcherFile,'utf8');
-  launcher=launcher.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
-  launcher=launcher.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
-  launcher=launcher.replace(/<script src="\.\/release-feed\.js[^"<]*" defer><\/script>/,feedScript(true));
-  await writeFile(launcherFile,launcher);
+  // Strony z własnym opisem również korzystają ze wspólnych styli i wydań.
+  for(const id of ['zeroskilla-launcher','rysownik']){
+    const file=join(root,'dist',id+'.html');
+    let html=await readFile(file,'utf8');
+    html=html.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);
+    html=html.replace(/\.\/project-page\.js\?v=[a-f0-9]+/g,'./project-page.js?v='+pageJsHash);
+    html=html.replace(/<script src="\.\/release-feed\.js[^"<]*" defer><\/script>/,feedScript(true));
+    await writeFile(file,html);
+  }
   const indexFile=join(root,'dist/index.html');
   let index=await readFile(indexFile,'utf8');
   if(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/.test(index))index=index.replace(/<script src="\.\/release-feed\.js[^"<]*"><\/script>/,feedScript(false));

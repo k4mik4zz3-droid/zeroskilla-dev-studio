@@ -2491,5 +2491,12 @@
         "Uruchom - tryb zgodnosci.cmd"
       ]
     }
+  },
+  "rysownik-windows": {
+    "entries": [
+      "Rysownik/Rysownik.exe",
+      "CZYTAJ-MNIE.txt"
+    ],
+    "readme": "Rysownik to aplikacja do rysowania z warstwami oraz narzędziami tekstu."
   }
 }

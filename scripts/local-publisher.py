@@ -35,9 +35,11 @@ CHANNELS = {
     'volvio-scanner-android': ('VolVio Scanner', 'VolVio-Scanner-v{v}.apk', 'pl.volvio.scanner'),
     'encloser-cad-windows': ('Encloser CAD', 'Encloser-CAD-v{v}-Windows-x64.zip', None),
     'padbridge-windows': ('PadBridge', 'PadBridge-v{v}-Windows-x64.zip', None),
+    'rysownik-android': ('Rysownik', 'Rysownik-v{v}.apk', 'pl.zeroskilla.rysownik'),
+    'rysownik-windows': ('Rysownik', 'Rysownik-v{v}-Windows-x64.zip', None),
 }
-EXES = {'moj-notatnik-windows':'MojNotatnik.exe', 'encloser-cad-windows':'EnclosureCAD.exe', 'padbridge-windows':'PadBridge.exe'}
-FOLDERS = {'moj-notatnik-windows':'MojNotatnik', 'encloser-cad-windows':'EnclosureCAD', 'padbridge-windows':'PadBridge'}
+EXES = {'moj-notatnik-windows':'MojNotatnik.exe', 'encloser-cad-windows':'EnclosureCAD.exe', 'padbridge-windows':'PadBridge.exe', 'rysownik-windows':'Rysownik.exe'}
+FOLDERS = {'moj-notatnik-windows':'MojNotatnik', 'encloser-cad-windows':'EnclosureCAD', 'padbridge-windows':'PadBridge', 'rysownik-windows':'Rysownik'}
 BAD_EXT = {'.pdb','.mdb','.cs','.csproj','.sln','.c','.cpp','.cxx','.h','.hpp','.java','.kt','.kts','.jks','.keystore','.pfx','.p12','.pkcs12','.p8','.pem','.key','.bak','.log','.jsonl','.db','.sqlite','.sqlite3','.dmp','.scad','.fcstd','.frag','.vert','.user'}
 BAD_DIR = {'logs','backup','backups','sources','zrodla','userdata','savedata','playerdata','.git','.vs','obj','debug','tests','profiles'}
 BAD_NAMES = {'createdump.exe','czytaj-najpierw.html'}

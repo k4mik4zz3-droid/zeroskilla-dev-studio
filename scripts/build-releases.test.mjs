@@ -6,6 +6,28 @@ import {buildCatalog,parseTag} from './release-catalog.mjs';
 import {releaseNotes} from './release-notes.mjs';
 const repo='owner/releases',digest='sha256:'+'a'.repeat(64);
 function release(tag,names,extra={}){return {tag_name:tag,published_at:'2026-10-23T12:00:00Z',name:tag,...extra,assets:names.map(name=>({name,size:100,state:'uploaded',digest,browser_download_url:`https://github.com/${repo}/releases/download/${tag}/${name}`}))}}
+test('Rysownik: puste wydania nie udają gotowych a oficjalne kanały mają ścisłe nazwy',()=>{
+ const rows=[
+  release('rysownik-android-v0.10.0',['Rysownik-v0.10.0-debug.apk']),
+  release('rysownik-windows-v0.10.0',['Rysownik-v0.10.0-Windows-x64.zip'],{prerelease:true}),
+  release('rysownik-android-v0.9.0',['Rysownik-v0.9.0.apk']),
+  release('rysownik-windows-v0.9.0',['Rysownik-v0.9.0-Windows-x64.zip'])
+ ];
+ const versions=buildCatalog(rows,{},repo).releases.rysownik.versions;
+ assert.deepEqual(versions.map(x=>x.channel).sort(),['android','windows']);
+ assert.ok(versions.every(x=>x.version==='v0.9.0'&&x.files[0].sha256==='a'.repeat(64)));
+ assert.deepEqual(buildCatalog(rows.slice(0,2),{},repo).releases.rysownik.versions,[]);
+});
+test('Rysownik: strona i karta jawnie informują o testowej wersji',async()=>{
+ const home=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
+ const page=await readFile(new URL('../dist/rysownik.html',import.meta.url),'utf8');
+ assert.match(home,/"id":\s*"rysownik"/);
+ assert.match(home,/"status":\s*"Wczesna wersja"/);
+ assert.match(page,/data-project="rysownik"/);
+ assert.match(page,/Pierwsza wersja Rysownika 0\.10\.0/);
+ assert.match(page,/\.rys-native/);assert.match(page,/\.rysownik/);
+ assert.match(page,/id="latest-downloads"/);assert.match(page,/id="download-list"/);
+});
 test('launcher: osobne zweryfikowane wydania Android i Windows',()=>{
  const rows=[
   release('zeroskilla-launcher-android-v0.2.1',['ZeroSkilla-Dev-Studio-Launcher-v0.2.1.apk']),

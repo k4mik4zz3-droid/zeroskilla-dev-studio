@@ -45,7 +45,7 @@
             <a class="button button-secondary" href="#pobieranie">Jak pobierać? <span aria-hidden="true">↓</span></a>
           </div>
           <div class="hero-meta">
-            <div><strong>06</strong><span>Projektów w katalogu</span></div>
+            <div><strong>07</strong><span>Projektów w katalogu</span></div>
             <div><strong>02</strong><span>Platformy</span></div>
             <div><strong>∞</strong><span>Pomysłów na rozwój</span></div>
           </div>
@@ -57,7 +57,7 @@
     <section id="projekty" class="catalog container" aria-labelledby="catalog-heading">
       <div class="section-top">
         <div><p class="eyebrow">NASZE PROJEKTY</p><h2 id="catalog-heading" tabindex="-1">Wybierz coś dla siebie<span style="color:#ff745e">.</span></h2><p class="section-description">Od mrocznych światów RPG po narzędzia na co dzień. Jeden katalog, w którym znajdziesz informacje o wszystkich naszych projektach.</p></div>
-        <span class="count-badge" id="count">6 projektów</span>
+        <span class="count-badge" id="count">7 projektów</span>
       </div>
       <div class="controls">
         <div class="filters" aria-label="Kategorie projektów">
@@ -206,6 +206,22 @@
     "details": "Projekt narzędzia komputerowego do obsługi padów różnych producentów, zmiany mapowania przycisków oraz emulacji kontrolerów."
   },
   {
+    "id": "rysownik",
+    "title": "Rysownik",
+    "type": "aplikacje",
+    "typeLabel": "Aplikacja / Rysowanie",
+    "platform": "Android / Windows",
+    "platforms": ["Android", "Windows"],
+    "description": "Rysowanie, kształty i tekst w edytorze z warstwami oraz osią operacji.",
+    "tags": ["Rysowanie", "Warstwy", "Android / Windows"],
+    "icon": "✎",
+    "color": "#cbb7ff",
+    "from": "#302251",
+    "glow": "#8156db88",
+    "status": "Wczesna wersja",
+    "details": "Rysownik to edytor grafiki na Androida i Windows. Pierwsza wersja 0.10.0 jest nadal rozwijana; edytory używają osobnych formatów projektów."
+  },
+  {
     "id": "zeroskilla-launcher",
     "title": "ZeroSkilla Dev Studio Launcher",
     "type": "aplikacje",
@@ -243,14 +259,14 @@
     const latestDate=(id)=>versionsFor(id).reduce((date,v)=>filesFor(v).length&&String(v.date||"")>date?String(v.date):date,"");
     function cardHtml(p){
       const versions=versionsFor(p.id),ready=totalFiles(p.id)>0,url='./'+p.id+'.html';
-      const version=ready?(p.id==="infernal-rift"?(versions.length===1?"1 wydanie":versions.length+" wydania"):escapeHtml(versions[0].version)):"W przygotowaniu";
+      const version=ready?(p.id==="infernal-rift"?(versions.length===1?"1 wydanie":versions.length+" wydania"):escapeHtml(versions[0].version)):escapeHtml(p.status||"W przygotowaniu");
       const action='<a class="download-btn'+(ready?'':' pending')+'" href="'+url+(ready?'#pobierz':'')+'">'+(ready?'↓ '+(p.id==="infernal-rift"?'Wybierz wydanie':'Pobierz'):'Poznaj projekt ↗')+'</a>';
       return [
         '<article class="project-card" style="--art-from:',p.from,';--art-glow:',p.glow,';--icon-color:',p.color,'">',
           '<div class="card-art"><span class="card-platform">',escapeHtml(p.platform),'</span><span class="card-art-icon" aria-hidden="true">',p.icon,'</span></div>',
           '<div class="card-content"><div class="card-type">',escapeHtml(p.typeLabel),'</div><h3><a class="project-link" href="',url,'">',escapeHtml(p.title),'</a></h3>',
           '<p class="card-desc">',escapeHtml(p.description),'</p><div class="card-tags">',p.tags.map((t)=>'<span>'+escapeHtml(t)+'</span>').join(""),'</div>',
-          '<div class="release-row"><div>WYDANIA<strong>',version,'</strong></div><span><i class="release-dot ',ready?'ready':'','"></i>',ready?'Pobierz z GitHub':'Oczekuje na paczkę','</span></div>',
+          '<div class="release-row"><div>WYDANIA<strong>',version,'</strong></div><span><i class="release-dot ',ready?'ready':'','"></i>',ready?'Pobierz z GitHub':p.status?'Sprawdź szczegóły':'Oczekuje na paczkę','</span></div>',
           '<div class="card-actions">',action,'</div></div>',
         '</article>'
       ].join("");

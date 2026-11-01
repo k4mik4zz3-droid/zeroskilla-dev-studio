@@ -33,6 +33,41 @@ def archive(names):
     return zipfile.ZipFile(stream)
 
 class Validation(unittest.TestCase):
+    def test_rysownik_portable_requires_reviewed_exe_readme_and_matching_product_version(self):
+        profile={'entries':['Rysownik/Rysownik.exe','CZYTAJ-MNIE.txt'],'readme':'Rysownik jest edytorem rysunków.'}
+        candidate={'channel':'rysownik-windows','version':'0.10.0','kind':'folder'}
+        with test_folder() as folder:
+            root=Path(folder);source=root/'build';source.mkdir();(source/'Rysownik.exe').write_bytes(b'test-exe')
+            candidate['path']=str(source);target=root/'Rysownik-v0.10.0-Windows-x64.zip'
+            with patch.object(p,'pe_version',return_value='0.9.2'):
+                with self.assertRaisesRegex(p.Rejected,'Wersja EXE'):p.package_folder(candidate,profile,{},target)
+            self.assertFalse(target.exists())
+            with patch.object(p,'pe_version',return_value='0.10.0'):
+                result=p.package_folder(candidate,profile,{},target)
+            self.assertEqual(result['files'],2)
+            with zipfile.ZipFile(target) as bundle:
+                self.assertEqual(set(bundle.namelist()),set(profile['entries']))
+                self.assertEqual(bundle.read('Rysownik/Rysownik.exe'),b'test-exe')
+                self.assertIn('Rysownik',bundle.read('CZYTAJ-MNIE.txt').decode())
+            (source/'nieprzejrzany.dll').write_bytes(b'extra')
+            with self.assertRaisesRegex(p.Rejected,'nowe:'):p.folder_plan(source,'rysownik-windows',profile,{})
+
+    def test_rysownik_android_requires_release_identity_and_approved_certificate(self):
+        cfg={'java':'java','apksigner':'signer','certificates':{'rysownik-android':['a'*64]}}
+        meta={'package':'pl.zeroskilla.rysownik','debuggable':False,'version':'0.10.0','versionName':'0.10.0','versionCode':16}
+        valid='Verified using v2 scheme (APK Signature Scheme v2): true\ncertificate SHA-256 digest: '+'a'*64
+        with test_folder() as folder:
+            path=Path(folder)/'rysownik.apk'
+            with zipfile.ZipFile(path,'w') as bundle:bundle.writestr('assets/index.html','ok')
+            for bad in ({**meta,'package':'inne.id'}, {**meta,'debuggable':True}):
+                with patch.object(p,'apk_metadata',return_value=bad),self.assertRaises(p.Rejected):p.validate_apk(path,'rysownik-android',cfg)
+            with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid):
+                self.assertEqual(p.validate_apk(path,'rysownik-android',cfg)['version'],'0.10.0')
+            with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid.replace('a'*64,'b'*64)):
+                with self.assertRaisesRegex(p.Rejected,'Certyfikat'):p.validate_apk(path,'rysownik-android',cfg)
+            with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid+'\nSigner #1 certificate DN: CN=Android Debug'):
+                with self.assertRaisesRegex(p.Rejected,'debug'):p.validate_apk(path,'rysownik-android',cfg)
+
     def test_windows_child_processes_never_create_console_windows(self):
         result=type('Result',(),{'returncode':0,'stdout':'ok','stderr':''})()
         with patch.object(p.os,'name','nt'),patch.object(p.subprocess,'run',return_value=result) as child:
