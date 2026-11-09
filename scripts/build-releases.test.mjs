@@ -38,6 +38,24 @@ test('launcher: osobne zweryfikowane wydania Android i Windows',()=>{
  assert.deepEqual(versions.map(x=>x.channel).sort(),['android','windows']);
  assert.ok(versions.every(x=>x.version==='v0.2.1'&&x.files[0].sha256==='a'.repeat(64)));
 });
+test('Rift Android 2.32.4 has a cache-separated URL after verifying the canonical asset',()=>{
+ const actualRepo='k4mik4zz3-droid/zeroskilla-dev-studio';
+ const tag='infernal-rift-unity-android-v2.32.4';
+ const name='Infernal-Rift-Unity-v2.32.4.apk';
+ const make=()=>release(tag,[name]);
+ const row=make();
+ const url=`https://github.com/${actualRepo}/releases/download/${tag}/${name}`;
+ row.assets[0].browser_download_url=url;
+ const catalog=buildCatalog([row],{},actualRepo);
+ const file=catalog.releases['infernal-rift'].versions[0].files[0];
+ assert.equal(file.url,url+'?download=1');
+ assert.equal(file.sha256,digest.slice(7));
+ assert.equal(file.sizeBytes,100);
+ const otherRepo=buildCatalog([make()],{},repo);
+ assert.equal(otherRepo.releases['infernal-rift'].versions[0].files[0].url,make().assets[0].browser_download_url);
+ row.assets[0].browser_download_url=url+'?untrusted=1';
+ assert.deepEqual(buildCatalog([row],{},actualRepo).releases['infernal-rift'].versions,[]);
+});
 test('Highest semantic version independently for engine and platform',()=>{
  const r=buildCatalog([
   release('infernal-rift-unity-v2.9.0',['Infernal-Rift-Unity-v2.9.0.apk','Infernal-Rift-Unity-v2.9.0-Windows-PC.zip']),

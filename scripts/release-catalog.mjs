@@ -35,6 +35,8 @@ export function assetFiles(release,parsed,repo){
   let url;try{url=new URL(asset.browser_download_url)}catch{return []}
   const expected=`/${repo}/releases/download/${encodeURIComponent(release.tag_name)}/${encodeURIComponent(asset.name)}`;
   if(url.protocol!=='https:'||url.hostname!=='github.com'||url.username||url.password||url.port||url.search||url.hash||url.pathname!==expected)return [];
+  // A distinct URL bypasses cached errors for the original APK link in existing Android launchers.
+  if(repo==='k4mik4zz3-droid/zeroskilla-dev-studio'&&release.tag_name==='infernal-rift-unity-android-v2.32.4')url.searchParams.set('download','1');
   return [{type:platform==='android'?'APK':'ZIP',platform:platform==='android'?'Android':'Windows',name:asset.name,sizeBytes:asset.size,sha256:asset.digest.slice(7).toLowerCase(),url:url.href,access:'public'}];
  });
 }
