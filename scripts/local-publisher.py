@@ -37,6 +37,7 @@ CHANNELS = {
     'padbridge-windows': ('PadBridge', 'PadBridge-v{v}-Windows-x64.zip', None),
     'rysownik-android': ('Rysownik', 'Rysownik-v{v}.apk', 'pl.zeroskilla.rysownik'),
     'rysownik-windows': ('Rysownik', 'Rysownik-v{v}-Windows-x64.zip', None),
+    'enchant-audio-android': ('Enchant Audio', 'Enchant-Audio-v{v}.apk', 'pl.zeroskilla.enchantaudio'),
 }
 EXES = {'moj-notatnik-windows':'MojNotatnik.exe', 'encloser-cad-windows':'EnclosureCAD.exe', 'padbridge-windows':'PadBridge.exe', 'rysownik-windows':'Rysownik.exe'}
 FOLDERS = {'moj-notatnik-windows':'MojNotatnik', 'encloser-cad-windows':'EnclosureCAD', 'padbridge-windows':'PadBridge', 'rysownik-windows':'Rysownik'}

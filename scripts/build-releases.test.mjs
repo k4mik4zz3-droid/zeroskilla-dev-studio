@@ -28,6 +28,21 @@ test('Rysownik: strona i karta jawnie informują o testowej wersji',async()=>{
  assert.match(page,/\.rys-native/);assert.match(page,/\.rysownik/);
  assert.match(page,/id="latest-downloads"/);assert.match(page,/id="download-list"/);
 });
+test('Enchant Audio: tylko kanał Android ze ścisłą nazwą paczki, strona i karta istnieją',async()=>{
+ const rows=[
+  release('enchant-audio-android-v1.0.0',['Enchant-Audio-v1.0.0.apk']),
+  release('enchant-audio-android-v9.0.0',['Enchant-Audio-v9.0.0-debug.apk']),
+  release('enchant-audio-windows-v1.0.0',['Enchant-Audio-v1.0.0-Windows-x64.zip'])
+ ];
+ const versions=buildCatalog(rows,{},repo).releases['enchant-audio'].versions;
+ assert.deepEqual(versions.map(x=>[x.channel,x.version,x.files[0].name]),[['android','v1.0.0','Enchant-Audio-v1.0.0.apk']]);
+ assert.equal(parseTag('enchant-audio-windows-v1.0.0'),null);
+ const home=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
+ const page=await readFile(new URL('../dist/enchant-audio.html',import.meta.url),'utf8');
+ assert.match(home,/"id":\s*"enchant-audio"/);
+ assert.match(page,/data-project="enchant-audio"/);
+ assert.match(page,/id="latest-downloads"/);assert.match(page,/id="download-list"/);
+});
 test('launcher: osobne zweryfikowane wydania Android i Windows',()=>{
  const rows=[
   release('zeroskilla-launcher-android-v0.2.1',['ZeroSkilla-Dev-Studio-Launcher-v0.2.1.apk']),

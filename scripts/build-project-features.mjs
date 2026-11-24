@@ -94,7 +94,7 @@ export async function buildFeaturePages(){
     await writeFile(file,html);
   }
   // Strony z własnym opisem również korzystają ze wspólnych styli i wydań.
-  for(const id of ['zeroskilla-launcher','rysownik']){
+  for(const id of ['zeroskilla-launcher','rysownik','enchant-audio']){
     const file=join(root,'dist',id+'.html');
     let html=await readFile(file,'utf8');
     html=html.replace(/\.\/project-page\.css\?v=[a-f0-9]+/g,'./project-page.css?v='+cssHash);

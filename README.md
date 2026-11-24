@@ -28,6 +28,7 @@ Nowe tagi i nazwy plików:
 | PadBridge / Windows | `padbridge-windows-vX.Y.Z` | `PadBridge-vX.Y.Z-Windows-x64.zip` |
 | Rysownik / Android | `rysownik-android-vX.Y.Z` | `Rysownik-vX.Y.Z.apk` |
 | Rysownik / Windows | `rysownik-windows-vX.Y.Z` | `Rysownik-vX.Y.Z-Windows-x64.zip` |
+| Enchant Audio / Android | `enchant-audio-android-vX.Y.Z` | `Enchant-Audio-vX.Y.Z.apk` |
 | Launcher / Android | `zeroskilla-launcher-android-vX.Y.Z` | `ZeroSkilla-Dev-Studio-Launcher-vX.Y.Z.apk` |
 | Launcher / Windows | `zeroskilla-launcher-windows-vX.Y.Z` | `ZeroSkilla-Dev-Studio-Launcher-vX.Y.Z-Windows-x64.zip` |
 
@@ -45,9 +46,9 @@ Braki paczek opisuje `unavailable` w `releases-source.json`. Nie dodawaj numeró
 
 ## Strony projektów i galeria
 
-Siedem kart katalogu prowadzi do osobnych plików HTML w `dist/`: `infernal-rift.html`, `moj-notatnik.html`, `volvio-scanner.html`, `encloser-cad.html`, `padbridge.html`, `rysownik.html` i `zeroskilla-launcher.html`. Link pobierania na karcie prowadzi do sekcji `#pobierz` odpowiedniej podstrony. Wspólny styl to `studio.css` i `project-page.css`, a pobieranie aktualnego katalogu oraz powiększanie galerii obsługuje `project-page.js`.
+Osiem kart katalogu prowadzi do osobnych plików HTML w `dist/`: `infernal-rift.html`, `moj-notatnik.html`, `volvio-scanner.html`, `encloser-cad.html`, `padbridge.html`, `rysownik.html`, `enchant-audio.html` i `zeroskilla-launcher.html`. Link pobierania na karcie prowadzi do sekcji `#pobierz` odpowiedniej podstrony. Wspólny styl to `studio.css` i `project-page.css`, a pobieranie aktualnego katalogu oraz powiększanie galerii obsługuje `project-page.js`.
 
-Na górze każdej z siedmiu podstron `#latest-downloads` pokazuje bezpośredni link do najnowszej zweryfikowanej paczki osobno na Android i Windows. System bez paczki nie dostaje przycisku. Przy wielu silnikach skrót wybiera najwyższą wersję dla systemu; pozostałe aktualne kanały nadal są w sekcji pobierania. Pod każdą paczką przycisk „Opis zmian” prowadzi do unikatowego `#zmiany-KANAL-vWERSJA` przy opisie dokładnie tej wersji, także gdy numery wydań na obu systemach są różne. Skróty i cele odświeżają się razem z katalogiem. Generator aktualizuje znaczniki pamięci podręcznej wspólnych skryptów i stylów także na stronach launchera i Rysownika.
+Na górze każdej z ośmiu podstron `#latest-downloads` pokazuje bezpośredni link do najnowszej zweryfikowanej paczki osobno na Android i Windows. System bez paczki nie dostaje przycisku. Przy wielu silnikach skrót wybiera najwyższą wersję dla systemu; pozostałe aktualne kanały nadal są w sekcji pobierania. Pod każdą paczką przycisk „Opis zmian” prowadzi do unikatowego `#zmiany-KANAL-vWERSJA` przy opisie dokładnie tej wersji, także gdy numery wydań na obu systemach są różne. Skróty i cele odświeżają się razem z katalogiem. Generator aktualizuje znaczniki pamięci podręcznej wspólnych skryptów i stylów także na stronach launchera i Rysownika.
 
 Każda podstrona pobiera aktualny `releases.json`; numerów i linków do paczek nie wpisuje się ręcznie do stron projektu. Galerie zawierają rzeczywiste zrzuty aplikacji i gier z kontrolowanych przykładów. Notatnik korzysta z fikcyjnych notatek w osobnym profilu; VolVio pokazuje ekrany bez połączenia z samochodem; CAD i PadBridge używają przykładów testowych. Obrazy są kodowane bezstratnie w WebP, bez zmiany treści interfejsu. Przy dodawaniu materiałów nie publikuj prywatnych notatek, fotografii, kont, VIN, MAC urządzeń, ścieżek ani plików projektu. Opisy i podpisy galerii aktualizuj razem z materiałami.
 
@@ -55,7 +56,7 @@ PhotoMind jest na życzenie administratora wyłączony z publicznego katalogu i 
 
 ## Spisy funkcji
 
-Publiczne szczegółowe opisy funkcji pięciu dotychczasowych projektów znajdują się w `project-features.json`; podstrony launchera i Rysownika utrzymują swoje skrócone opisy w HTML. Każda pozycja ma nazwę i krótki opis; opcjonalne oznaczenia wskazują system lub silnik. `reviewedVersions` zapisuje wersje, na których sprawdzono opis. Po zmianie możliwości aplikacji zaktualizuj tę listę na podstawie gotowego wydania, bez przenoszenia prywatnych danych, ścieżek, kodu źródłowego ani materiałów audytu.
+Publiczne szczegółowe opisy funkcji pięciu dotychczasowych projektów znajdują się w `project-features.json`; podstrony launchera, Rysownika i Enchant Audio utrzymują swoje skrócone opisy w HTML. Każda pozycja ma nazwę i krótki opis; opcjonalne oznaczenia wskazują system lub silnik. `reviewedVersions` zapisuje wersje, na których sprawdzono opis. Po zmianie możliwości aplikacji zaktualizuj tę listę na podstawie gotowego wydania, bez przenoszenia prywatnych danych, ścieżek, kodu źródłowego ani materiałów audytu.
 
 `node scripts/build-releases.mjs` najpierw generuje statyczne spisy na pięciu podstronach, a potem odświeża katalog paczek. Samo odtworzenie opisów wykonuje `node scripts/build-project-features.mjs`. Strony zawierają pełną treść także bez JavaScript; skrypt `project-features.js` dodaje rozwijane kategorie i wyszukiwanie nazw oraz opisów z obsługą polskich znaków. Nowe wydanie pobiera się automatycznie z Releases, natomiast zmiana jego funkcji wymaga aktualizacji opisów w tym pliku.
 

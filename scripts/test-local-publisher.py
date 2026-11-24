@@ -68,6 +68,21 @@ class Validation(unittest.TestCase):
             with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid+'\nSigner #1 certificate DN: CN=Android Debug'):
                 with self.assertRaisesRegex(p.Rejected,'debug'):p.validate_apk(path,'rysownik-android',cfg)
 
+    def test_enchant_audio_android_requires_release_identity_and_approved_certificate(self):
+        cfg={'java':'java','apksigner':'signer','certificates':{'enchant-audio-android':['c'*64]}}
+        meta={'package':'pl.zeroskilla.enchantaudio','debuggable':False,'version':'1.0.0','versionName':'1.0.0','versionCode':1}
+        valid='Verified using v2 scheme (APK Signature Scheme v2): true\ncertificate SHA-256 digest: '+'c'*64
+        self.assertEqual(p.CHANNELS['enchant-audio-android'][1].format(v='1.0.0'),'Enchant-Audio-v1.0.0.apk')
+        with test_folder() as folder:
+            path=Path(folder)/'enchant.apk'
+            with zipfile.ZipFile(path,'w') as bundle:bundle.writestr('classes.dex','ok')
+            for bad in ({**meta,'package':'pl.zeroskilla.rysownik'}, {**meta,'debuggable':True}):
+                with patch.object(p,'apk_metadata',return_value=bad),self.assertRaises(p.Rejected):p.validate_apk(path,'enchant-audio-android',cfg)
+            with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid):
+                self.assertEqual(p.validate_apk(path,'enchant-audio-android',cfg)['version'],'1.0.0')
+            with patch.object(p,'apk_metadata',return_value=meta),patch.object(p,'run',return_value=valid.replace('c'*64,'d'*64)):
+                with self.assertRaisesRegex(p.Rejected,'Certyfikat'):p.validate_apk(path,'enchant-audio-android',cfg)
+
     def test_windows_child_processes_never_create_console_windows(self):
         result=type('Result',(),{'returncode':0,'stdout':'ok','stderr':''})()
         with patch.object(p.os,'name','nt'),patch.object(p.subprocess,'run',return_value=result) as child:
